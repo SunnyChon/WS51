@@ -1,2 +1,2 @@
 # WS51
-A fork of data of WS51 series MCU from baidu pan
+Datasheets , code examples and tools of WS51 series MCU downloaded from baidu cloud storage(extremely slow!)
