@@ -1,0 +1,103 @@
+; 说明：
+; 自己做了一套USB转TTL的小工具，是无线传输的，用于替代CH340或者PL2302之类的调试工具。
+; 这个工具在windows操作系统下就是USB CDC设备。win 10是免驱的，linux内核自带驱动。
+; 但是win xp和win 7就需要装驱动，然后自己就搜索了一个驱动并作相应修改。
+; 如果是用于其它设备，请先把下面的PID和VID设备号修改成跟你的usb cdc设备一致的，然后走普通驱动安装流程即可。
+; 驱动代码如下，请拷贝到一个新文件，并修改后缀名为inf
+
+; 确保系统中包含以下文件：
+; C:\windows\inf\mdmcpq.inf
+; C:\windows\system32\drivers\usbser.sys
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%MANUFACTURER%
+LayoutFile=layout.inf
+;CatalogFile=%FILENAME%.cat
+
+DriverVer= 9/20/2009,1.2.0
+
+[Manufacturer]
+%MANUFACTURER%=DeviceList,NTamd64
+
+[DestinationDirs]
+DefaultDestDir=12
+
+
+;------------------------------------------------------------------------------
+; Windows 2000/XP/Vista32 Support
+;------------------------------------------------------------------------------
+[DriverInstall.nt]
+include=mdmcpq.inf
+CopyFiles=DriverCopyFiles.nt
+AddReg=DriverInstall.nt.AddReg
+
+[DriverCopyFiles.nt]
+usbser.sys,,,0x20
+
+[DriverInstall.nt.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,%DRIVERFILENAME%.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.nt.Services]
+AddService=usbser, 0x00000002, DriverService.nt
+
+[DriverService.nt]
+DisplayName=%SERVICE%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\%DRIVERFILENAME%.sys
+
+;------------------------------------------------------------------------------
+; Windows Vista x64 / Windows7 x64 Support
+;------------------------------------------------------------------------------
+
+[DriverInstall.NTamd64]
+include=mdmcpq.inf
+CopyFiles=DriverCopyFiles.NTamd64
+AddReg=DriverInstall.NTamd64.AddReg
+
+[DriverCopyFiles.NTamd64]
+%DRIVERFILENAME%.sys,,,0x20
+
+[DriverInstall.NTamd64.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,%DRIVERFILENAME%.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.NTamd64.Services]
+AddService=usbser, 0x00000002, DriverService.NTamd64
+
+[DriverService.NTamd64]
+DisplayName=%SERVICE%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\%DRIVERFILENAME%.sys
+
+
+;------------------------------------------------------------------------------
+; VID/PID Settings
+;------------------------------------------------------------------------------
+[SourceDisksFiles]
+[SourceDisksNames]
+[DeviceList]
+%DESCRIPTION%=DriverInstall,USB\VID_1234&PID_4321&MI_01
+
+[DeviceList.NTamd64]
+%DESCRIPTION%=DriverInstall,USB\VID_1234&PID_4321&MI_01
+
+;------------------------------------------------------------------------------
+; String Definitions
+;------------------------------------------------------------------------------
+[Strings]
+
+FILENAME="cdc_Virtual"
+DRIVERFILENAME ="usbser"
+MANUFACTURER="WS"
+INSTDISK="CDC_DISK"
+DESCRIPTION="WS_USB2UART"
+SERVICE="USB2UART Driver"
