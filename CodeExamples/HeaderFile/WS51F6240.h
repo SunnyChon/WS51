@@ -1,3 +1,5 @@
+#ifndef __WS51F6240_H
+#define __WS51F6240_H
 //Header file for W51F6240 based on datasheet and simiular MCUs.
 //2026 By SunnyAI
 
@@ -341,8 +343,8 @@ sbit EP1IE = EPIE^1;		//EP1 Interrupt enable signal
 sbit EP0IE = EPIE^0;		//EP0 Interrupt enable signal
 
 // Serial UART0 register - S0CON (98H)
-sbit SM00 = S0CON^7;	//Serial 0 mode selection bit ,
-sbit SM10 = S0CON^6;	//Serial 0 mode selection bit ,
+sbit SM00 = S0CON^7;	//Serial 0 mode selection bit.
+sbit SM10 = S0CON^6;	//Serial 0 mode selection bit.
 sbit SM20 = S0CON^5;	//Multi-machine communication enable bit ,  1 = enable
 sbit REN0 = S0CON^4;	//Serial RX enable bit ,  1 = enable 
 sbit TB80 = S0CON^3;	//The 9th bit of data sent
@@ -370,6 +372,25 @@ sbit TR2   = T2CON^2;		//Timer 2 start signal ,  1 = enable
 sbit CT2   = T2CON^1;		//Timing function or counting function selection signal 
 sbit CPRL2 = T2CON^0;		//Catch or reload function selection signal. When RCLK or TCLK = 1 , force timer to enter Timer 2 reload mode. 
 
+//ADCON (C0H)
+sbit ADST =  ADCON^7;		//ADC conversion start control bit: Write 1 to start conversion; hardware automatically clears to 0 after conversion.
+sbit ADIE =  ADCON^6;		//ADC interrupt enable bit
+sbit ADCF =  ADCON^0;		//ADC sampling done flag
+
+
+//Serial UART1 register - S1CON (9BH) Non-bit-addressable 
+#define SM11    0x80		//Serial 1 mode selection bit.
+#define IE1     0x40		//Interrupt enable , 1 = enable
+#define SM21    0x20		//Multi-machine communication enable bit ,  1 = enable
+#define REN1    0x10		//Serial RX enable bit ,  1 = enable 
+#define TB81    0x08		//The 9th bit of data sent
+#define RB81    0x04		//The 9th bit of data received
+#define TI1     0x02		//Send interrupt flag ,  1 = enable , write 0 to clear
+#define RI1     0x01		//Receive interrupt flag ,  1 = enable , write 0 to clear
+
+#define ROR_8BIT(X,Y) ((X<<(8-Y))|(X>>Y))
+#define ROL_8BIT(X,Y) ((X>>(8-Y))|(X<<Y)) 
+
 //Standard data types definitions
 typedef   unsigned char	  u8;
 typedef   unsigned int	  u16;
@@ -382,3 +403,4 @@ typedef   unsigned long   uint32_t;
 typedef   signed char     int8_t;
 typedef   signed int      int16_t;
 typedef   signed long     int32_t;
+#endif
