@@ -1,0 +1,10 @@
+说明：
+
+OP修调值存储地址:
+OP_ENABLE_ADDR	 	 0x637 //往此地址写0xaa标志以下两个值有效
+OP_NMOS_VAL_ADDR     0x638 //OP_NMOS的校正值
+OP_PMOS_VAL_ADDR     0x640 //OP_PMOS的校正值
+
+void cal_op(void) 此函数进行OP的自校准并保存校准值，自校准的时候OPOUT与OPN、OPP之间不能连接不能有反馈电路。校准值存储到NVR用户可使用的区域，现在是存储到了NVR13。
+
+void cal_op(void) 此函数为使用OP时，从NVR13读取校准值并写入OPCFG寄存器。

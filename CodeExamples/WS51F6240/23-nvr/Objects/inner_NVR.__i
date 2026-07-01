@@ -1,0 +1,1 @@
+"inner_NVR.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\inner_NVR.lst) PREPRINT(.\Listings\inner_NVR.i) OBJECT(.\Objects\inner_NVR.obj)

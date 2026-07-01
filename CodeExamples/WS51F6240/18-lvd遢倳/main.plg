@@ -1,0 +1,36 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\51-WS51F6132\keil4工程\11_lvd\main.uvproj
+Project File Date:  07/02/2020
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY_1MS?MAIN
+Program Size: data=15.0 xdata=145 code=199
+"main" - 0 Error(s), 2 Warning(s).
+Load "E:\\51-WS51F6132\\keil4工程\\11_lvd\\main" 
+----------------------------------------------------------------------------------------------- 
+                                        http://wisesun.com                                      
+ __                            __   ____________    _            _    ___       _    _    _   
+ \ \           ____           / /  |  ________  |  | |          |_|  |   \     | |  | |  / /  
+  \ \         / /\ \         / /   | |        |_|  | |           _   | |\ \    | |  | | / /   
+   \ \       / /  \ \       / /    | |__________   | |          | |  | | \ \   | |  | |/ /    
+    \ \     / /    \ \     / /     |___________ |  | |          | |  | |  \ \  | |  |   |     
+     \ \   / /      \ \   / /       _         | |  | |          | |  | |   \ \ | |  | |\ \    
+      \ \_/ /        \ \_/ /       | |________| |  | |_______   | |  | |    \ \| |  | | \ \   
+       \___/          \___/        |____________|  |_________|  |_|  |_|     \___|  |_|  \_\  
+ 
+----------------------------------------------------------------------------------------------- 
+ 
+Flash Erase Done.
+Flash Write Done: 199 bytes programmed.
+下载完成
+Flash Verify Done: 199 bytes verified.

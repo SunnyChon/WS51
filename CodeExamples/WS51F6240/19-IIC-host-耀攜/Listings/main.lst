@@ -1,0 +1,528 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND P
+                    -RINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          #include "WS51F6240.h"
+   3          #include <stdio.h>
+   4          
+   5          static void delay(int i)
+   6          {
+   7   1              long j;
+   8   1              for(j=0;j<10*i;++j);
+   9   1      }
+  10          
+  11          static void delay_us(int i)
+  12          {
+  13   1              long j;
+  14   1          while(i--)
+  15   1              j++;
+  16   1      }
+  17           
+  18          void UART0_write(signed char dat)
+  19          {
+  20   1          S0BUF = dat;            //Send data to UART buffer
+  21   1          while(!TI0);
+  22   1          TI0 = 0;
+  23   1      }
+  24          
+  25          ///重定向c库函数printf到串口，重定向后可使用printf函数
+  26          char putchar(char ch)
+  27          {
+  28   1          /* 发送一个字节数据到串口 */
+  29   1          UART0_write((signed char) ch);
+  30   1              
+  31   1          return ch;
+  32   1      }
+  33          
+  34          #define  IIC_SCL        P10
+  35          #define  IIC_SDA        P11
+  36          #define  READ_OUT       P11F=0Xa2
+  37          #define  READ_IN        P11F=0Xa2
+  38          #define  READ_SDA       P11
+  39          #define  IIC_CLK_ADJ 1
+  40          
+  41          //总线初始化
+  42          void IIC_Init(void)
+  43          {
+  44   1              IIC_SDA=1;
+  45   1              IIC_SCL=1;
+  46   1              delay_us(2);
+  47   1      }
+  48          
+  49          //产生IIC起始信号
+  50          void IIC_Start(void)
+  51          {
+  52   1              IIC_SDA=1;//释放SDA总线
+  53   1              delay_us(2);              
+  54   1              IIC_SCL=1;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 2   
+
+  55   1              delay_us(2);    
+  56   1              IIC_SDA=0;//START:when CLK is high,DATA change form high to low 
+  57   1              delay_us(2);    
+  58   1              IIC_SCL=0;//钳住I2C总线，准备发送或接收数据 
+  59   1      }         
+  60          //产生IIC停止信号
+  61          void IIC_Stop(void)
+  62          {
+  63   1              IIC_SCL=0;
+  64   1              delay_us(2);
+  65   1              IIC_SDA=0;//STOP:when CLK is high DATA change form low to high  
+  66   1              delay_us(2);
+  67   1              IIC_SCL=1; 
+  68   1              delay_us(2);
+  69   1              IIC_SDA=1;//发送I2C总线结束信号
+  70   1              delay_us(2);                                                            
+  71   1      }
+  72          
+  73          //IIC发送一个字节  
+  74          void IIC_Send_Byte(unsigned char txd)
+  75          {                        
+  76   1              unsigned char t;  
+  77   1              IIC_SCL=0;//拉低时钟开始数据传输        
+  78   1              for(t=0;t<8;t++)
+  79   1              {              
+  80   2                      if (txd & 0x80)
+  81   2                                      IIC_SDA = 1;
+  82   2                      else
+  83   2                                      IIC_SDA = 0;
+  84   2                                      txd<<=1;          
+  85   2                                      delay_us(IIC_CLK_ADJ);  
+  86   2                                      IIC_SCL=1;
+  87   2                                      delay_us(IIC_CLK_ADJ);  
+  88   2                                      IIC_SCL=0;      
+  89   2              }                       
+  90   1      }           
+  91          
+  92          //读1个字节  
+  93          uint8_t IIC_Read_Byte(void)
+  94          {
+  95   1              unsigned char i,receive=0;
+  96   1              
+  97   1              IIC_SDA = 1;            //od pin 输出1表示“读pin”
+  98   1              READ_IN;
+  99   1              for(i=0;i<8;i++ )
+ 100   1              {
+ 101   2                      IIC_SCL=0; 
+ 102   2                      delay_us(IIC_CLK_ADJ);
+ 103   2                      
+ 104   2                      IIC_SCL=1;
+ 105   2                      receive<<=1;
+ 106   2                      
+ 107   2                      if (READ_SDA)
+ 108   2                                      receive |= 0x01;
+ 109   2                                      delay_us(IIC_CLK_ADJ); 
+ 110   2              }
+ 111   1              
+ 112   1              IIC_SCL = 0;
+ 113   1              IIC_SDA=1;
+ 114   1              READ_OUT;
+ 115   1              return receive;
+ 116   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 3   
+
+ 117          
+ 118          //等待应答信号到来
+ 119          //返回值：1，接收应答失败
+ 120          //        0，接收应答成功
+ 121          uint8_t IIC_Wait_Ack(void)
+ 122          {
+ 123   1              uint16_t ucErrTime=0;
+ 124   1              IIC_SDA=1;
+ 125   1              READ_IN;        
+ 126   1              delay_us(IIC_CLK_ADJ);
+ 127   1              delay_us(IIC_CLK_ADJ);  //等待从机回复ack   
+ 128   1              IIC_SCL=1;
+ 129   1              delay_us(IIC_CLK_ADJ);
+ 130   1              
+ 131   1              while(READ_SDA==1)
+ 132   1              {
+ 133   2                      ucErrTime++;
+ 134   2                      if(ucErrTime>2500)//20200313
+ 135   2                      {
+ 136   3                              IIC_SCL = 0;
+ 137   3                              IIC_SDA=1;
+ 138   3                              READ_OUT;
+ 139   3                              IIC_Stop(); //20200313
+ 140   3                              return 1;
+ 141   3                              //break;
+ 142   3                      }
+ 143   2              }
+ 144   1              IIC_SCL=0;//时钟输出0 
+ 145   1              IIC_SDA=1;
+ 146   1              READ_OUT;          
+ 147   1              return 0;  
+ 148   1      } 
+ 149          
+ 150          
+ 151          //等待应答信号到来
+ 152          //返回值：1，接收应答失败
+ 153          //        0，接收应答成功
+ 154          uint8_t IIC_Wait_NAck(void)
+ 155          {
+ 156   1              uint16_t ucErrTime=0;
+ 157   1              IIC_SDA=1;      
+ 158   1              READ_IN;
+ 159   1              delay_us(IIC_CLK_ADJ);
+ 160   1              delay_us(IIC_CLK_ADJ);  //等待从机回复ack   
+ 161   1              IIC_SCL=1;
+ 162   1              delay_us(IIC_CLK_ADJ);
+ 163   1              delay_us(IIC_CLK_ADJ);
+ 164   1              
+ 165   1      //      while(READ_SDA)
+ 166   1      //      {
+ 167   1      //              ucErrTime++;
+ 168   1      //              if(ucErrTime>2500)//20200313
+ 169   1      //              {
+ 170   1      //                      IIC_SCL = 0;
+ 171   1      //                      IIC_Stop(); //20200313
+ 172   1      //                      return 1;
+ 173   1      //                      //break;
+ 174   1      //              }
+ 175   1      //      }
+ 176   1              IIC_SCL=0;//时钟输出0 
+ 177   1              IIC_SDA=1;
+ 178   1              READ_OUT;          
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 4   
+
+ 179   1              return 0;  
+ 180   1      } 
+ 181          
+ 182          //产生ACK应答
+ 183          void IIC_Ack(void)
+ 184          {
+ 185   1              IIC_SCL=0;
+ 186   1              IIC_SDA=0;
+ 187   1              delay_us(IIC_CLK_ADJ);
+ 188   1              IIC_SCL=1;
+ 189   1              
+ 190   1              delay_us(IIC_CLK_ADJ);
+ 191   1              IIC_SCL=0;
+ 192   1      
+ 193   1      }
+ 194          
+ 195          //不产生ACK应答             
+ 196          void IIC_NAck(void)
+ 197          {
+ 198   1              IIC_SCL=0;
+ 199   1              IIC_SDA=1;
+ 200   1              delay_us(IIC_CLK_ADJ);
+ 201   1              IIC_SCL=1;
+ 202   1              
+ 203   1              delay_us(IIC_CLK_ADJ);
+ 204   1              IIC_SCL=0;
+ 205   1      }
+ 206          
+ 207          
+ 208          /***********************************************************************************************
+ 209          *函数名称：void I2C_ReadByteNum(uint8_t addr,uint8_t device_addr, uint8_t *pdataR, uint8_t lengthR)
+ 210          *函数功能：IIC读数据
+ 211          *入口参数：
+ 212                                  device_addr：设备地址
+ 213                                  addr：寄存器地址
+ 214                                  pdataR： 存放读缓存数组
+ 215                                  lengthR：读取字节个数
+ 216          *出口参数：
+ 217          ***********************************************************************************************/
+ 218          uint8_t I2C_ReadByteNum(uint8_t addr,uint8_t device_addr, uint8_t *pdataR, uint8_t lengthR)
+ 219          {       
+ 220   1                      uint8_t ack=0; 
+ 221   1                      uint8_t ret;
+ 222   1                      uint8_t i=0;
+ 223   1          
+ 224   1          IIC_Start(); 
+ 225   1              
+ 226   1          IIC_Send_Byte(device_addr);
+ 227   1                      ack = IIC_Wait_Ack();   
+ 228   1                      if (ack != 0)
+ 229   1                      {
+ 230   2                                      ret=ack;
+ 231   2                                      printf("stop0\r\n");
+ 232   2                                      return ret;
+ 233   2                      }
+ 234   1              
+ 235   1                      IIC_Send_Byte(addr);
+ 236   1                      ack = IIC_Wait_Ack();   
+ 237   1                      if (ack != 0)
+ 238   1                      {
+ 239   2                                      ret=ack;
+ 240   2                                      return ret;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 5   
+
+ 241   2                      }       
+ 242   1                      IIC_Stop();
+ 243   1                      
+ 244   1                      delay_us(150);
+ 245   1                      IIC_Start();
+ 246   1              
+ 247   1          IIC_Send_Byte(device_addr+1);
+ 248   1                      ack = IIC_Wait_Ack();   
+ 249   1                      if (ack != 0)
+ 250   1                      {
+ 251   2                                      ret=ack;
+ 252   2                                      return ret;
+ 253   2                      }
+ 254   1                      
+ 255   1                      for(i=0;i<lengthR-1;i++)                                // 数组长度
+ 256   1                      {
+ 257   2                                      delay_us(10);
+ 258   2                                      pdataR[i]=IIC_Read_Byte();
+ 259   2                                      delay_us(5);
+ 260   2                                      IIC_Ack(); //发送ACK  
+ 261   2                      }
+ 262   1                      delay_us(10);
+ 263   1                      pdataR[i] = IIC_Read_Byte();
+ 264   1                      delay_us(5);
+ 265   1                      IIC_NAck();                                                     // 最后一个字节以nack应答
+ 266   1              
+ 267   1                      delay_us(5);
+ 268   1                      IIC_Stop();//产生一个停止条件
+ 269   1                      return ret;
+ 270   1              
+ 271   1      }
+ 272          
+ 273          /***********************************************************************************************
+ 274          *函数名称：void I2C_WriteByteNum(uint8_t device_addr, uint8_t *dat, uint8_t length)
+ 275          *函数功能：IIC写数据
+ 276          *入口参数：
+ 277                                  device_addr：设备地址
+ 278                                  dat 存放写缓存数组
+ 279                                  length：写取字节个数
+ 280          *出口参数：
+ 281          ***********************************************************************************************/
+ 282          uint8_t I2C_WriteByteNum(uint8_t device_addr, uint8_t *dat, uint8_t length)
+ 283          {       
+ 284   1                      uint8_t ack=0, i=0, ret; 
+ 285   1              
+ 286   1          IIC_Start(); 
+ 287   1              
+ 288   1          IIC_Send_Byte(device_addr);
+ 289   1                      ack = IIC_Wait_Ack();   
+ 290   1                      if (ack != 0)
+ 291   1                      {
+ 292   2                                      ret=ack;
+ 293   2                                      return ret;
+ 294   2                      }
+ 295   1                      delay_us(10);
+ 296   1                      
+ 297   1                      for(i=0; i<length; i++)
+ 298   1                      {
+ 299   2                                      IIC_Send_Byte(dat[i]);     // 发送字节                                                     
+ 300   2                                      ack = IIC_Wait_Ack(); 
+ 301   2                                      delay_us(10);
+ 302   2                      }
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 6   
+
+ 303   1                      IIC_Stop();                                             // 产生一个停止条件 
+ 304   1                      return ret;     
+ 305   1      }       
+ 306          
+ 307          
+ 308          /***********************************************************************************************
+ 309          *函数名称：void I2C_WriteByteNum(uint8_t device_addr, uint8_t *dat, uint8_t length)
+ 310          *函数功能：IIC读一个数据
+ 311          *入口参数：
+ 312                                  device_addr：设备地址
+ 313                                  addr：寄存器地址
+ 314          *出口参数：返回IIC读取 buffer
+ 315          ***********************************************************************************************/
+ 316          uint8_t I2C_ReadOneByte(uint8_t addr,uint8_t device_addr)
+ 317          {       
+ 318   1                      uint8_t ack=0; 
+ 319   1                      uint8_t ret;
+ 320   1                      uint8_t i=0,buffer;
+ 321   1              
+ 322   1      //      
+ 323   1      //    IIC_SDA=1;//释放SDA总线
+ 324   1      //      
+ 325   1      //      IIC_SCL=1;
+ 326   1      //      delay_us(100);            
+ 327   1      
+ 328   1              
+ 329   1                      //第一阶段
+ 330   1          IIC_Start();        
+ 331   1          IIC_Send_Byte(device_addr);//设备地址
+ 332   1                      ack = IIC_Wait_Ack();   
+ 333   1                      if (ack != 0)
+ 334   1                      {
+ 335   2                              ret=ack;
+ 336   2                              return ret;
+ 337   2                      }
+ 338   1                      IIC_Send_Byte(addr);            //寄存器地址
+ 339   1                      ack = IIC_Wait_Ack();   
+ 340   1                      if (ack != 0)
+ 341   1                      {
+ 342   2                                      ret=ack;
+ 343   2                                      return ret;
+ 344   2                      }       
+ 345   1                      IIC_Stop();
+ 346   1              
+ 347   1                      
+ 348   1                      //第二阶段
+ 349   1                      delay_us(100);
+ 350   1                      IIC_Start();
+ 351   1                      
+ 352   1                      IIC_Send_Byte(device_addr+1);//设备地址+1    
+ 353   1                      ack = IIC_Wait_Ack();   
+ 354   1                      if (ack != 0)
+ 355   1                      {
+ 356   2                                      ret=ack;
+ 357   2                                      return ret;
+ 358   2                      }
+ 359   1                      
+ 360   1                      delay_us(10);
+ 361   1                      buffer=IIC_Read_Byte(); //读数据
+ 362   1                      delay_us(5);
+ 363   1                      IIC_NAck(); //发送ACK  
+ 364   1                      delay_us(5);
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 7   
+
+ 365   1              
+ 366   1                      IIC_Stop();//产生一个停止条件
+ 367   1                      return buffer;  
+ 368   1      }
+ 369          /***********************************************************************************************
+ 370          *函数名称：void I2C_WriteOneByte(uint8_t device_addr, uint8_t WriteAddr, uint8_t WriteData)
+ 371          *函数功能：IIC写一个数据
+ 372          *入口参数：
+ 373                                  device_addr：设备地址
+ 374                                  WriteAddr：寄存器地址
+ 375                                  WriteData：要写的数据
+ 376          *出口参数：
+ 377          ***********************************************************************************************/
+ 378          uint8_t I2C_WriteOneByte(uint8_t device_addr, uint8_t WriteAddr, uint8_t WriteData)
+ 379          {       
+ 380   1                      uint8_t ack=0, i=0, ret; 
+ 381   1              
+ 382   1          IIC_Start(); 
+ 383   1              
+ 384   1          IIC_Send_Byte(device_addr); // 设备地址
+ 385   1                      ack = IIC_Wait_Ack();   
+ 386   1                      if (ack != 0)
+ 387   1                      {
+ 388   2                                      ret=ack;
+ 389   2                                      return ret;
+ 390   2                      }
+ 391   1                      delay_us(10);
+ 392   1              
+ 393   1                      IIC_Send_Byte(WriteAddr);     // 寄存器地址                                                        
+ 394   1                      ack = IIC_Wait_Ack();
+ 395   1                      delay_us(10); 
+ 396   1              
+ 397   1              
+ 398   1                      IIC_Send_Byte(WriteData);     // 发送字节                                                          
+ 399   1                      ack = IIC_Wait_Ack(); 
+ 400   1                      delay_us(10);
+ 401   1              
+ 402   1                      IIC_Stop();                                             // 产生一个停止条件 
+ 403   1              
+ 404   1                      return ret;     
+ 405   1      }
+ 406          
+ 407          
+ 408          /*****************************************************
+ 409          *函数名称：void Uart0Mode1(void)
+ 410          *函数功能：9600波特率
+ 411          *入口参数：
+ 412          *出口参数：
+ 413          *****************************************************/
+ 414          void Uart0Mode1(void)
+ 415          {
+ 416   1          /*************** UART0 模式1（波特率：9600）****************/
+ 417   1          SM00 = 0;
+ 418   1          SM10 = 1;
+ 419   1          REN0 = 0;    //串行接收使能位
+ 420   1          RI0 = 0;     //接收中断标志
+ 421   1          TI0 = 0;     //发送中断标志
+ 422   1          
+ 423   1              //TIMER2 作为uart0的波特率时钟源
+ 424   1          TR2 = 0;
+ 425   1          T2MOD = 0x00;/* 定时2中断不使能，不分频 */
+ 426   1          T2CL = 65536 - 52;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 8   
+
+ 427   1          T2CH = 65536 - 52 >> 8;
+ 428   1          TL2 = T2CL;
+ 429   1          TH2 = T2CH;
+ 430   1          TR2 = 1;    //启动定时器2
+ 431   1          RCLK = 1;
+ 432   1          TCLK = 1;   
+ 433   1      }
+ 434          
+ 435          //-----------------------------------------------
+ 436          void main()
+ 437          {
+ 438   1          int i, io_flag=0;
+ 439   1          unsigned char dev_val = 0,tk_val = 0,j=0;
+ 440   1          uint8_t dat[0x20]={0};
+ 441   1       
+ 442   1          SCCON = 0x00;//HRC
+ 443   1          HRCON |= 0x80;
+ 444   1          i=10;while(i--)delay(200);
+ 445   1              
+ 446   1          /**************** 模拟IIC管脚配置 ***************/
+ 447   1                      P10      = 1;
+ 448   1                      P11      = 1;
+ 449   1          P10F = 0Xa2;//IIC SCL  
+ 450   1          P11F = 0Xa2;//IIC SDA
+ 451   1                      P06F = 7;       //TX
+ 452   1                      
+ 453   1                       /****** UART0 模式1（波特率：9600）*******/
+ 454   1          Uart0Mode1();       //P06--TX
+ 455   1          printf("RUN------\r\n");
+ 456   1                      
+ 457   1                      
+ 458   1                       /****************   初始化配置   ***************/
+ 459   1          IIC_Init();
+ 460   1              
+ 461   1          //test CODE
+ 462   1                      dev_val = 0xA0; //主机发送地址0xA0
+ 463   1              
+ 464   1          while(1)
+ 465   1          {
+ 466   2      //              I2C_WriteByteNum(dev_val,dat,10);
+ 467   2      //              I2C_WriteOneByte(dev_val, 0x21, 0);
+ 468   2      //              dat[0] = I2C_ReadOneByte(0x21, dev_val);
+ 469   2                      
+ 470   2      //              I2C_ReadByteNum(0x00,dev_val,dat,0x20);
+ 471   2      //              printf("\r\n%s999", dat);
+ 472   2                      
+ 473   2                      dat[0]=I2C_ReadOneByte(0x00,dev_val);
+ 474   2      //              printf("\r\nrx：%bx", dat[0]);  
+ 475   2                      P12 = ~P12;
+ 476   2      //              printf("\r\nrx：%s", dat);              
+ 477   2      //              for(i=0;i<10;i++)
+ 478   2      //              {
+ 479   2      //                      dat[i] = 5;
+ 480   2      //              }
+ 481   2      //              delay(500);
+ 482   2                      
+ 483   2      //              delay(500);
+ 484   2      //              delay(500);
+ 485   2                      delay(500);
+ 486   2               
+ 487   2          }
+ 488   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:09:48 PAGE 9   
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1048    ----
+   CONSTANT SIZE    =     52    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      73
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

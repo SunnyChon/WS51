@@ -1,0 +1,613 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\headfile) DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:        IIC.c
+   4          *作  者:        
+   5          *版  本:        
+   6          *日  期:        
+   7          *描  述:        
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"
+  11          #include <stdio.h>
+  12          
+  13          //I2CFLG标志位
+  14          #define BUSIDLE 0x80
+  15          #define RXNAK 0x40
+  16          #define IF_LSTARB 0x20
+  17          #define IF_RXSTA 0x10
+  18          #define IF_RXSTP 0x08
+  19          #define IF_TXDAT 0x04
+  20          #define IF_RXDAT 0x02
+  21          #define IF_RXADR 0x01
+  22          
+  23          unsigned char ic_num=0,ic_dat[6]={0x37,0x01},iic_val=0,stop_flag=0;
+  24          
+  25          static void delay(int i)
+  26          {
+  27   1              long j;
+  28   1              for(j=0;j<10*i;++j);
+  29   1      }
+  30          
+  31          
+  32          static void delay_us(int i)
+  33          {
+  34   1              long j;
+  35   1          while(i--)
+  36   1              j++;
+  37   1      }
+  38          void UART0_write(signed char dat)
+  39          {
+  40   1          S0BUF = dat;            //Send data to UART buffer
+  41   1          while(!TI0);
+  42   1          TI0 = 0;
+  43   1      }
+  44          
+  45          ///重定向c库函数printf到串口，重定向后可使用printf函数
+  46          char putchar(char ch)
+  47          {
+  48   1          /* 发送一个字节数据到串口 */
+  49   1          UART0_write((signed char) ch);
+  50   1              
+  51   1          return ch;
+  52   1      }
+  53          unsigned char dat0;
+  54          unsigned char Rx_flag=0;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 2   
+
+  55          /*****************************************************
+  56          *函数名称：void Uart0Mode1(void)
+  57          *函数功能：8 位异步模式，波特率：可调(T1/T2)
+  58          *入口参数：
+  59          *出口参数：
+  60          *****************************************************/
+  61          void Uart0Mode1(void)
+  62          {
+  63   1          SM00 = 0;
+  64   1          SM10 = 1;   //模式选择: 模式1
+  65   1          REN0 = 1;   //串行接收使能位
+  66   1          RI0 = 0;    //接收中断标志
+  67   1          TI0 = 0;    //发送中断标志
+  68   1      //      
+  69   1      //    /* 默认定时器1作为时钟源(配置位8Bit自动重载模式不开中断程序) */
+  70   1      //    /* TL1 作为 8 位定时器/计数器， TH1 作为自动重载寄存器 */
+  71   1      //    TR1 = 0;    //先停T1
+  72   1      //    TMOD = 0x20;                // 定时器，时钟为系统时钟 12 分频
+  73   1      //    TH1 = 256-4;//波特率10417
+  74   1      //    TR1 = 1;  //开始运行//timer1 start running        
+  75   1          
+  76   1              //TIMER2 作为uart0的波特率时钟源 配置波特率为9600
+  77   1          TR2 = 0;
+  78   1          T2MOD = 0x00;/* 定时2中断不使能，不分频 */
+  79   1          T2CL = 65536 - 52;
+  80   1          T2CH = 65536 - 52 >> 8;//波特率：9600
+  81   1          TL2 = T2CL;
+  82   1          TH2 = T2CH;
+  83   1          TR2 = 1;    //启动定时器2
+  84   1          RCLK = 1;   //UART0在模式1和3时使用定时器1/2作为接收波特率时钟
+  85   1          TCLK = 1;           //UART0在模式1和3时使用定时器1/2作为接收波特率时钟
+  86   1      }
+  87          /*****************************************************
+  88          * 中断服务函数
+  89          *****************************************************/
+  90          void Uart_Isr() interrupt 4
+  91          {
+  92   1          if(RI0 == 1)     //如果接收到计算机发的数据
+  93   1          {
+  94   2              RI0 = 0;     //清除标志位
+  95   2              dat0 = S0BUF;  
+  96   2              Rx_flag = 1;
+  97   2          }           
+  98   1      }
+  99          void i2c_trdata(void) interrupt 5
+ 100          {
+ 101   1          EA = 0;
+ 102   1          if(IF_RXSTA == (I2CFLG&IF_RXSTA))   //start
+ 103   1          {
+ 104   2              I2CFLG &= ~IF_RXSTA;
+ 105   2              if(ic_num == 0)
+ 106   2              {
+ 107   3                  I2CTXD  = 0x37;   //0x37
+ 108   3                  I2CFLG &= (~IF_TXDAT);
+ 109   3                  ic_num=1;
+ 110   3              }
+ 111   2          }
+ 112   1          
+ 113   1          if(IF_TXDAT == (I2CFLG&IF_TXDAT))
+ 114   1          {
+ 115   2              I2CFLG &= (~IF_TXDAT);
+ 116   2              if(ic_num == 1)
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 3   
+
+ 117   2              {
+ 118   3                  ic_num = 2;
+ 119   3                  I2CFLG  = 0x0;
+ 120   3                  
+ 121   3                  
+ 122   3                  I2CCON  |= 0x1<<2;  //STOP  IIC
+ 123   3              }
+ 124   2              
+ 125   2          }
+ 126   1      //    if(IF_RXSTP == (I2CFLG&IF_RXSTP))   //stop
+ 127   1      //    {
+ 128   1      //        I2CFLG &= ~IF_RXSTP;
+ 129   1      //        
+ 130   1      //        if(ic_num == 2)
+ 131   1      //        {
+ 132   1      //            stop_flag = 1;
+ 133   1      //            delay(1);
+ 134   1      //            
+ 135   1      //            I2CTXD  = 0x01;  
+ 136   1      //            I2CCON  |= (0x1<<3);    //start tx 
+ 137   1      //        }
+ 138   1      //    }
+ 139   1      //     
+ 140   1      //    if(IF_RXDAT == (I2CFLG&IF_RXDAT))   //rx_flag
+ 141   1      //    {
+ 142   1      //        iic_val = I2CRXD;
+ 143   1      //        I2CCON  |= 0x1<<2;  //STOP  IIC
+ 144   1      //        
+ 145   1      //        I2CFLG &= ~IF_RXDAT;
+ 146   1      //        
+ 147   1      ////        I2CCON  |= 0x1<<2;  //STOP  IIC
+ 148   1      //        ic_num = 3;
+ 149   1      //    }
+ 150   1          
+ 151   1          
+ 152   1          EA = 1;
+ 153   1      }
+ 154          
+ 155          uint8_t I2C_ReadByteNum(uint8_t addr,uint8_t device_addr, uint8_t *dat, uint8_t num)
+ 156          {       
+ 157   1              uint8_t ack=0,step=0,ret=0; 
+ 158   1          uint16_t tim=0;
+ 159   1          
+ 160   1          
+ 161   1          I2CFLG = 0; //请标志
+ 162   1          //IIC_Send_Byte(device_addr);       
+ 163   1          I2CTXD  = device_addr;          //0x00 填写设备(device_addr);       
+ 164   1          I2CCON  |= (0x1<<3);    //IIC_Start(); 
+ 165   1          
+ 166   1          while(1)
+ 167   1          {         
+ 168   2              if(IF_TXDAT == (I2CFLG&IF_TXDAT))
+ 169   2              {            
+ 170   3                  if(step == 0)
+ 171   3                  {
+ 172   4                      I2CTXD  = addr;   //0x37
+ 173   4                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 174   4                                      step=1;
+ 175   4                  }
+ 176   3                  
+ 177   3                  I2CFLG &= (~IF_TXDAT);                      
+ 178   3                              
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 4   
+
+ 179   3                              //超时/出错退出
+ 180   3                              if(RXNAK == (I2CFLG&RXNAK))
+ 181   3                              {
+ 182   4                                      ret=2;
+ 183   4                                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 184   4                                      I2CFLG = 0;
+ 185   4                                      return ret;
+ 186   4                              }
+ 187   3              }
+ 188   2              
+ 189   2              if(IF_RXSTP == (I2CFLG&IF_RXSTP))   //stop
+ 190   2              {
+ 191   3                  if(step==1)
+ 192   3                  {    
+ 193   4      //                delay_us(348);//STOP发送后,需要加一点延时,才能发送
+ 194   4                      delay_us(40);
+ 195   4                      I2CTXD  = device_addr+1; 
+ 196   4                      I2CCON  |= (0x1<<3);    //start tx 
+ 197   4                  }
+ 198   3                  I2CFLG &= ~IF_RXSTP;
+ 199   3              }
+ 200   2              
+ 201   2              if(IF_RXDAT == (I2CFLG&IF_RXDAT))   //rx_flag
+ 202   2              {
+ 203   3                  *dat = I2CRXD;
+ 204   3                  
+ 205   3                  if((--num) == 0)
+ 206   3                  {   
+ 207   4                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 208   4                                      I2CFLG &= ~IF_RXDAT;
+ 209   4                      return 0;
+ 210   4                  }
+ 211   3                  dat++;
+ 212   3                  I2CFLG &= ~IF_RXDAT;
+ 213   3              }
+ 214   2                      //仲载丢失
+ 215   2              if(IF_LSTARB == (I2CFLG&IF_LSTARB))
+ 216   2              {
+ 217   3                              ret = 1;
+ 218   3                  I2CFLG &= ~IF_LSTARB;       
+ 219   3                  return ret; //1
+ 220   3              } 
+ 221   2              
+ 222   2              }
+ 223   1      }
+ 224          
+ 225          
+ 226          uint8_t I2C_ReadByteNumRestr(uint8_t addr,uint8_t device_addr, uint8_t *dat, uint8_t num)
+ 227          {       
+ 228   1              uint8_t ack=0, step=0, ret=0; 
+ 229   1          uint16_t tim=0;
+ 230   1          
+ 231   1          
+ 232   1          I2CFLG = 0; //请标志
+ 233   1          //IIC_Send_Byte(device_addr);       
+ 234   1          I2CTXD  = device_addr;          //0x00 填写设备(device_addr);       
+ 235   1          I2CCON  |= (0x1<<3);    //IIC_Start(); 
+ 236   1          
+ 237   1          while(1)
+ 238   1          {
+ 239   2      //        if(IF_RXSTA == (I2CFLG&IF_RXSTA))   //start
+ 240   2      //        {
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 5   
+
+ 241   2      //            I2CFLG &= ~IF_RXSTA;
+ 242   2      //        }
+ 243   2               
+ 244   2      //              //send: start + device_addr + regAdd + restart + (device_addr+1) + rx_dat + stop
+ 245   2      //        if(IF_TXDAT == (I2CFLG&IF_TXDAT))
+ 246   2      //        {            
+ 247   2      //                      if(step==0)
+ 248   2      //                      {
+ 249   2      //                              I2CTXD  = addr;   //0x37
+ 250   2      //                I2CCON  |= (0x1<<3);    //start tx 
+ 251   2      //                      }
+ 252   2      //                      else if(step==1)
+ 253   2      //                      {
+ 254   2      //                              delay_us(40);
+ 255   2      //                I2CTXD  = device_addr+1; 
+ 256   2      //                      }
+ 257   2      //                      
+ 258   2      //                      step++;
+ 259   2      //                      I2CFLG &= (~IF_TXDAT);
+ 260   2      
+ 261   2      //                      //超时/出错退出
+ 262   2      //                      if(RXNAK == (I2CFLG&RXNAK))
+ 263   2      //                      {
+ 264   2      //                              ret=2;
+ 265   2      //                              I2CCON  |= 0x1<<2;  //STOP  IIC
+ 266   2      //                              I2CFLG = 0;
+ 267   2      //                              return ret;
+ 268   2      //                      }
+ 269   2      //            
+ 270   2      //        }
+ 271   2              
+ 272   2                      //send: start + device_addr + TxDat0123_regAdd + restart + (device_addr+1) + rx_dat + stop
+ 273   2              if(IF_TXDAT == (I2CFLG&IF_TXDAT))
+ 274   2              {            
+ 275   3                              if(step==0)
+ 276   3                              {
+ 277   4                                      I2CTXD  = addr;   //0x37
+ 278   4                              }
+ 279   3                              else if(step==1)
+ 280   3                              {
+ 281   4                                      I2CTXD  = addr+1;   //0x37
+ 282   4                              }
+ 283   3                              else if(step==2)
+ 284   3                              {
+ 285   4                                      I2CTXD  = addr+2;   //0x37
+ 286   4                              }
+ 287   3                              else if(step==3)
+ 288   3                              {
+ 289   4                                      I2CTXD  = addr+3;   //0x37
+ 290   4                      I2CCON  |= (0x1<<3);    //start tx 
+ 291   4                              }
+ 292   3                              else if(step==4)
+ 293   3                              {
+ 294   4                                      delay_us(40);
+ 295   4                      I2CTXD  = device_addr+1; 
+ 296   4                              }
+ 297   3                              
+ 298   3                              step++;
+ 299   3                              I2CFLG &= (~IF_TXDAT);
+ 300   3                              
+ 301   3                              
+ 302   3                              //超时/出错退出
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 6   
+
+ 303   3                              if(RXNAK == (I2CFLG&RXNAK))
+ 304   3                              {
+ 305   4                                      ret=2;
+ 306   4                                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 307   4                                      I2CFLG = 0;
+ 308   4                                      return ret;
+ 309   4                              }
+ 310   3                  
+ 311   3              }
+ 312   2              
+ 313   2              if(IF_RXDAT == (I2CFLG&IF_RXDAT))   //rx_flag
+ 314   2              {
+ 315   3                  *dat = I2CRXD;
+ 316   3                  
+ 317   3                  if((--num) == 0)
+ 318   3                  {   
+ 319   4                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 320   4                                      I2CFLG &= ~IF_RXDAT;
+ 321   4                      return 0;
+ 322   4                  }
+ 323   3                  dat++;
+ 324   3                  I2CFLG &= ~IF_RXDAT;
+ 325   3              }
+ 326   2                      //仲载丢失
+ 327   2              if(IF_LSTARB == (I2CFLG&IF_LSTARB))
+ 328   2              {
+ 329   3                              ret=1;
+ 330   3                  I2CFLG &= ~IF_LSTARB;         
+ 331   3                  return ret;
+ 332   3              } 
+ 333   2              
+ 334   2              }
+ 335   1      }
+ 336          
+ 337          uint8_t I2C_WriteByteNum(uint8_t device_addr, uint8_t *dat, uint8_t length)
+ 338          {       
+ 339   1              uint8_t ret=0, cnt=0; 
+ 340   1          uint16_t tim=0;
+ 341   1          
+ 342   1          I2CFLG = 0; //请标志        
+ 343   1          I2CTXD  = device_addr;          //0x00 填写设备(device_addr);       
+ 344   1          I2CCON  |= (0x1<<3);    //IIC_Start(); 
+ 345   1      //    P10 = 1;
+ 346   1              P11=1;
+ 347   1          while(1)
+ 348   1          {
+ 349   2              if(IF_RXSTA == (I2CFLG&IF_RXSTA))   //start
+ 350   2              {
+ 351   3                  I2CFLG &= ~IF_RXSTA;
+ 352   3              }
+ 353   2               
+ 354   2              if(IF_TXDAT == (I2CFLG&IF_TXDAT))
+ 355   2              {
+ 356   3                              I2CTXD  = dat[cnt];   //
+ 357   3                              cnt++;
+ 358   3                              if(cnt>=10)
+ 359   3                              {
+ 360   4                                      P13 = 0;    //重载丢失测试
+ 361   4                              }
+ 362   3                              //发送完退出
+ 363   3                              if(cnt >= length)
+ 364   3                              {
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 7   
+
+ 365   4                                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 366   4                                      I2CFLG &= (~IF_TXDAT);
+ 367   4                                      I2CFLG = 0;
+ 368   4                                      return 0;
+ 369   4                              }
+ 370   3                              
+ 371   3                  I2CFLG &= (~IF_TXDAT);
+ 372   3                              
+ 373   3                              
+ 374   3                              //超时/出错退出
+ 375   3                              if(RXNAK == (I2CFLG&RXNAK))
+ 376   3                              {
+ 377   4                                      ret = 2;
+ 378   4                                      P11 = 0;
+ 379   4                                      I2CCON  |= 0x1<<2;  //STOP  IIC
+ 380   4                                      
+ 381   4                                      I2CFLG = 0;
+ 382   4                                      return ret;
+ 383   4                              }
+ 384   3              }
+ 385   2              //仲载丢失
+ 386   2              if(IF_LSTARB == (I2CFLG&IF_LSTARB))
+ 387   2              {
+ 388   3                              ret=1;
+ 389   3                  I2CFLG &= ~IF_LSTARB;
+ 390   3                  I2CFLG = 0;
+ 391   3                  return ret;
+ 392   3              }        
+ 393   2              
+ 394   2              }
+ 395   1      }
+ 396          
+ 397          /*****************************************************
+ 398          *函数名称：void I2C_Init(void)
+ 399          *函数功能：IIC配置初始化
+ 400          *入口参数：
+ 401          *出口参数：
+ 402          *****************************************************/
+ 403          void I2C_Init(void)
+ 404          {
+ 405   1              /*********************************** IIC 配置寄存器 ***********************************
+ 406   1              /*      
+ 407   1              寄存器 I2CCON           +I2CE   0x80    bit7：I2C 模块使能位， 1 有效
+ 408   1                                                      +I2CIE  0x40    bit6：I2C 中断使能位， 1 有效
+ 409   1                                                      +STAIE  0x20    bit5：总线出现 START 信号，中断使能信号
+ 410   1                                                      +STPIE  0x10    bit4：总线出现 STOP 信号，中断使能信号
+ 411   1                                                      +STA    0x08    bit3：发送 START 信号
+ 412   1                                                      +STP    0x04    bit2：发送 STOP 信号
+ 413   1                                                      +I2CKD  0x00    bit1-0：I2C 时钟分频选择寄存器
+ 414   1                                                                                              00： I2C 模块时钟Fiic选择内部 16MHz 高速时钟
+ 415   1                                                                                              01： I2C 模块时钟Fiic选择内部 16MHz 高速时钟/2
+ 416   1                                                                                              10： I2C 模块时钟Fiic选择内部 16MHz 高速时钟/4
+ 417   1                                                                                              11： I2C 模块时钟Fiic选择内部 16MHz 高速时钟/8
+ 418   1              
+ 419   1              寄存器 I2CCON           +I2CCKD 0x00    bit6-0：(127~0)
+ 420   1                                                                                      I2C 作为 master 输出数据频率选择 Fiic/(I2CCKD + 8)
+ 421   1              
+ 422   1              寄存器 I2CFLG标志位     BUSIDLE         0x80 总线状态标志（只读）
+ 423   1                                                      RXNAK           0x40 总线接收响应标志（只读）
+ 424   1                                                      IF_LSTARB       0x20 I2C 发送的数据和接收到的数据不一致时出现总线丢失，高有效，写 0 清
+ 425   1                                                      IF_RXSTA        0x10 总线接收到 START 信号
+ 426   1                                                      IF_RXSTP        0x08 总线接收到 STOP 信号
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 8   
+
+ 427   1                                                      IF_TXDAT        0x04 当 I2C 为主机时表明已发送一个字节数据并接收到响应标志
+ 428   1                                                      IF_RXDAT        0x02 接收一个字节数据完成
+ 429   1                                                      IF_RXADR        0x01 I2C 作为从机正确接收到从机地址
+ 430   1              **/
+ 431   1              
+ 432   1              /* 配置 IIC 时钟频率 119K */
+ 433   1      //    I2CCON = 0x03;//Fi2c_CLK====== 16M   16M/2   16M/4  16M/8
+ 434   1      //    I2CFG1 = 0x7f;  //Fi2c/(I2CFG1<6:0>+8) 
+ 435   1          //127+8  
+ 436   1          //00_ff:2M~ 119K ok
+ 437   1          //01_ff:1M~ 59K  
+ 438   1          //02_ff:500K~ 29K  
+ 439   1          //03_ff:250L~ 最慢 14K 
+ 440   1          //最大: 00_00: 2M
+ 441   1          
+ 442   1          
+ 443   1          I2CCON = 0x00;//Fi2c_CLK====== 16M
+ 444   1          I2CFG1 = 0xff;  //Fi2c/(I2CFG1<6:0>+8) 
+ 445   1          
+ 446   1          
+ 447   1          I2CFLG  = 0x0;              //清标志
+ 448   1          I2CCON  |= (0x1<<7);    //MODE en
+ 449   1      //    I2CCON  |= (0x1<<6);  //interrupt en
+ 450   1      //    I2CCON  &= ~(0x1<<7);   
+ 451   1          I2CCON  &= ~(0x1<<6);       //不开中断
+ 452   1          
+ 453   1      //    I2CCON  |= (0x1<<5);  //START INT EN 中断使能
+ 454   1      //    I2CCON  |= (0x1<<4);  //STOP INT EN
+ 455   1          I2CCON  &= ~(0x1<<5);  //不开 START INT EN
+ 456   1          I2CCON  &= ~(0x1<<4);  //不开 STOP INT EN
+ 457   1          
+ 458   1      }
+ 459          
+ 460          
+ 461          /**************************************************************
+ 462          功能说明：IIC发送接收数据
+ 463                  配置：SCL时钟频率119K，IIC中断关闭，从机设备地址dev_val
+ 464                            管脚悬空需要加外部上拉，或打开内部上拉
+ 465                  1、6132主从模式都不支持混合模式(restart),6232支持混合模式
+ 466                  2、主机回复NAK发送STOP，需要注意清RX标志位置
+ 467                     要先填写发stop再清RX标志，才能发出stop，和主机回NAK
+ 468                  3、Restart的发送：需要在准备发送最后一笔数据的中断里面填写发送Start，
+ 469                  读设备地址数据需要在上一次的数据发送结束的中断里面发生填写读地址数据。   
+ 470                  4、stop前会发送最后一次填写的TX_Dat数据
+ 471                  5、用P30P31作为IIC时，需要将P33P34配置为非IIC模式
+ 472                  6、stop后发送Start，要加一点延时（否则start发不出去）
+ 473          
+ 474          ***************************************************************/
+ 475          #define HOSE_SEND_NUM           10
+ 476          #define HOSE_RECEIVE_NUM        10
+ 477          //-----------------------------------------------
+ 478          void main()
+ 479          {
+ 480   1          int i;
+ 481   1          unsigned char dev_val = 0;
+ 482   1          uint8_t datS[HOSE_SEND_NUM]={0};
+ 483   1              uint8_t datR[HOSE_RECEIVE_NUM]={0};
+ 484   1       
+ 485   1          SCCON = 0x00;//HRC 
+ 486   1          HRCON |= 0x80;
+ 487   1          
+ 488   1          /**************** IIC管脚配置 ***************/    
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 9   
+
+ 489   1          P13F = 0;//
+ 490   1          P14F = 0;//
+ 491   1          P02F = 0XA5;//IIC SCL-----M4  
+ 492   1          P16F = 0XA5;//IIC SDA-----E4
+ 493   1          
+ 494   1          /****** UART0 模式1（波特率：9600 可调）**************/
+ 495   1          P07F = 6;//RX
+ 496   1          P06F = 6;//TX
+ 497   1          Uart0Mode1();
+ 498   1              printf("RUN------\r\n");
+ 499   1          
+ 500   1          P10F = 0X82;
+ 501   1          P11F = 0X82;
+ 502   1          P13F = 0X82;
+ 503   1          P13 = 1;
+ 504   1          for(i=0;i<10;i++)
+ 505   1          {
+ 506   2             P10 = ~P10; 
+ 507   2             delay(500);
+ 508   2          }
+ 509   1          P10 = 0;
+ 510   1          
+ 511   1          /*************** IIC 初始化配置 ****************/
+ 512   1              I2C_Init();             //IIC 寄存器配置
+ 513   1              dev_val = 0xA0; //主机发送设备地址0xA0
+ 514   1              
+ 515   1              // 主机发送数据 
+ 516   1              for(i=0;i<HOSE_SEND_NUM;i++)
+ 517   1              {
+ 518   2                      datS[i]=i+0x55; //0123......
+ 519   2              }                       
+ 520   1              for(i=0;i<HOSE_RECEIVE_NUM;i++)
+ 521   1              {
+ 522   2                      datR[i]=0;      //清数组
+ 523   2              }         
+ 524   1          ES0 = 1;    /* UART0 中断开 */
+ 525   1          EA = 1;     
+ 526   1          while(1)
+ 527   1          {
+ 528   2             P10 = ~P10; 
+ 529   2              if(BUSIDLE == (I2CFLG&BUSIDLE))   //总线空闲
+ 530   2              {
+ 531   3                  I2C_WriteByteNum(dev_val,datS,HOSE_SEND_NUM);
+ 532   3                  delay(100);//STOP发送后,需要加一点延时,才能发送
+ 533   3                  P13 =1;
+ 534   3      //                      I2C_ReadByteNum(0x00,dev_val,datR,HOSE_RECEIVE_NUM);
+ 535   3                  delay(100);//STOP发送后,需要加一点延时,才能发送
+ 536   3      //                      I2C_ReadByteNumRestr(0x00,dev_val,datR,HOSE_RECEIVE_NUM);
+ 537   3                              delay(500);       
+ 538   3                  printf("HOSE-r:");
+ 539   3      //            for(i=0;i<HOSE_RECEIVE_NUM;i++)
+ 540   3      //            {
+ 541   3      //                printf("%c", datR[i]);        
+ 542   3      //            }  
+ 543   3                  for(i=0;i<HOSE_SEND_NUM;i++)
+ 544   3                  {
+ 545   4                      printf("%c", datS[i]);  
+ 546   4                  }  
+ 547   3                  printf("\r\n");
+ 548   3              }
+ 549   2                      
+ 550   2                      delay(500);
+C51 COMPILER V9.59.0.0   MAIN                                                              07/01/2022 16:00:39 PAGE 10  
+
+ 551   2                      delay(500);
+ 552   2                      delay(500);
+ 553   2                      delay(500);
+ 554   2                      delay(500);
+ 555   2               
+ 556   2          }
+ 557   1          
+ 558   1         
+ 559   1      
+ 560   1      
+ 561   1      }
+ 562          
+ 563              
+ 564           
+ 565              
+ 566             
+ 567              
+ 568          
+ 569          
+ 570          
+ 571          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1043    ----
+   CONSTANT SIZE    =     46    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11      59
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

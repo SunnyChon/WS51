@@ -1,0 +1,268 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:45:07 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND P
+                    -RINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:        PWM唤醒.c
+   4          *作  者:        
+   5          *版  本:        
+   6          *日  期:        
+   7          *描  述:        
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"
+  11          #include "intrins.h"
+  12          #include <stdio.h>
+  13          
+  14          static void delay_1ms(void)
+  15          {
+  16   1              int j;
+  17   1              for(j=0;j<1700;++j);
+  18   1      }
+  19          
+  20          void UART0_write(signed char dat)
+  21          {
+  22   1          S0BUF = dat;            //Send data to UART buffer
+  23   1          while(!TI0);
+  24   1          TI0 = 0;
+  25   1      }
+  26          
+  27          ///重定向c库函数printf到串口，重定向后可使用printf函数
+  28          char putchar(char ch)
+  29          {
+  30   1          /* 发送一个字节数据到串口 */
+  31   1          UART0_write((signed char) ch);
+  32   1              
+  33   1          return ch;
+  34   1      }
+  35          
+  36          
+  37          /*****************************************************
+  38          *函数名称：void Uart0Mode1(void)
+  39          *函数功能：9600波特率
+  40          *入口参数：
+  41          *出口参数：
+  42          *****************************************************/
+  43          void Uart0Mode1(void)
+  44          {
+  45   1          /*************** UART0 模式1（波特率：9600）****************/
+  46   1          SM00 = 0;
+  47   1          SM10 = 1;
+  48   1          REN0 = 0;    //串行接收使能位
+  49   1          RI0 = 0;     //接收中断标志
+  50   1          TI0 = 0;     //发送中断标志
+  51   1          
+  52   1              //TIMER2 作为uart0的波特率时钟源
+  53   1          TR2 = 0;
+  54   1          T2MOD = 0x00;/* 定时2中断不使能，不分频 */
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:45:07 PAGE 2   
+
+  55   1          T2CL = 65536 - 52;
+  56   1          T2CH = 65536 - 52 >> 8;
+  57   1          TL2 = T2CL;
+  58   1          TH2 = T2CH;
+  59   1          TR2 = 1;    //启动定时器2
+  60   1          RCLK = 1;
+  61   1          TCLK = 1;   
+  62   1      }
+  63          
+  64          
+  65          /*****************************************************
+  66          * 中断服务函数
+  67          *****************************************************/
+  68          void pwm_isr (void) interrupt 5  
+  69          {
+  70   1              P12 = ~P12;
+  71   1              PWMFLG0 = 0;
+  72   1      }
+  73          
+  74          //=============================== PWM配置寄存器 ================================
+  75          // 寄存器 PWMnCFG(n=0,2,4)              
+  76          #define PWM_OP  0x80    //bit7：PWMn 计数器计数到 0 中断使能
+  77          #define PWM_ON  0x40    //bit6：中心对齐模式下，PWMn 计数器计数到最大值中断使能。
+  78          #define PWM_OM  0x20    //bit5：（0：边沿对齐； 1：中心对齐）
+  79          #define PWM_SN  0x10    //bit4：
+  80                                          
+  81          #define PWM_CKS 0               //bit2-0：时钟源选择
+  82                                                                          //0系统时钟
+  83                                                                          //1---HRC
+  84                                                                          //2---LRC
+  85                                                                          //3---LOSC
+  86                                                                          //4---MRC
+  87                                                                          //5---HOSC
+  88                                                                                                  //其他保留
+  89          
+  90          /**************************************************************
+  91          说明：打印结果为 IDLFL=20,IDLFH=0,STPF=0
+  92          ***************************************************************/
+  93          void main()
+  94          {
+  95   1          int i;
+  96   1              
+  97   1          SCCON = 0x00;//HRC
+  98   1              HRCON |= 0X80;
+  99   1              LRCON |= 0x80;
+ 100   1          delay_1ms();        
+ 101   1              
+ 102   1              
+ 103   1               /***********************管脚配置*********************/
+ 104   1                P06F = 6;     //TX
+ 105   1                P11F = 0x02;  //休眠翻转
+ 106   1                P12F = 0x02;  //中断翻转IO
+ 107   1                 
+ 108   1          /***********************串口的选择*********************/
+ 109   1          Uart0Mode1();       //
+ 110   1          printf("RUN------\r\n");
+ 111   1              
+ 112   1              
+ 113   1        //============================ PWM 管脚选择 ==================================
+ 114   1      
+ 115   1              PWM0PS = 0x08;      //选择IO口P00
+ 116   1              PWM1PS = 0x09;      //选择IO口P01
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:45:07 PAGE 3   
+
+ 117   1              PWM2PS = 0x0a;      //选择IO口P02
+ 118   1              PWM3PS = 0x0b;      //选择IO口P03
+ 119   1              PWM4PS = 0x0c;      //选择IO口P04
+ 120   1              PWM5PS = 0x0d;      //选择IO口P05
+ 121   1              PWM6PS = 0x0e;      //选择IO口P06
+ 122   1              PWM7PS = 0x0f;      //选择IO口P07
+ 123   1              
+ 124   1      //=============================== PWM配置寄存器 ================================LRC: 32768Hz;
+ 125   1              /*      
+ 126   1              寄存器 PWMnCFG(n=0,2,4)         +PWM_OP 0x80    bit7：PWM0/2/4/6 输出极性选择，为 1 时输出取反
+ 127   1                                                                      +PWM_ON 0x40    bit6：PWM1/3/5/7 输出极性选择，为 1 时输出取反
+ 128   1                                                                      +PWM_OM 0x20    bit5：互补 PWM 模式选择，为 1 时 PWMn 与 PWM(n+1)的波形互换后输出。
+ 129   1                                                                      +PWM_SN 0x10    bit4：
+ 130   1                                                                                                      
+ 131   1                                                                      +PWM_CKS        1       bit2-0：时钟源选择：0系统时钟
+ 132   1                      **/
+ 133   1              /****************** PWM0/1组 ********************/
+ 134   1              PWM0CFG=PWM_CKS+PWM_OP;                 //独立输出
+ 135   1      //      PWM0CFG=PWM_CKS+PWM_SN;         //互补输出
+ 136   1      
+ 137   1              /****************** PWM2/3组 ********************/
+ 138   1              PWM2CFG=PWM_CKS+PWM_OP;                 //独立输出
+ 139   1      //      PWM2CFG=PWM_CKS+PWM_SN;         //互补输出
+ 140   1      
+ 141   1              /****************** PWM4/5组 ********************/
+ 142   1              PWM4CFG=PWM_CKS+PWM_OP;                 //独立输出
+ 143   1      //      PWM4CFG=PWM_CKS+PWM_SN;         //互补输出
+ 144   1      
+ 145   1              /****************** PWM6/7组 ********************/
+ 146   1              PWM6CFG=PWM_CKS+PWM_OP;                 //独立输出
+ 147   1      //      PWM6CFG=PWM_CKS+PWM_SN;         //互补输出
+ 148   1              
+ 149   1              /********* PWM0周期占空比配置10% **********/
+ 150   1              PWM0DUTL=10;
+ 151   1              PWM0DUTH=0;
+ 152   1              PWM0DIVL=99;
+ 153   1              PWM0DIVH=0;     
+ 154   1              /********* PWM1周期占空比配置20% **********/
+ 155   1              PWM1DUTL=20;
+ 156   1              PWM1DUTH=0;
+ 157   1              PWM1DIVL=99;
+ 158   1              PWM1DIVH=0;
+ 159   1      
+ 160   1              /********* PWM2周期占空比配置30% **********/
+ 161   1              PWM2DUTL=30;
+ 162   1              PWM2DUTH=0;
+ 163   1              PWM2DIVL=99;
+ 164   1              PWM2DIVH=0;     
+ 165   1              /********* PWM3周期占空比配置40% **********/
+ 166   1              PWM3DUTL=40;
+ 167   1              PWM3DUTH=0;
+ 168   1              PWM3DIVL=99;
+ 169   1              PWM3DIVH=0;
+ 170   1              
+ 171   1              /********* PWM4周期占空比配置50% **********/
+ 172   1              PWM4DUTL=50;
+ 173   1              PWM4DUTH=0;
+ 174   1              PWM4DIVL=99;
+ 175   1              PWM4DIVH=0;     
+ 176   1              /********* PWM5周期占空比配置60% **********/
+ 177   1              PWM5DUTL=60;
+ 178   1              PWM5DUTH=0;
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:45:07 PAGE 4   
+
+ 179   1              PWM5DIVL=99;
+ 180   1              PWM5DIVH=0;
+ 181   1              
+ 182   1              /********* PWM6周期占空比配置70% **********/
+ 183   1              PWM6DUTL=70;
+ 184   1              PWM6DUTH=0;
+ 185   1              PWM6DIVL=99;
+ 186   1              PWM6DIVH=0;     
+ 187   1              /********* PWM7周期占空比配置80% **********/
+ 188   1              PWM7DUTL=80;
+ 189   1              PWM7DUTH=0;
+ 190   1              PWM7DIVL=99;
+ 191   1              PWM7DIVH=0;
+ 192   1              
+ 193   1              PWMRUN=0xff;
+ 194   1              IE=0XA0;
+ 195   1      
+ 196   1          while(1)
+ 197   1          {   
+ 198   2                      PWMFLG0 = 0;
+ 199   2                      if((IDLFL == 0) && (IDLFH == 0))
+ 200   2      //              if(STPF == 0)
+ 201   2              {
+ 202   3                              printf("sleep\r\n");
+ 203   3                  P11=~P11;
+ 204   3                              _nop_();
+ 205   3                              _nop_();
+ 206   3                  P11=~P11;
+ 207   3                              
+ 208   3                              HRCON &= 0x7f;
+ 209   3                              LRCON &= 0x7f;                  
+ 210   3                              MECON |= 0X80;  //IDLE/STOP 模式下，Flash 进入睡眠模式
+ 211   3                              
+ 212   3                              /*************** 芯片进入休眠 **************/
+ 213   3                  PCON = 0X01;    //芯片进入 IDLE 模式
+ 214   3      //            PCON = 0X02;    //芯片进入 STOP 模式
+ 215   3                              _nop_();
+ 216   3                              _nop_();
+ 217   3                              _nop_();
+ 218   3                              _nop_();
+ 219   3                              //等待唤醒
+ 220   3                              printf("IDLFL=%bx,IDLFH=%bx,STPF=%bx\r\n",IDLFL,IDLFH,STPF);
+ 221   3                              
+ 222   3              }
+ 223   2                      
+ 224   2          }
+ 225   1      }
+*** WARNING C280 IN LINE 95 OF main.c: 'i': unreferenced local variable
+ 226          
+ 227              
+ 228           
+ 229              
+ 230             
+ 231              
+ 232          
+ 233          
+ 234          
+ 235          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    386    ----
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:45:07 PAGE 5   
+
+   CONSTANT SIZE    =     51    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

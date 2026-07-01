@@ -1,0 +1,1 @@
+"user.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\user.lst) OBJECT(.\Objects\user.obj)

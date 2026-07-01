@@ -1,0 +1,1226 @@
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE INNER_NVR
+OBJECT MODULE PLACED IN .\Objects\inner_NVR.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE inner_NVR.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJE
+                    -CTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\inner_NVR.lst) PREPRINT(.\Listings\inner_NVR.i) OBJECT(.\Objects\inne
+                    -r_NVR.obj)
+
+line level    source
+
+   1           /**
+   2            ******************************************************************************
+   3            *
+   4            ******************************************************************************
+   5            */
+   6            
+   7          
+   8          #include "WS51F0032.h"
+   1      =1  #ifndef __WS51F7030_H
+   2      =1  #define __WS51F7030_H
+   3      =1  sfr P0          = 0x80;         //6232
+   4      =1  sfr SP          = 0x81;
+   5      =1  sfr DP0L        = 0x82;
+   6      =1  sfr DP0H        = 0x83;
+   7      =1  sfr DP1L        = 0x84;
+   8      =1  sfr DP1H        = 0x85;
+   9      =1  sfr SCCON       = 0x86;
+  10      =1  sfr PCON        = 0x87;
+  11      =1  sfr TCON        = 0x88;
+  12      =1  sfr TMOD        = 0x89;
+  13      =1  sfr TL0         = 0x8a;
+  14      =1  sfr TL1         = 0x8b;
+  15      =1  sfr TH0         = 0x8c;
+  16      =1  sfr TH1         = 0x8d;
+  17      =1  sfr MRCON          = 0x8e;              //6232
+  18      =1  sfr MRCFG          = 0x8f;              //6232
+  19      =1  
+  20      =1  sfr P1          = 0x90;
+  21      =1  sfr S2CON          = 0x91;              //6652
+  22      =1  sfr S2BUF          = 0x92;              //6652
+  23      =1  sfr S2RELL          = 0x93;             //6652
+  24      =1  sfr S2RELH          = 0x94;             //6652
+  25      =1  sfr XSCON          = 0x95;              //6232
+  26      =1  sfr HRCON       = 0x96;
+  27      =1  sfr LRCON       = 0x97;
+  28      =1  sfr S0CON       = 0x98;
+  29      =1  sfr S0BUF       = 0x99;
+  30      =1  sfr S0CFG       = 0x9a;
+  31      =1  sfr S1CON          = 0x9b;              //6232
+  32      =1  sfr S1BUF          = 0x9c;              //6232
+  33      =1  sfr S1RELL         = 0x9d;              //6232
+  34      =1  sfr S1RELH         = 0x9e;              //6232
+  35      =1  sfr RSTFLG      = 0x9f;
+  36      =1  
+  37      =1  sfr P2      = 0xa0;             //6552
+  38      =1  
+  39      =1  sfr I2CCON      = 0xa1;
+  40      =1  sfr I2CADR      = 0xa2;
+  41      =1  sfr I2CFG0      = 0xa3;
+  42      =1  sfr I2CFG1      = 0xa4;
+  43      =1  sfr I2CTXD      = 0xa5;
+  44      =1  sfr I2CRXD      = 0xa6;
+  45      =1  sfr I2CFLG      = 0xa7;
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 2   
+
+  46      =1  sfr IE          = 0xa8;
+  47      =1  sfr WDTCON      = 0xa9;
+  48      =1  sfr WDTFLG      = 0xaa;
+  49      =1  
+  50      =1  sfr P4      = 0xab;     //6652
+  51      =1  sfr P5      = 0xac;     //6652
+  52      =1  
+  53      =1  sfr TL3      = 0xae;    //6232  
+  54      =1  sfr TH3      = 0xaf;    //6232
+  55      =1  
+  56      =1  sfr P3          = 0xb0;
+  57      =1  sfr DACON       = 0xb1;
+  58      =1  sfr T3CON       = 0xb2; //6232  
+  59      =1  sfr T3MOD       = 0xb3; //6232
+  60      =1  sfr T3RL        = 0xb4; //6232  
+  61      =1  sfr T3RH        = 0xb5; //6232
+  62      =1  sfr T3CL        = 0xb6; //6232  
+  63      =1  sfr T3CH        = 0xb7; //6232
+  64      =1  
+  65      =1  
+  66      =1  
+  67      =1  sfr IP          = 0xb8; 
+  68      =1  sfr LVDCON      = 0xb9; 
+  69      =1  sfr CPCON      = 0xbA;  //0032
+  70      =1  sfr CPCFG      = 0xbB;  //0032
+  71      =1  sfr CPFLG      = 0xbC;  //0032
+  72      =1  sfr ATGCON      = 0xbd;
+  73      =1  sfr ATGDLY      = 0xbe;
+  74      =1  sfr ADCBGP      = 0xbf;
+  75      =1  
+  76      =1  sfr ADCON       = 0xc0; //6232
+  77      =1  sfr ADCFG       = 0xc1; //6232
+  78      =1  sfr ADCHS       = 0xc2; //6232  
+  79      =1  sfr ADCDL       = 0xc3; //6232
+  80      =1  sfr ADCDH       = 0xc4; //6232  
+  81      =1  sfr ADCPC       = 0xc5; //6232
+  82      =1  sfr ADCPDL      = 0xc6; //6232  
+  83      =1  sfr ADCPDH      = 0xc7; //6232
+  84      =1  
+  85      =1  sfr T2CON       = 0xc8;
+  86      =1  sfr T2MOD       = 0xc9;
+  87      =1  sfr T2CL        = 0xca;
+  88      =1  sfr T2CH        = 0xcb;
+  89      =1  sfr TL2         = 0xcc;
+  90      =1  sfr TH2         = 0xcd;
+  91      =1  sfr SCMCON      = 0xce; //6232  
+  92      =1  sfr SCMFLG      = 0xcf; //6232
+  93      =1  
+  94      =1  sfr PSW         = 0xd0;
+  95      =1  sfr WKTCON      = 0xd1; //0032不同6652
+  96      =1  sfr WKTSS      = 0xd2;  //0032不同6652
+  97      =1  sfr OPCON      = 0xd3;  //6552不同6652
+  98      =1  sfr OPCFG      = 0xd4;  //6552不同6652
+  99      =1  
+ 100      =1  sfr MDUIDX      = 0xd5;  //6652
+ 101      =1  sfr MDUCON      = 0xd6;  //6652
+ 102      =1  sfr MDUDAT      = 0xd7;  //6652
+ 103      =1  
+ 104      =1  
+ 105      =1  
+ 106      =1  sfr EPIE        = 0xd8;
+ 107      =1  sfr EPIF        = 0xd9;
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 3   
+
+ 108      =1  sfr EP0CON      = 0xda;
+ 109      =1  sfr EP1CON      = 0xdb;
+ 110      =1  sfr EP2CON      = 0xdc;  //6232
+ 111      =1  sfr EP3CON      = 0xdd;  //6232
+ 112      =1  sfr EP4CON      = 0xdE;  //6652
+ 113      =1  
+ 114      =1  sfr ACC         = 0xe0;
+ 115      =1  sfr SPCON       = 0xe1; //6232  
+ 116      =1  sfr SPDAT       = 0xe2; //6232  
+ 117      =1  sfr SPFLG       = 0xe3; //6232
+ 118      =1  sfr PCOMS       = 0xE4;
+ 119      =1  sfr PDRVS       = 0xE5;
+ 120      =1  
+ 121      =1  sfr LXCON       = 0xE4;         //6552
+ 122      =1  sfr LXCFG       = 0xE5;     //6552
+ 123      =1  sfr LXDIVL      = 0xe6;         //6552
+ 124      =1  sfr LXDIVH      = 0xe7;         //6552
+ 125      =1  
+ 126      =1  sfr EXIE        = 0xe8; //6232  
+ 127      =1  sfr TKMXF0      = 0xe9;
+ 128      =1  sfr TKMXF1      = 0xea;
+ 129      =1  sfr TKMNF0      = 0xec;
+ 130      =1  sfr TKMNF1      = 0xed;
+ 131      =1  
+ 132      =1  sfr B           = 0xf0;
+ 133      =1  sfr TKCON       = 0xf1;
+ 134      =1  sfr TKCFG0      = 0xf2;
+ 135      =1  sfr TKCFG1      = 0xf3;
+ 136      =1  sfr TKNUM       = 0xf4;
+ 137      =1  sfr TKFLG0      = 0xf5;
+ 138      =1  sfr TKFLG1      = 0xf6;
+ 139      =1  
+ 140      =1  sfr EXIP        = 0xf8; //6232  
+ 141      =1  sfr PWCON       = 0xf9;
+ 142      =1  sfr IT0CON      = 0xfa;
+ 143      =1  sfr IT1CON      = 0xfb;
+ 144      =1  sfr IDLFL        = 0xfc;
+ 145      =1  sfr IDLFH        = 0xfd;        //6232  
+ 146      =1  sfr STPF        = 0xfe;
+ 147      =1  
+ 148      =1  
+ 149      =1  extern xdata unsigned char P00F    ;
+ 150      =1  extern xdata unsigned char P01F    ;
+ 151      =1  extern xdata unsigned char P02F    ;     //6552
+ 152      =1  extern xdata unsigned char P03F    ;     //6552
+ 153      =1  extern xdata unsigned char P04F    ;     //6552
+ 154      =1  extern xdata unsigned char P05F    ;     //6552
+ 155      =1  extern xdata unsigned char P06F    ;     //6552
+ 156      =1  extern xdata unsigned char P07F    ;     //6552
+ 157      =1  
+ 158      =1  extern xdata unsigned char P10F    ;
+ 159      =1  extern xdata unsigned char P11F    ;
+ 160      =1  extern xdata unsigned char P12F    ;
+ 161      =1  extern xdata unsigned char P13F    ;
+ 162      =1  extern xdata unsigned char P14F    ;
+ 163      =1  extern xdata unsigned char P15F    ;
+ 164      =1  extern xdata unsigned char P16F    ;
+ 165      =1  extern xdata unsigned char P17F    ;
+ 166      =1  extern xdata unsigned char P20F    ;     //6552
+ 167      =1  extern xdata unsigned char P21F    ;     //6552
+ 168      =1  
+ 169      =1  extern xdata unsigned char P22F;         //6652
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 4   
+
+ 170      =1  extern xdata unsigned char P23F;         //6652
+ 171      =1  extern xdata unsigned char P24F;         //6652
+ 172      =1  extern xdata unsigned char P25F;         //6652
+ 173      =1  extern xdata unsigned char P26F;         //6652
+ 174      =1  extern xdata unsigned char P27F;         //6652
+ 175      =1  
+ 176      =1  
+ 177      =1  extern xdata unsigned char P30F    ;
+ 178      =1  extern xdata unsigned char P31F    ;
+ 179      =1  extern xdata unsigned char P32F    ;
+ 180      =1  extern xdata unsigned char P33F    ;
+ 181      =1  extern xdata unsigned char P34F    ;
+ 182      =1  extern xdata unsigned char P35F    ;
+ 183      =1  extern xdata unsigned char P36F    ;    //6232
+ 184      =1  extern xdata unsigned char P37F    ;    //6232
+ 185      =1  
+ 186      =1  extern xdata unsigned char P40F;         //6652
+ 187      =1  extern xdata unsigned char P41F;         //6652
+ 188      =1  extern xdata unsigned char P42F;         //6652
+ 189      =1  extern xdata unsigned char P43F;         //6652
+ 190      =1  extern xdata unsigned char P44F;         //6652
+ 191      =1  extern xdata unsigned char P45F;         //6652
+ 192      =1  extern xdata unsigned char P46F;         //6652
+ 193      =1  extern xdata unsigned char P47F;         //6652
+ 194      =1  
+ 195      =1  extern xdata unsigned char P50F;        //6652
+ 196      =1  extern xdata unsigned char P51F;    //6652
+ 197      =1  extern xdata unsigned char P52F;    //6652
+ 198      =1  extern xdata unsigned char P53F;    //6652
+ 199      =1  extern xdata unsigned char P54F;    //6652
+ 200      =1  extern xdata unsigned char P55F;    //6652
+ 201      =1  
+ 202      =1  extern xdata unsigned char T4CON        ; //6652
+ 203      =1  extern xdata unsigned char T4MOD        ; //6652
+ 204      =1  extern xdata unsigned char T4RL     ; //6652
+ 205      =1  extern xdata unsigned char T4RH     ; //6652
+ 206      =1  extern xdata unsigned char T4CL     ; //6652
+ 207      =1  extern xdata unsigned char T4CH     ; //6652
+ 208      =1  extern xdata unsigned char TL4      ;   //6652
+ 209      =1  extern xdata unsigned char TH4      ;   //6652
+ 210      =1  
+ 211      =1  //xdata unsigned char PWMEN     _at_ 0x8040;    //不同
+ 212      =1  //xdata unsigned char PWMIE       _at_ 0x8042;
+ 213      =1  //xdata unsigned char PWMFLG      _at_ 0x8044;
+ 214      =1  
+ 215      =1  extern xdata unsigned char PWMRUN       ;        //6652
+ 216      =1  extern xdata unsigned char PWMCLR       ;        //6652
+ 217      =1  extern xdata unsigned char PWMUPD       ;        //6652
+ 218      =1  extern xdata unsigned char PWMFLG0      ;        //6652
+ 219      =1  extern xdata unsigned char PWMFLG1      ;        //6652
+ 220      =1  
+ 221      =1  extern xdata unsigned char PMSCON       ; //6652
+ 222      =1  extern xdata unsigned char PMSDAL       ; //6652
+ 223      =1  extern xdata unsigned char PMSDAH       ; //6652
+ 224      =1  extern xdata unsigned char PMSDBL       ; //6652
+ 225      =1  extern xdata unsigned char PMSDBH       ; //6652
+ 226      =1  
+ 227      =1  
+ 228      =1  
+ 229      =1  extern xdata unsigned char PWM0CFG      ;
+ 230      =1  extern xdata unsigned char PWM0PS       ;       //6232
+ 231      =1  extern xdata unsigned char PWM0DUTL     ;
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 5   
+
+ 232      =1  extern xdata unsigned char PWM0DUTH     ;
+ 233      =1  extern xdata unsigned char PWM0DIVL     ;
+ 234      =1  extern xdata unsigned char PWM0DIVH     ;
+ 235      =1  extern xdata unsigned char PWM1CFG;     //6652
+ 236      =1  extern xdata unsigned char PWM1PS       ;       //6232
+ 237      =1  extern xdata unsigned char PWM1DUTL     ;
+ 238      =1  extern xdata unsigned char PWM1DUTH     ;
+ 239      =1  extern xdata unsigned char PWM1DIVL     ;
+ 240      =1  extern xdata unsigned char PWM1DIVH     ;
+ 241      =1  
+ 242      =1  extern xdata unsigned char PWM2CFG      ;
+ 243      =1  extern xdata unsigned char PWM2PS       ;       //6232
+ 244      =1  extern xdata unsigned char PWM2DUTL     ;
+ 245      =1  extern xdata unsigned char PWM2DUTH     ;
+ 246      =1  extern xdata unsigned char PWM2DIVL     ;
+ 247      =1  extern xdata unsigned char PWM2DIVH     ;
+ 248      =1  extern xdata unsigned char PWM3CFG  ;   //6652
+ 249      =1  extern xdata unsigned char PWM3PS       ;       //6232
+ 250      =1  extern xdata unsigned char PWM3DUTL     ;
+ 251      =1  extern xdata unsigned char PWM3DUTH     ;
+ 252      =1  extern xdata unsigned char PWM3DIVL     ;
+ 253      =1  extern xdata unsigned char PWM3DIVH     ;
+ 254      =1  
+ 255      =1  extern xdata unsigned char PWM4CFG      ;
+ 256      =1  extern xdata unsigned char PWM4PS       ;       //6232
+ 257      =1  extern xdata unsigned char PWM4DUTL     ;
+ 258      =1  extern xdata unsigned char PWM4DUTH     ;
+ 259      =1  extern xdata unsigned char PWM4DIVL     ;
+ 260      =1  extern xdata unsigned char PWM4DIVH     ;
+ 261      =1  extern xdata unsigned char PWM5CFG  ;   //6652
+ 262      =1  extern xdata unsigned char PWM5PS       ;       //6232
+ 263      =1  extern xdata unsigned char PWM5DUTL     ;
+ 264      =1  extern xdata unsigned char PWM5DUTH     ;
+ 265      =1  extern xdata unsigned char PWM5DIVL     ;
+ 266      =1  extern xdata unsigned char PWM5DIVH     ;
+ 267      =1  
+ 268      =1  
+ 269      =1  extern xdata unsigned char PWM6CFG      ;       //6232  
+ 270      =1  extern xdata unsigned char PWM6PS       ;       //6232  
+ 271      =1  extern xdata unsigned char PWM6DUTL     ;       //6232
+ 272      =1  extern xdata unsigned char PWM6DUTH     ;       //6232
+ 273      =1  extern xdata unsigned char PWM6DIVL     ;       //6232
+ 274      =1  extern xdata unsigned char PWM6DIVH     ;       //6232
+ 275      =1  //extern xdata unsigned char PWM7CFG ;  //6652 待定 无
+ 276      =1  extern xdata unsigned char PWM7PS       ;       //6232
+ 277      =1  extern xdata unsigned char PWM7DUTL     ;       //6232
+ 278      =1  extern xdata unsigned char PWM7DUTH ;   //6232
+ 279      =1  extern xdata unsigned char PWM7DIVL ;   //6232
+ 280      =1  extern xdata unsigned char PWM7DIVH ;   //6232
+ 281      =1  
+ 282      =1  extern xdata unsigned char FBCON        ;       //6652  
+ 283      =1  extern xdata unsigned char FBDAT        ;       //6652
+ 284      =1  extern xdata unsigned char FBFLG        ;       //6652
+ 285      =1  extern xdata unsigned char PMCON        ;       //6652
+ 286      =1  extern xdata unsigned char PMDAT        ;       //6652
+ 287      =1  
+ 288      =1  extern xdata unsigned char PIMOD        ;       //6232
+ 289      =1  extern xdata unsigned char P0IMSK       ;       //6232
+ 290      =1  extern xdata unsigned char P1IMSK       ;       //6232
+ 291      =1  extern xdata unsigned char P2IMSK       ;       //6552
+ 292      =1  extern xdata unsigned char P3IMSK       ;       //6232
+ 293      =1  extern xdata unsigned char P4IMSK       ;       //6652
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 6   
+
+ 294      =1  extern xdata unsigned char P5IMSK       ;       //6652
+ 295      =1  
+ 296      =1  extern xdata unsigned char BZCON        ;       //6232
+ 297      =1  extern xdata unsigned char BZPSC        ;       //6232
+ 298      =1  extern xdata unsigned char BZDUT        ;       //6232
+ 299      =1  extern xdata unsigned char BZDIV        ;       //6232
+ 300      =1  
+ 301      =1  extern xdata unsigned char TKPCS0        ;
+ 302      =1  extern xdata unsigned char TKPCS1        ;
+ 303      =1  extern xdata unsigned char TKPCS2        ;
+ 304      =1  extern xdata unsigned char TKPCS3        ;      //6232
+ 305      =1  extern xdata unsigned char TKPCS4        ;      //6552
+ 306      =1  extern xdata unsigned char TKPCS5        ;      //6552
+ 307      =1  extern xdata unsigned char TKPCS6        ;      //6652
+ 308      =1  extern xdata unsigned char TKPCS7        ;      //6652
+ 309      =1  
+ 310      =1  extern xdata unsigned char TK0MXL   ;
+ 311      =1  extern xdata unsigned char TK0MXH   ;
+ 312      =1  extern xdata unsigned char TK1MXL   ;
+ 313      =1  extern xdata unsigned char TK1MXH   ;
+ 314      =1  extern xdata unsigned char TK2MXL   ;
+ 315      =1  extern xdata unsigned char TK2MXH   ;
+ 316      =1  extern xdata unsigned char TK3MXL   ;
+ 317      =1  extern xdata unsigned char TK3MXH   ;
+ 318      =1  extern xdata unsigned char TK4MXL   ;
+ 319      =1  extern xdata unsigned char TK4MXH   ;
+ 320      =1  extern xdata unsigned char TK5MXL   ;
+ 321      =1  extern xdata unsigned char TK5MXH   ;
+ 322      =1  extern xdata unsigned char TK6MXL   ;
+ 323      =1  extern xdata unsigned char TK6MXH   ;
+ 324      =1  extern xdata unsigned char TK7MXL   ;
+ 325      =1  extern xdata unsigned char TK7MXH   ;
+ 326      =1  extern xdata unsigned char TK8MXL   ;
+ 327      =1  extern xdata unsigned char TK8MXH   ;
+ 328      =1  extern xdata unsigned char TK9MXL   ;
+ 329      =1  extern xdata unsigned char TK9MXH   ;
+ 330      =1  extern xdata unsigned char TK10MXL  ;
+ 331      =1  extern xdata unsigned char TK10MXH  ;
+ 332      =1  extern xdata unsigned char TK11MXL  ;
+ 333      =1  extern xdata unsigned char TK11MXH  ;
+ 334      =1  
+ 335      =1  extern xdata unsigned char TK0MNL       ;
+ 336      =1  extern xdata unsigned char TK0MNH       ;
+ 337      =1  extern xdata unsigned char TK1MNL       ;
+ 338      =1  extern xdata unsigned char TK1MNH       ;
+ 339      =1  extern xdata unsigned char TK2MNL       ;
+ 340      =1  extern xdata unsigned char TK2MNH       ;
+ 341      =1  extern xdata unsigned char TK3MNL       ;
+ 342      =1  extern xdata unsigned char TK3MNH       ;
+ 343      =1  extern xdata unsigned char TK4MNL       ;
+ 344      =1  extern xdata unsigned char TK4MNH       ;
+ 345      =1  extern xdata unsigned char TK5MNL       ;
+ 346      =1  extern xdata unsigned char TK5MNH       ;
+ 347      =1  extern xdata unsigned char TK6MNL       ;
+ 348      =1  extern xdata unsigned char TK6MNH       ;
+ 349      =1  extern xdata unsigned char TK7MNL       ;
+ 350      =1  extern xdata unsigned char TK7MNH       ;
+ 351      =1  extern xdata unsigned char TK8MNL       ;
+ 352      =1  extern xdata unsigned char TK8MNH       ;
+ 353      =1  extern xdata unsigned char TK9MNL       ;
+ 354      =1  extern xdata unsigned char TK9MNH       ;
+ 355      =1  extern xdata unsigned char TK10MNL      ;
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 7   
+
+ 356      =1  extern xdata unsigned char TK10MNH      ;
+ 357      =1  extern xdata unsigned char TK11MNL      ;
+ 358      =1  extern xdata unsigned char TK11MNH      ;
+ 359      =1  
+ 360      =1  extern xdata unsigned char TK0MSL  ;
+ 361      =1  extern xdata unsigned char TK0MSH  ;
+ 362      =1  extern xdata unsigned char TK1MSL  ;
+ 363      =1  extern xdata unsigned char TK1MSH  ;
+ 364      =1  extern xdata unsigned char TK2MSL  ;
+ 365      =1  extern xdata unsigned char TK2MSH  ;
+ 366      =1  extern xdata unsigned char TK3MSL  ;
+ 367      =1  extern xdata unsigned char TK3MSH  ;
+ 368      =1  extern xdata unsigned char TK4MSL  ;
+ 369      =1  extern xdata unsigned char TK4MSH  ;
+ 370      =1  extern xdata unsigned char TK5MSL  ;
+ 371      =1  extern xdata unsigned char TK5MSH  ;
+ 372      =1  extern xdata unsigned char TK6MSL  ;
+ 373      =1  extern xdata unsigned char TK6MSH  ;
+ 374      =1  extern xdata unsigned char TK7MSL  ;
+ 375      =1  extern xdata unsigned char TK7MSH  ;
+ 376      =1  extern xdata unsigned char TK8MSL  ;
+ 377      =1  extern xdata unsigned char TK8MSH  ;
+ 378      =1  extern xdata unsigned char TK9MSL  ;
+ 379      =1  extern xdata unsigned char TK9MSH  ;
+ 380      =1  extern xdata unsigned char TK10MSL ;
+ 381      =1  extern xdata unsigned char TK10MSH ;
+ 382      =1  extern xdata unsigned char TK11MSL ;
+ 383      =1  extern xdata unsigned char TK11MSH ;
+ 384      =1  
+ 385      =1  
+ 386      =1  
+ 387      =1  extern xdata unsigned char TK0PS        ;       //6232
+ 388      =1  extern xdata unsigned char TK1PS        ;       //6232
+ 389      =1  extern xdata unsigned char TK2PS        ;       //6232
+ 390      =1  extern xdata unsigned char TK3PS        ;       //6232
+ 391      =1  extern xdata unsigned char TK4PS        ;       //6232
+ 392      =1  extern xdata unsigned char TK5PS        ;       //6232
+ 393      =1  extern xdata unsigned char TK6PS        ;       //6232
+ 394      =1  extern xdata unsigned char TK7PS        ;       //6232
+ 395      =1  extern xdata unsigned char TK8PS        ;       //6232
+ 396      =1  extern xdata unsigned char TK9PS        ;       //6232
+ 397      =1  extern xdata unsigned char TK10PS       ;       //6232
+ 398      =1  extern xdata unsigned char TK11PS       ;       //6232
+ 399      =1  
+ 400      =1  extern xdata unsigned char LXDAT00      ;       //6552
+ 401      =1  extern xdata unsigned char LXDAT01      ;       //6552
+ 402      =1  extern xdata unsigned char LXDAT02      ;       //6552
+ 403      =1  extern xdata unsigned char LXDAT03      ;       //6552
+ 404      =1  extern xdata unsigned char LXDAT04      ;       //6552
+ 405      =1  extern xdata unsigned char LXDAT05      ;       //6552
+ 406      =1  extern xdata unsigned char LXDAT06      ;       //6552
+ 407      =1  extern xdata unsigned char LXDAT07      ;       //6552
+ 408      =1  extern xdata unsigned char LXDAT08      ;       //6552
+ 409      =1  extern xdata unsigned char LXDAT09      ;       //6552
+ 410      =1  extern xdata unsigned char LXDAT10      ;       //6552
+ 411      =1  extern xdata unsigned char LXDAT11      ;       //6552
+ 412      =1  extern xdata unsigned char LXDAT12      ;       //6552
+ 413      =1  extern xdata unsigned char LXDAT13      ;       //6552
+ 414      =1  extern xdata unsigned char LXDAT14      ;       //6552
+ 415      =1  extern xdata unsigned char LXDAT15      ;       //6552
+ 416      =1  extern xdata unsigned char LXDAT16      ;       //6552
+ 417      =1  extern xdata unsigned char LXDAT17      ;       //6552
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 8   
+
+ 418      =1  extern xdata unsigned char LXDAT18      ;       //6552
+ 419      =1  
+ 420      =1  
+ 421      =1  extern xdata unsigned char LXDAT19      ;       //6652
+ 422      =1  extern xdata unsigned char LXDAT20      ;       //6652
+ 423      =1  extern xdata unsigned char LXDAT21      ;       //6652
+ 424      =1  extern xdata unsigned char LXDAT22      ;       //6652
+ 425      =1  extern xdata unsigned char LXDAT23      ;       //6652
+ 426      =1  extern xdata unsigned char LXDAT24      ;       //6652
+ 427      =1  extern xdata unsigned char LXDAT25      ;       //6652
+ 428      =1  extern xdata unsigned char LXDAT26      ;       //6652
+ 429      =1  extern xdata unsigned char LXDAT27      ;       //6652
+ 430      =1  
+ 431      =1  extern xdata unsigned char RTCCON       ;       //6652
+ 432      =1  extern xdata unsigned char RTCFLG       ;       //6652
+ 433      =1  extern xdata unsigned char RTCSS        ;       //6652
+ 434      =1  extern xdata unsigned char RTCS ;       //6652
+ 435      =1  extern xdata unsigned char RTCM ;       //6652
+ 436      =1  extern xdata unsigned char RTCH ;       //6652
+ 437      =1  extern xdata unsigned char RTMSS        ;       //6652
+ 438      =1  extern xdata unsigned char RTCDL        ;       //6652
+ 439      =1  extern xdata unsigned char RTCDH        ;       //6652
+ 440      =1  extern xdata unsigned char RTAS ;       //6652
+ 441      =1  extern xdata unsigned char RTAM ;       //6652
+ 442      =1  extern xdata unsigned char RTAH ;       //6652
+ 443      =1  
+ 444      =1  
+ 445      =1  
+ 446      =1  extern xdata unsigned char LSCON        ;
+ 447      =1  extern xdata unsigned char LSCFG        ;
+ 448      =1  extern xdata unsigned char LSDTM0       ;
+ 449      =1  extern xdata unsigned char LSDTM1       ;
+ 450      =1  extern xdata unsigned char LSPTM0       ;
+ 451      =1  extern xdata unsigned char LSPTM1       ;
+ 452      =1  extern xdata unsigned char LSCOM        ;
+ 453      =1  
+ 454      =1  extern xdata unsigned char LSPE0        ;
+ 455      =1  extern xdata unsigned char LSPE1        ;
+ 456      =1  extern xdata unsigned char LSPE2        ;       //6552
+ 457      =1  extern xdata unsigned char LSPE3        ;       //6652
+ 458      =1  
+ 459      =1  extern xdata unsigned char LSDAT0       ;
+ 460      =1  extern xdata unsigned char LSDAT1       ;
+ 461      =1  extern xdata unsigned char LSDAT2   ;   //6552  
+ 462      =1  extern xdata unsigned char LSDAT3       ;       //6652
+ 463      =1  
+ 464      =1  extern xdata unsigned char MECON        ;
+ 465      =1  extern xdata unsigned char FSCMD        ;
+ 466      =1  extern xdata unsigned char BTMSK        ;
+ 467      =1  extern xdata unsigned char FSDAT        ;
+ 468      =1  extern xdata unsigned char FSFLG        ;
+ 469      =1  extern xdata unsigned char PADR         ;
+ 470      =1  extern xdata unsigned char FSADRL       ;
+ 471      =1  extern xdata unsigned char FSADRH       ;
+ 472      =1  
+ 473      =1  extern xdata unsigned char CKSUML       ;
+ 474      =1  extern xdata unsigned char CKSUMH       ;
+ 475      =1  extern xdata unsigned char IDCODE0      ;
+ 476      =1  extern xdata unsigned char IDCODE1      ;
+ 477      =1  extern xdata unsigned char IDCODE2      ;
+ 478      =1  
+ 479      =1  extern xdata unsigned char CHIPIDL      ;
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 9   
+
+ 480      =1  extern xdata unsigned char CHIPIDH      ;
+ 481      =1  
+ 482      =1  
+ 483      =1  extern xdata unsigned char SPMAX          ;     //6232
+ 484      =1  
+ 485      =1  sbit P00 = P0^0;        //6232
+ 486      =1  sbit P01 = P0^1;        //6232
+ 487      =1  sbit P02 = P0^2;        //6552
+ 488      =1  sbit P03 = P0^3;        //6552
+ 489      =1  sbit P04 = P0^4;        //6552
+ 490      =1  sbit P05 = P0^5;        //6552
+ 491      =1  sbit P06 = P0^6;        //6552
+ 492      =1  sbit P07 = P0^7;        //6552
+ 493      =1    
+ 494      =1  sbit P20 = P2^0;        //6552
+ 495      =1  sbit P21 = P2^1;        //6552
+ 496      =1  sbit P22 = P2^2;        //6652
+ 497      =1  sbit P23 = P2^3;        //6652
+ 498      =1  sbit P24 = P2^4;        //6652
+ 499      =1  sbit P25 = P2^5;        //6652
+ 500      =1  sbit P26 = P2^6;        //6652
+ 501      =1  sbit P27 = P2^7;        //6652
+ 502      =1  
+ 503      =1  sbit P10 = P1^0;
+ 504      =1  sbit P11 = P1^1;
+ 505      =1  sbit P12 = P1^2;
+ 506      =1  sbit P13 = P1^3;
+ 507      =1  sbit P14 = P1^4;
+ 508      =1  sbit P15 = P1^5;
+ 509      =1  sbit P16 = P1^6;
+ 510      =1  sbit P17 = P1^7;
+ 511      =1  
+ 512      =1  sbit P30 = P3^0;
+ 513      =1  sbit P31 = P3^1;
+ 514      =1  sbit P32 = P3^2;
+ 515      =1  sbit P33 = P3^3;
+ 516      =1  sbit P34 = P3^4;
+ 517      =1  sbit P35 = P3^5;
+ 518      =1  sbit P36 = P3^6;        //6232
+ 519      =1  sbit P37 = P3^7;        //6232
+ 520      =1  
+ 521      =1  /* 中断优先级寄存器 IP (B8H) */
+ 522      =1  sbit PX3 = IP^6;                /* INT4 优先级控制位，用于 Touch Key/WDT/LVD/WKT/EP1 中断 */
+ 523      =1  sbit PX2 = IP^5;                /* INT3 优先级控制位， 用于 IIC/Timer2/PWM/EP0 中断 */
+ 524      =1  sbit PS0 = IP^4;                /* INT2 优先级控制位，用于 UART0 中断 */
+ 525      =1  sbit PT1 = IP^3;                /* Timer 1 优先级控制位 */
+ 526      =1  sbit PX1 = IP^2;                /* INT1 优先级控制位 */
+ 527      =1  sbit PT0 = IP^1;                /* Timer 0 优先级控制位 */
+ 528      =1  sbit PX0 = IP^0;                /* INT0 优先级控制位 */
+ 529      =1  
+ 530      =1  /* 中断优先级寄存器 EXIP (F8H) */
+ 531      =1  sbit PX6 = EXIP^2;              /* INT6 优先级控制位，用于 RTC/UART2/Timer 4/EP4 中断 */
+ 532      =1  sbit PX5 = EXIP^1;              /* INT5 优先级控制位，用于 ADC/SPI/Timer 4/SCM/EP3 中断 */
+ 533      =1  sbit PX4 = EXIP^0;              /* INT4 优先级控制位，用于 CMP/UART1/Timer 3/EP2 中断 */
+ 534      =1  
+ 535      =1  /* 中断使能寄存器 IE (A8H) */
+ 536      =1  sbit EA =        IE^7;          /* 全局中断使能控制位 */
+ 537      =1  sbit EINT3 = IE^6;              /* 用于 Touch Key/WDT/LVD/WKT/EP1 中断 */
+ 538      =1  sbit EINT2 = IE^5;              /* 用于 IIC/Timer2/PWM/EP0 中断 */
+ 539      =1  sbit ES0 = IE^4;                /* UART0 中断 */
+ 540      =1  sbit ET1 =       IE^3;          /* 定时器 1 中断使能控制位 */
+ 541      =1  sbit EINT1 = IE^2;              /* 中断 1 使能控制位（中断 1 用于外部中断 1） */
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 10  
+
+ 542      =1  sbit ET0 =       IE^1;          /* 定时器 0 中断使能控制位 */
+ 543      =1  sbit EINT0 = IE^0;              /* 0 使能控制位（中断 0 用于外部中断 0） */
+ 544      =1  
+ 545      =1  /* 中断使能寄存器 EXIE (E8H) */
+ 546      =1  sbit EINT6 = EXIE^2;            /* INT7 中断使能控制位，用于 RTC/UART2/Timer 4/EP4 中断 */      //6652
+ 547      =1  sbit EINT5 = EXIE^1;            /* INT5 中断使能控制位，用于 ADC/SPI/SCM/EP3 中断 */
+ 548      =1  sbit EINT4 = EXIE^0;            /* INT4 使能控制位，用于 UART1/Timer3/EP2 中断 */
+ 549      =1  
+ 550      =1  /* 外部中断使能寄存器 EPIE (D8H) */
+ 551      =1  sbit EP3IE = EPIE^3;            /* EP3 中断使能信号 */
+ 552      =1  sbit EP2IE = EPIE^2;            /* EP2 中断使能信号 */
+ 553      =1  sbit EP1IE = EPIE^1;            /* EP1 中断使能信号 */
+ 554      =1  sbit EP0IE = EPIE^0;            /* EP0 中断使能信号 */
+ 555      =1  
+ 556      =1  /* 串口UART0寄存器 S0CON (98H) */
+ 557      =1  sbit SM00 = S0CON^7;    /* 串口 0 模式选择位， */
+ 558      =1  sbit SM10 = S0CON^6;    /* 串口 0 模式选择位， */
+ 559      =1  sbit SM20 = S0CON^5;    /* 多机通信使能位， 1 有效 */
+ 560      =1  sbit REN0 = S0CON^4;    /* 串行接收使能位， 1 有效 */
+ 561      =1  sbit TB80 = S0CON^3;    /* 发送的第 9 位数据 */
+ 562      =1  sbit RB80 = S0CON^2;    /* 接收的第 9 位数据 */
+ 563      =1  sbit TI0 =      S0CON^1;        /* 发送中断标志， 1 有效，写 0 清除 */
+ 564      =1  sbit RI0 =  S0CON^0;    /* 接收中断标志， 1 有效，写 0 清除 */
+ 565      =1  
+ 566      =1  /* 定时器0/1 TCON (88H) */
+ 567      =1  sbit TF1 = TCON^7;              /* 定时器 0 模式 3 的 TH0 溢出/定时器 1 溢出标志位，中断被响应后自动清 0. */
+ 568      =1  sbit TR1 = TCON^6;              /* 定时器 1 运行控制位， 1 有效 */
+ 569      =1  sbit TF0 = TCON^5;              /* 定时器 0 溢出标志位，中断被响应后自动清 0 */
+ 570      =1  sbit TR0 = TCON^4;              /* 定时器 0 运行控制位， 1 有效 */
+ 571      =1  sbit IE1 = TCON^3;              /* 外部中断 1 使能位， 1 有效 */
+ 572      =1  sbit IT1 = TCON^2;              /* 外部中断 1 触发类型控制位 */
+ 573      =1  sbit IE0 = TCON^1;              /* 外部中断 0 使能位， 1 有效 */
+ 574      =1  sbit IT0 = TCON^0;              /* 外部中断 0 触发类型控制位 */
+ 575      =1  
+ 576      =1  /* 定时器2 T2CON (C8H) */
+ 577      =1  sbit TF2 =   T2CON^7;           /* 定时器 2 溢出标志位。 当 RCLK 或 TCLK 为 1， TF2 不会被置 1 */
+ 578      =1  sbit EXF2 =  T2CON^6;           /* T2EX 触发标志。 */
+ 579      =1  sbit RCLK =  T2CON^5;           /* UART0 在模式 1 和 3 时使用定时器 1/2 作为接收波特率时钟 */
+ 580      =1  sbit TCLK =  T2CON^4;           /* UART0 在模式 1 和 3 时使用定时器 1/2 作为发送波特率时钟 */
+ 581      =1  sbit EXEN2 = T2CON^3;           /* T2EX 使能信号，在定时器没有作为 UART0 时钟时 T2EX 有效 */
+ 582      =1  sbit TR2 =   T2CON^2;           /* 定时器 2 启动信号， 1 有效 */
+ 583      =1  sbit CT2 =   T2CON^1;           /* 定时功能或计数功能选择信号 */
+ 584      =1  sbit CPRL2 = T2CON^0;           /* 抓取或重载功能选择信号。当 RCLK 或 TCLK 为 1 时，定时器强制进入 Timer 2 重载模式
+             - */
+ 585      =1  
+ 586      =1  /* 模数转换器 ADCON (C0H) */
+ 587      =1  sbit ADST =  ADCON^7;           /* ADC 转换开始控制位，写 1 启动转换，转换后硬件自动清 0 */
+ 588      =1  sbit ADIE =  ADCON^6;           /* ADC 中断使能位 */
+ 589      =1  sbit ADCF =  ADCON^0;           /* ADC 采样完成标志 */
+ 590      =1  
+ 591      =1  
+ 592      =1  /* 串口UART1 寄存器S1CON (9BH) 不可位寻址 */
+ 593      =1  #define SM11    0x80            /* 工作模式选择 */
+ 594      =1  #define IE1     0x40            /* 中断使能， 1 有效 */
+ 595      =1  #define SM21    0x20            /* 多机通信使能位， 1 有效 */
+ 596      =1  #define REN1    0x10            /* 串行接收使能位， 1 有效 */
+ 597      =1  #define TB81    0x08            /* 发送的第 9 位数据 */
+ 598      =1  #define RB81    0x04            /* 接收的第 9 位数据 */
+ 599      =1  #define TI1     0x02            /* 发送中断标志， 1 有效，写 0 清除 */
+ 600      =1  #define RI1     0x01            /* 接收中断标志， 1 有效，写 0 清除 */
+ 601      =1  
+ 602      =1  #define ROR_8BIT(X,Y) ((X<<(8-Y))|(X>>Y))
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 11  
+
+ 603      =1  #define ROL_8BIT(X,Y) ((X>>(8-Y))|(X<<Y)) 
+ 604      =1  
+ 605      =1  typedef         unsigned char   u8;
+ 606      =1  typedef         unsigned int    u16;
+ 607      =1  typedef         unsigned long   u32;
+ 608      =1  typedef     unsigned char   uint8_t;
+ 609      =1  typedef     unsigned int    uint16_t;
+ 610      =1  typedef     unsigned long   uint32_t;
+ 611      =1  
+ 612      =1  typedef     signed char     int8_t;
+ 613      =1  typedef     signed int      int16_t;
+ 614      =1  typedef     signed long     int32_t;
+ 615      =1  
+ 616      =1  #endif
+   9          #include "Inner_NVR.h"
+   1      =1  #ifndef __INNER_NVR_H
+   2      =1  #define __INNER_NVR_H
+   3      =1  
+   4      =1  //
+   5      =1  #define SECTOR_SIZE 128
+   6      =1  
+   7      =1  #define NVR1_START_ADDR 0X00    //NVR1扇区首地址
+   8      =1  #define NVR2_START_ADDR 0X80    //NVR2扇区首地址
+   9      =1  #define NVR3_START_ADDR 0X100   //NVR3扇区首地址
+  10      =1  #define NVR4_START_ADDR 0X180   //NVR4扇区首地址
+  11      =1  #define NVR5_START_ADDR 0X200   //NVR1扇区首地址
+  12      =1  #define NVR6_START_ADDR 0X280   //NVR2扇区首地址
+  13      =1  #define NVR7_START_ADDR 0X300   //NVR3扇区首地址
+  14      =1  #define NVR8_START_ADDR 0X380   //NVR4扇区首地址
+  15      =1  #define NVR9_START_ADDR 0X400   //NVR1扇区首地址
+  16      =1  #define NVR10_START_ADDR 0X480  //NVR2扇区首地址
+  17      =1  #define NVR11_START_ADDR 0X500  //NVR3扇区首地址
+  18      =1  #define NVR12_START_ADDR 0X580  //NVR4扇区首地址
+  19      =1  #define NVR13_START_ADDR 0X600  //NVR1扇区首地址
+  20      =1  #define NVR14_START_ADDR 0X680  //NVR2扇区首地址
+  21      =1  #define NVR15_START_ADDR 0X700  //NVR3扇区首地址
+  22      =1  #define NVR16_START_ADDR 0X780  //NVR4扇区首地址
+  23      =1  
+  24      =1  #define NVR_FLASH_MARK_ENABLE_ADDR 0x10C
+  25      =1  #define NVR_FLASH_MARK_ENABLE_CMD 0xAA
+  26      =1  #define NVR_FLASH_MARK_ADDR 0x10D
+  27      =1  #define NVR_FLASH_MARK_DATA 0x80
+  28      =1  
+  29      =1  #define NVR_UNLOCK 0X78
+  30      =1  //#define NVR_WRITE 0X86
+  31      =1  #define NVR_WRITE 0X82
+  32      =1  //#define NVR_ERASE 0X87
+  33      =1  #define NVR_ERASE 0X83
+  34      =1  #define INNER_FLASH_ERASE_UN-MASK 0X04
+  35      =1  //#define NVR_BANDGAP_TRIMMING_ENABLE 0x100
+  36      =1  //#define NVR_BANDGAP_TRIMMING_AUTOLOAD_VALUE 0x101
+  37      =1  #define NVR_LOCK 0X87
+  38      =1  #define NVR_READ 0X81
+  39      =1  //#define NVR_READ 0X85
+  40      =1  
+  41      =1  void EraseNVR(unsigned short SectorAddr);
+  42      =1  void WriteDataNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len);
+  43      =1  void readDatafromNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len);
+  44      =1  void InnerFlashCodeErase(unsigned short SectorNum,unsigned short len);
+  45      =1  
+  46      =1  #endif
+  47      =1  
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 12  
+
+  10          
+  11          
+  12          
+  13          
+  14          /*****************************************************
+  15          *函数名称：void EraseNVR(unsigned short SectorAddr))
+  16          *函数功能：NVR扇区擦除 
+  17          *入口参数：SectorAddr_扇区首地址(NVR1/2/3/4_START_ADDR)
+  18          *出口参数：void
+  19          *****************************************************/
+  20          void EraseNVR(unsigned short SectorAddr)
+  21          {
+  22   1              //1  Flash unlock
+  23   1              FSFLG=NVR_UNLOCK;
+  24   1      
+  25   1              //2  write address
+  26   1              FSADRL=(SectorAddr&0xff);
+  27   1              FSADRH=((SectorAddr>>8)&0xff);
+  28   1              //3  Flash erase cmd
+  29   1              FSCMD=NVR_ERASE;
+  30   1              //4 NVR lock
+  31   1              FSFLG=NVR_LOCK;
+  32   1      }
+  33          /*****************************************************
+  34          *函数名称：void WriteDataNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len)
+  35          *函数功能：NVR扇区写
+  36          *入口参数：buf,要写入数据的指针
+  37                             SectorAddr,扇区地址
+  38                             len,写入长度
+  39          *出口参数：void
+  40          *****************************************************/
+  41          void WriteDataNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len)
+  42          {
+  43   1              unsigned char i=0;
+  44   1              //1  Flash unlock
+  45   1              FSFLG=NVR_UNLOCK;
+  46   1              //2  Flash  write cmd
+  47   1              FSCMD=NVR_WRITE;        
+  48   1              for(i=0;i<len;++i)
+  49   1              {
+  50   2                      //3  write address              
+  51   2                      FSADRL=(SectorAddr&0xff);
+  52   2                      FSADRH=((SectorAddr>>8)&0xff);
+  53   2                      SectorAddr++;
+  54   2                      //4 write data
+  55   2                      FSDAT=buf[i];
+  56   2              }
+  57   1              //4 NVR lock
+  58   1              FSFLG=NVR_LOCK;
+  59   1      }
+  60          
+  61          /*****************************************************
+  62          *函数名称：void readDatafromNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len)
+  63          *函数功能：NVR扇区读
+  64          *入口参数：buf,要保存数据的缓存
+  65                             SectorAddr,扇区地址
+  66                             len,写入长度
+  67          *出口参数：void
+  68          *****************************************************/
+  69          void readDatafromNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len)
+  70          {
+  71   1              unsigned char i=0;
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 13  
+
+  72   1              //1  read cmd
+  73   1              FSCMD=NVR_READ;
+  74   1              for(i=0;i<len;++i)
+  75   1              {
+  76   2                      //2  write address              
+  77   2                      FSADRL=(SectorAddr&0xff);
+  78   2                      FSADRH=((SectorAddr>>8)&0xff);
+  79   2                      ++SectorAddr;
+  80   2                      //3 read data
+  81   2                      buf[i]=FSDAT;
+  82   2              }
+  83   1      }
+  84             
+  85          
+  86          
+  87          
+  88          /*
+  89            0.Write 0XFF to 0X80
+  90                  1.write CODE ID TO ox81 0X82 0X83
+  91                  2.Write 32 byte 0XAA to 0XE0-0XFF
+  92                  3.Wite some code id to IDCODE register ,
+  93                                  if in a work time it error 4 times,
+  94                                  0X80(Address) will write one bit to 0
+  95                                  and MECON.2 will be 0;
+  96                                  else if the id code is right,
+  97                                  MECON.2 set 1;
+  98          
+  99          */
+ 100          
+ 101          //void testIdCode(void)
+ 102          //{
+ 103          //#define SECTOR_SIZE 128
+ 104          //      int i,j,k;
+ 105          //      unsigned char buf[SECTOR_SIZE]={0};
+ 106          //      unsigned char rbuf[SECTOR_SIZE]={0};
+ 107          //      #define INPUT_MODE   0X01
+ 108          //      #define OUTPUT_MODE  0X02
+ 109          //      
+ 110          //      P10F=OUTPUT_MODE;
+ 111          //      P11F=INPUT_MODE;
+ 112          //      P12F=INPUT_MODE;
+ 113          //      P13F=INPUT_MODE;
+ 114          //      P14F=OUTPUT_MODE;
+ 115          //      P15F=OUTPUT_MODE;
+ 116          //      P14=1;
+ 117          //      P15=1;
+ 118          //      j=MECON;
+ 119          //      
+ 120          //      
+ 121          //       
+ 122          
+ 123          
+ 124          //              
+ 125          //    
+ 126          //              
+ 127          //              
+ 128          
+ 129          //      
+ 130          //      //while(1) printf("/r/nNVR1data/r/n"),delay(100);
+ 131          //      for(i=0;i<SECTOR_SIZE;++i)
+ 132          //              printf("i=%2d,val=0X%Bx\r\n",NVR2_START_ADDR+i,rbuf[i]);
+ 133          //      
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 14  
+
+ 134          ////    for(i=0;i<10;i++)
+ 135          ////    {
+ 136          ////            IDCODE0=0xaf;
+ 137          //////          if(i==0)
+ 138          //////                  IDCODE0=0x12;
+ 139          //////          else
+ 140          //////                  IDCODE0=0x13;
+ 141          ////            IDCODE1=0X98;
+ 142          ////            IDCODE2=0X25;
+ 143          ////            j=MECON;
+ 144          ////            k++;
+ 145          ////            if(MECON &  ROL_8BIT(0X01,2))
+ 146          ////            {
+ 147          ////                    buf[0]=0x55;
+ 148          //////                  while(1){delay(1);P14=~P14;}
+ 149          //////                  WriteData2NVR(buf,0x100+i,1);
+ 150          ////            }
+ 151          ////            else
+ 152          ////            {
+ 153          ////                    buf[0]=0xbb;delay(1);
+ 154          //////                  WriteData2NVR(buf,0x100+i,1);
+ 155          ////            }
+ 156          ////    }
+ 157          //      
+ 158          //      
+ 159          //      //P00F = 0x02;
+ 160          //      while(1)
+ 161          //      {
+ 162          //      
+ 163          //              delay(1);
+ 164          //              P10 = ~P10;
+ 165          
+ 166          //      //Put down P10
+ 167          ////            if(P1 & ROL_8BIT(0X01,0))
+ 168          ////            {
+ 169          ////            
+ 170          ////                    for(i=0;i<32;++i)
+ 171          ////                    {
+ 172          ////                            buf[i]=0xAA;
+ 173          ////                            rbuf[i]=0xff;
+ 174          ////                    }
+ 175          //////                  readDatafromNVR(rbuf,0x80,1);
+ 176          ////                    EraseNVR(NVR3_START_ADDR);
+ 177          ////                    WriteData2NVR(buf,0xe0,32);
+ 178          ////                    readDatafromNVR(rbuf,0xe0,32);
+ 179          ////                    //Send_string(rbuf,32);
+ 180          ////                    j= 200;while(j--)delay(200);
+ 181          ////            }
+ 182          //              
+ 183          ////            //Put down P11
+ 184          ////            if(P1 & ROL_8BIT(0X01,1))
+ 185          ////            {
+ 186          ////            
+ 187          ////                    for(i=0;i<32;++i)
+ 188          ////                    {
+ 189          ////                            buf[i]=0x55;
+ 190          ////                            rbuf[i]=0xff;
+ 191          ////                    }
+ 192          ////                    WriteData2NVR(buf,0xe0,32);
+ 193          ////                    //readDatafromNVR(rbuf,0xe0,32);
+ 194          ////                    //Send_string(rbuf,32);
+ 195          ////                    j= 200;while(j--)delay(200);
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 15  
+
+ 196          ////            }
+ 197          //              
+ 198          ////            if(P1 & ROL_8BIT(0X01,2)){
+ 199          ////                    buf[0]=0xff;buf[1]=0x12;buf[2]=0X34;buf[3]=0X56;
+ 200          ////                    WriteData2NVR(buf,0x80,4);
+ 201          ////                    rbuf[4]=IDCODE0;
+ 202          ////                    rbuf[5]=IDCODE1;
+ 203          ////                    rbuf[6]=IDCODE2;
+ 204          ////                    //readDatafromNVR(rbuf,0x80,4);
+ 205          ////                    //Send_string(rbuf,7);
+ 206          ////                    j= 200;while(j--)delay(200);
+ 207          ////            }
+ 208          //              
+ 209          ////            if(P1 & ROL_8BIT(0X01,3)){
+ 210          ////                    buf[1]=0xff;buf[1]=0;buf[2]=0X33;buf[3]=0Xcc;
+ 211          ////                    WriteData2NVR(buf,0x81,3);
+ 212          ////                    rbuf[4]=IDCODE0;
+ 213          ////                    rbuf[5]=IDCODE1;
+ 214          ////                    rbuf[6]=IDCODE2;
+ 215          ////                    //readDatafromNVR(rbuf,0x80,4);
+ 216          ////                    //Send_string(rbuf,7);
+ 217          ////                    j= 200;while(j--)delay(200);
+ 218          ////            }
+ 219          
+ 220          //      }
+ 221          //}
+ 222                  
+ 223          
+ 224          
+ 225          
+ 226          
+ 227          /*********************************************END OF FILE**********************/
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 16  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _EraseNVR (BEGIN)
+                                           ; SOURCE LINE # 20
+;---- Variable 'SectorAddr' assigned to Register 'R4/R5' ----
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 23
+0000 900000      E     MOV     DPTR,#FSFLG
+0003 7478              MOV     A,#078H
+0005 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 26
+0006 EF                MOV     A,R7
+0007 900000      E     MOV     DPTR,#FSADRL
+000A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 27
+000B EE                MOV     A,R6
+000C 900000      E     MOV     DPTR,#FSADRH
+000F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 29
+0010 900000      E     MOV     DPTR,#FSCMD
+0013 7483              MOV     A,#083H
+0015 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 31
+0016 900000      E     MOV     DPTR,#FSFLG
+0019 7487              MOV     A,#087H
+001B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 32
+001C 22                RET     
+             ; FUNCTION _EraseNVR (END)
+
+             ; FUNCTION _WriteDataNVR (BEGIN)
+                                           ; SOURCE LINE # 41
+0000 900000      R     MOV     DPTR,#buf
+0003 EB                MOV     A,R3
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EA                MOV     A,R2
+0007 F0                MOVX    @DPTR,A
+0008 A3                INC     DPTR
+0009 E9                MOV     A,R1
+000A F0                MOVX    @DPTR,A
+000B A3                INC     DPTR
+000C EC                MOV     A,R4
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F ED                MOV     A,R5
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 42
+                                           ; SOURCE LINE # 43
+0011 E4                CLR     A
+0012 900000      R     MOV     DPTR,#i
+0015 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 45
+0016 900000      E     MOV     DPTR,#FSFLG
+0019 7478              MOV     A,#078H
+001B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 47
+001C 900000      E     MOV     DPTR,#FSCMD
+001F 7482              MOV     A,#082H
+0021 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 48
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 17  
+
+0022 E4                CLR     A
+0023 900000      R     MOV     DPTR,#i
+0026 F0                MOVX    @DPTR,A
+0027         ?C0002:
+0027 900000      R     MOV     DPTR,#i
+002A E0                MOVX    A,@DPTR
+002B FF                MOV     R7,A
+002C D3                SETB    C
+002D 900000      R     MOV     DPTR,#len+01H
+0030 E0                MOVX    A,@DPTR
+0031 9F                SUBB    A,R7
+0032 900000      R     MOV     DPTR,#len
+0035 E0                MOVX    A,@DPTR
+0036 9400              SUBB    A,#00H
+0038 4041              JC      ?C0003
+                                           ; SOURCE LINE # 49
+                                           ; SOURCE LINE # 51
+003A 900000      R     MOV     DPTR,#SectorAddr
+003D E0                MOVX    A,@DPTR
+003E FC                MOV     R4,A
+003F A3                INC     DPTR
+0040 E0                MOVX    A,@DPTR
+0041 900000      E     MOV     DPTR,#FSADRL
+0044 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 52
+0045 EC                MOV     A,R4
+0046 900000      E     MOV     DPTR,#FSADRH
+0049 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 53
+004A 900000      R     MOV     DPTR,#SectorAddr+01H
+004D E0                MOVX    A,@DPTR
+004E 04                INC     A
+004F F0                MOVX    @DPTR,A
+0050 7006              JNZ     ?C0010
+0052 900000      R     MOV     DPTR,#SectorAddr
+0055 E0                MOVX    A,@DPTR
+0056 04                INC     A
+0057 F0                MOVX    @DPTR,A
+0058         ?C0010:
+                                           ; SOURCE LINE # 55
+0058 900000      R     MOV     DPTR,#buf
+005B E0                MOVX    A,@DPTR
+005C FB                MOV     R3,A
+005D A3                INC     DPTR
+005E E0                MOVX    A,@DPTR
+005F FA                MOV     R2,A
+0060 A3                INC     DPTR
+0061 E0                MOVX    A,@DPTR
+0062 F9                MOV     R1,A
+0063 900000      R     MOV     DPTR,#i
+0066 E0                MOVX    A,@DPTR
+0067 F582              MOV     DPL,A
+0069 758300            MOV     DPH,#00H
+006C 120000      E     LCALL   ?C?CLDOPTR
+006F 900000      E     MOV     DPTR,#FSDAT
+0072 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 56
+0073 900000      R     MOV     DPTR,#i
+0076 E0                MOVX    A,@DPTR
+0077 04                INC     A
+0078 F0                MOVX    @DPTR,A
+0079 80AC              SJMP    ?C0002
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 18  
+
+007B         ?C0003:
+                                           ; SOURCE LINE # 58
+007B 900000      E     MOV     DPTR,#FSFLG
+007E 7487              MOV     A,#087H
+0080 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 59
+0081 22                RET     
+             ; FUNCTION _WriteDataNVR (END)
+
+             ; FUNCTION _readDatafromNVR (BEGIN)
+                                           ; SOURCE LINE # 69
+0000 900000      R     MOV     DPTR,#buf
+0003 EB                MOV     A,R3
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EA                MOV     A,R2
+0007 F0                MOVX    @DPTR,A
+0008 A3                INC     DPTR
+0009 E9                MOV     A,R1
+000A F0                MOVX    @DPTR,A
+000B A3                INC     DPTR
+000C EC                MOV     A,R4
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F ED                MOV     A,R5
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 70
+                                           ; SOURCE LINE # 71
+0011 E4                CLR     A
+0012 900000      R     MOV     DPTR,#i
+0015 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 73
+0016 900000      E     MOV     DPTR,#FSCMD
+0019 7481              MOV     A,#081H
+001B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 74
+001C E4                CLR     A
+001D 900000      R     MOV     DPTR,#i
+0020 F0                MOVX    @DPTR,A
+0021         ?C0006:
+0021 900000      R     MOV     DPTR,#i
+0024 E0                MOVX    A,@DPTR
+0025 FF                MOV     R7,A
+0026 D3                SETB    C
+0027 900000      R     MOV     DPTR,#len+01H
+002A E0                MOVX    A,@DPTR
+002B 9F                SUBB    A,R7
+002C 900000      R     MOV     DPTR,#len
+002F E0                MOVX    A,@DPTR
+0030 9400              SUBB    A,#00H
+0032 4043              JC      ?C0009
+                                           ; SOURCE LINE # 75
+                                           ; SOURCE LINE # 77
+0034 900000      R     MOV     DPTR,#SectorAddr
+0037 E0                MOVX    A,@DPTR
+0038 FC                MOV     R4,A
+0039 A3                INC     DPTR
+003A E0                MOVX    A,@DPTR
+003B 900000      E     MOV     DPTR,#FSADRL
+003E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 78
+003F EC                MOV     A,R4
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 19  
+
+0040 900000      E     MOV     DPTR,#FSADRH
+0043 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 79
+0044 900000      R     MOV     DPTR,#SectorAddr+01H
+0047 E0                MOVX    A,@DPTR
+0048 04                INC     A
+0049 F0                MOVX    @DPTR,A
+004A 7006              JNZ     ?C0011
+004C 900000      R     MOV     DPTR,#SectorAddr
+004F E0                MOVX    A,@DPTR
+0050 04                INC     A
+0051 F0                MOVX    @DPTR,A
+0052         ?C0011:
+                                           ; SOURCE LINE # 81
+0052 900000      E     MOV     DPTR,#FSDAT
+0055 E0                MOVX    A,@DPTR
+0056 FF                MOV     R7,A
+0057 900000      R     MOV     DPTR,#buf
+005A E0                MOVX    A,@DPTR
+005B FB                MOV     R3,A
+005C A3                INC     DPTR
+005D E0                MOVX    A,@DPTR
+005E FA                MOV     R2,A
+005F A3                INC     DPTR
+0060 E0                MOVX    A,@DPTR
+0061 F9                MOV     R1,A
+0062 900000      R     MOV     DPTR,#i
+0065 E0                MOVX    A,@DPTR
+0066 F582              MOV     DPL,A
+0068 758300            MOV     DPH,#00H
+006B EF                MOV     A,R7
+006C 120000      E     LCALL   ?C?CSTOPTR
+                                           ; SOURCE LINE # 82
+006F 900000      R     MOV     DPTR,#i
+0072 E0                MOVX    A,@DPTR
+0073 04                INC     A
+0074 F0                MOVX    @DPTR,A
+0075 80AA              SJMP    ?C0006
+                                           ; SOURCE LINE # 83
+0077         ?C0009:
+0077 22                RET     
+             ; FUNCTION _readDatafromNVR (END)
+
+C51 COMPILER V9.59.0.0   INNER_NVR                                                         10/31/2020 17:19:16 PAGE 20  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+_WriteDataNVR. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  buf. . . . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
+  SectorAddr . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0003H  2
+  len. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0005H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0007H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+EPIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
+EXIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E8H  1
+u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+EXIP . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F8H  1
+FSADRH . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+FSADRL . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+_readDatafromNVR . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  buf. . . . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
+  SectorAddr . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0003H  2
+  len. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0005H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0007H  1
+uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+S0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+ADCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+_EraseNVR. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  SectorAddr . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+FSCMD. . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+FSFLG. . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+FSDAT. . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    279    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      16
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

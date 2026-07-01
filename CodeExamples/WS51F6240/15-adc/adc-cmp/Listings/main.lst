@@ -1,0 +1,177 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:56:57 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\hareware;..\..\headfile) DE
+                    -BUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:     ADC.c
+   4          *作  者:      
+   5          *版  本:      
+   6          *日  期:      
+   7          *描  述:      
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"  
+  11          #include <stdio.h>
+  12          #include "uart1.h"
+  13          #include "ADC.h"
+  14          
+  15          static void delay(int i)
+  16          {
+  17   1              long j;
+  18   1              for(j=0;j<10*i;++j);
+  19   1      }
+  20          
+  21          static void delay_1ms(void)
+  22          {
+  23   1              int j;
+  24   1              for(j=0;j<1700;++j);
+  25   1      }
+  26          static void delay_10ms(void)
+  27          {
+  28   1              int j;
+  29   1              for(j=0;j<17700;++j);
+  30   1      }
+  31          
+  32          //-----------------------------------------------
+  33          void main()
+  34          {
+  35   1          int i;
+  36   1          unsigned int k=0;
+  37   1          
+  38   1              SCCON = 0x00;//HRC 
+  39   1          HRCON|=     0x80;//HRC使能
+  40   1              delay_10ms();    
+  41   1          
+  42   1      
+  43   1          /****** UART1 模式1（波特率：9600 可调） **************/
+  44   1          P02F = 6;//RX
+  45   1          P16F = 6;//TX
+  46   1          Uart1Mode1();    
+  47   1         /*************** ADC IO口配置 *************************/          
+  48   1      //      P16F = 4; //AIN0
+  49   1          P17F = 4; //AIN1
+  50   1          P21F = 4; //AIN2
+  51   1          P07F = 4; //AIN3 
+  52   1          P06F = 4; //AIN4
+  53   1          P05F = 4; //AIN5
+  54   1          P04F = 4; //AIN6
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:56:57 PAGE 2   
+
+  55   1          P03F = 4; //AIN7
+  56   1          P00F = 4; //AIN8
+  57   1          P10F = 4; //AIN9
+  58   1          P11F = 4; //AIN10
+  59   1          P12F = 4; //AIN11
+  60   1          P15F = 4; //AVRF
+  61   1          
+  62   1              P01F = 2; //输出
+  63   1                      
+  64   1                      
+  65   1      
+  66   1          //ADC 初始化
+  67   1          ADCHS = 0x01;             //通道选择
+  68   1          AdcInitCFG();           //
+  69   1          
+  70   1          setAdcCmpVal(3000);     //设置 ADC 比较功能阈值
+  71   1          setAdcCmpCfg();         //开ADC的比较器
+  72   1          EINT5 = 1;              //ADC 中断开     
+  73   1              EXIE |= 1;              //uart1中断
+  74   1          EA = 1;                 //总中断开
+  75   1          printf("\r\nSTR---%s\r\n", __TIME__);    
+  76   1          
+  77   1          printf("Power on register ADCON = %bx, ADCFG = %bx, ADCPC = %bx;\r\n",ADCON, ADCFG, ADCPC);
+  78   1             
+  79   1          i = (ADCON&0x30)>>4;   
+  80   1          if(i == 0)    
+  81   1              printf("Reference voltage source: Internal 1.6V as reference voltage\r\n");
+  82   1          else if(i == 1)  
+  83   1              printf("Reference voltage source: external VDD\r\n");
+  84   1          else if(i == 2)  
+  85   1              printf("Reference voltage source: external VREF\r\n");
+  86   1          else
+  87   1              printf("Reference voltage source: Keep\r\n");
+  88   1          
+  89   1      //    printf("ADC 缩放设置：1/4 缩小\r\n");//Zoom settings
+  90   1      //    printf("ADC 缩放设置：1/3 缩小\r\n");
+  91   1      //    printf("ADC 缩放设置：1/4 缩小\r\n");
+  92   1      //    printf("ADC 缩放设置：不缩放\r\n");   
+  93   1          
+  94   1          printf("ADC sampling time ATMS(0-7): %bd\r\nZoom settings(0-0xb): 0x%bx\r\n", (ADCFG&0x70)>>4, (ADCFG&
+             -0xF));    
+  95   1          
+  96   1          printf("channel = %bx;\r\n", ADCHS);    
+  97   1          
+  98   1          P00F = 0x81;    //按键
+  99   1          while(1)
+ 100   1          {        
+ 101   2              if(P00 == 0)//开始转换
+ 102   2              {
+ 103   3                  i= 5;while(i--)delay(100);
+ 104   3                  if(P00 == 0)
+ 105   3                  {
+ 106   4                      k=0;
+ 107   4                      adc_val = 0;
+ 108   4                      ADCON |= 0X80;  
+ 109   4                      delay(1);
+ 110   4                      
+ 111   4                      //不开中断测试时，代码
+ 112   4                      while (!(ADCON & ADC_ADCF)) //Wait complete flag  && (j--)
+ 113   4                      {
+ 114   5                          delay(100);
+ 115   5                          if(k++>=200)
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:56:57 PAGE 3   
+
+ 116   5                          {
+ 117   6                              printf("Conversion timeout error\r\n");   //转换超时
+ 118   6                              break;
+ 119   6                          }
+ 120   5                      }
+ 121   4                      delay(1);                
+ 122   4                      adc_val = (((u16)ADCDH)<<4)|((u16)ADCDL>>4);
+ 123   4                      
+ 124   4                      printf("mcu get adcVal = 0x%4X,        %d\r\n", adc_val, adc_val);
+ 125   4                      ADCON &= (~ADC_ADCF); //clear flag
+ 126   4                      
+ 127   4                      i= 10;while(i--)delay(100);
+ 128   4                  }
+ 129   3              }
+ 130   2                                              if(ADC_ADCPF == (ADCPC & ADC_ADCPF))    //比较中断
+ 131   2                                      {
+ 132   3                                                printf("ADC Interrupt\r\n"); 
+ 133   3                                                      ADCPC &= (~ADC_ADCPF); //clear flag
+ 134   3                                                      
+ 135   3                                                      P01 = ~P01;  
+ 136   3                                      }               
+ 137   2          }
+ 138   1      }
+ 139          
+ 140              
+ 141           
+ 142              
+ 143             
+ 144              
+ 145          
+ 146          
+ 147          
+ 148          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    554    ----
+   CONSTANT SIZE    =    420    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

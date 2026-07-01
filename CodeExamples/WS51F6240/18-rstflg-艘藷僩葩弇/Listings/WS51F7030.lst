@@ -1,0 +1,13 @@
+C51 COMPILER V9.59.0.0   WS51F7030                                                         10/24/2020 16:01:25 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE WS51F7030
+OBJECT MODULE PLACED IN .\Objects\WS51F7030.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\м╥нд╪Ч\WS51F7030.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headlife;..\м╥н
+                    -д╪Ч) DEBUG OBJECTEXTEND PRINT(.\Listings\WS51F7030.lst) TABS(2) OBJECT(.\Objects\WS51F7030.obj)
+
+line level    source
+
+*** ERROR C318 OF ..\м╥нд╪Ч\WS51F7030.c: can't open file '..\м╥нд╪Ч\WS51F7030.c'
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

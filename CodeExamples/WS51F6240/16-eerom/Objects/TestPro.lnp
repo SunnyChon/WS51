@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\eeprom.obj" 
+TO ".\Objects\TestPro" 
+PRINT(".\Listings\TestPro.m51") IXREF 
+RAMSIZE(256) 

@@ -1,0 +1,1 @@
+"..\HeadFile\WS51F6232.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\headlife;..\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\WS51F6232.lst) TABS (2) OBJECT(.\Objects\WS51F6232.obj)

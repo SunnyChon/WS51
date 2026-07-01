@@ -1,0 +1,225 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2022 11:41:22 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\headfile;..\..\hareware) DE
+                    -BUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:     ADC.c
+   4          *作  者:      
+   5          *版  本:      
+   6          *日  期:      
+   7          *描  述:      
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"  
+  11          #include <stdio.h>
+  12          #include "uart1.h"
+  13          #include "ADC.h"
+  14          static void delay(int i)
+  15          {
+  16   1              long j;
+  17   1              for(j=0;j<10*i;++j);
+  18   1      }
+  19          
+  20          static void delay_1ms(void)
+  21          {
+  22   1              int j;
+  23   1              for(j=0;j<1700;++j);
+  24   1      }
+  25          static void delay_10ms(void)
+  26          {
+  27   1              int j;
+  28   1              for(j=0;j<17700;++j);
+  29   1      }
+  30          
+  31          //-----------------------------------------------
+  32          void main()
+  33          {
+  34   1          unsigned int eeromsum=0,eeromdat[15] = {0},mindat = 4095,maxdat=0,fc=0,num=0;
+  35   1          u8 num_cnt=0;
+  36   1          
+  37   1          int i;
+  38   1          unsigned int k=0;
+  39   1         
+  40   1              SCCON = 0x00;//HRC 
+  41   1          HRCON |= 0x80; 
+  42   1      
+  43   1              /*********** UART1 初始化配置(无备选管脚) ***********/
+  44   1      //      P13F=6;//UART1_RX
+  45   1              P16F=6;//UART1_TX
+  46   1          Uart1Mode1();    
+  47   1          
+  48   1          /*************** ADC IO口配置 *************************/  
+  49   1      //    P16F = 0X4; //AIN0
+  50   1              
+  51   1      //        P17F = 0X4; //AIN1
+  52   1              
+  53   1      //        P21F = 0X4; //AIN2
+  54   1      //        P07F = 0X4; //AIN3 
+C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2022 11:41:22 PAGE 2   
+
+  55   1      //        P06F = 0X4; //AIN4
+  56   1      //        P05F = 0X4; //AIN5
+  57   1                P04F = 0X4; //AIN6
+  58   1      
+  59   1      //    P00F = 0X4; //AIN8
+  60   1      //    P10F = 0X4; //AIN9
+  61   1      //    P11F = 0X4; //AIN10
+  62   1      //    P12F = 0X4; //AIN11
+  63   1                      
+  64   1              P03F = 0X4; //AVRF
+  65   1          
+  66   1              P01F = 0x81;    //按键
+  67   1              
+  68   1          //ADC 初始化
+  69   1      //      PWCON = 0x03;
+  70   1          ADCHS = 0x06;             //通道选择
+  71   1      //    ADCHS = 0x1c;                             //通道选择OP
+  72   1      //    ADCHS = 0x1b;                             //通道选择
+  73   1      //        ADCHS = 0x1d;             //通道选择LDO-vdd
+  74   1      //    PWCON = 0x1f;                     //LDO校准
+  75   1                      if(P01==0)              
+  76   1                      {
+  77   2                              AdcInitCFG_INNER();             //ADC内部参考电压参数配置
+*** WARNING C206 IN LINE 77 OF main.c: 'AdcInitCFG_INNER': missing function-prototype
+  78   2                              ACBCON = 0;                             //ADC校准使能关闭
+  79   2                      }
+  80   1                      
+  81   1                      else   
+  82   1                      {
+  83   2                              AdcInitCFG();           //ADC外部参考电压参数配置
+  84   2                              ACBCON = 0;                             //ADC校准使能关闭
+  85   2                      }
+  86   1      
+  87   1              
+  88   1              EXIE |= 1;              //uart1中断
+  89   1          EA = 1;                 //总中断开
+  90   1          printf("\r\nSTR---%s\r\n", __TIME__);      
+  91   1              printf("ADCBGP = %bx\r\n", ADCBGP);     
+  92   1      //    printf("AKDAT = %bd\r\n", AKDAT);   
+  93   1      //    printf("AMDAT = %bd\r\n", AMDAT); 
+  94   1              printf("ACBCON = %bx\r\n", ACBCON); 
+  95   1          
+  96   1          printf("Power on register ADCON = %bx, ADCFG = %bx;\r\n",ADCON, ADCFG);
+  97   1             
+  98   1          i = (ADCON&0x30)>>4;   
+  99   1          if(i == 0)    
+ 100   1              printf("Reference voltage source: Internal 1.6V as reference voltage\r\n");
+ 101   1          else if(i == 1)  
+ 102   1              printf("Reference voltage source: external VDD\r\n");
+ 103   1          else if(i == 2)  
+ 104   1              printf("Reference voltage source: external VREF\r\n");
+ 105   1          else
+ 106   1              printf("Reference voltage source: Keep\r\n");
+ 107   1          
+ 108   1      //    printf("ADC 缩放设置：1/4 缩小\r\n");//Zoom settings
+ 109   1      //    printf("ADC 缩放设置：1/3 缩小\r\n");
+ 110   1      //    printf("ADC 缩放设置：1/4 缩小\r\n");
+ 111   1      //    printf("ADC 缩放设置：不缩放\r\n");   
+ 112   1          
+ 113   1          printf("ADC sampling time ATMS(0-7): %bd\r\nZoom settings(0-0xb): 0x%bx\r\n", (ADCFG&0x70)>>4, (ADCFG&
+             -0xF));    
+ 114   1          
+C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2022 11:41:22 PAGE 3   
+
+ 115   1          printf("channel = %bx;\r\n", ADCHS);
+ 116   1              
+ 117   1      //    OP_Init(); //OP输入端
+ 118   1          P00F = 0x81;    //按键
+ 119   1          while(1)
+ 120   1          {
+ 121   2              if(P00 == 1)//开始转换
+ 122   2              {
+ 123   3      //            i=100;while(i--)delay(100);
+ 124   3                  for(i=0;i<15;i++)  //采15个转换值，求平均值
+ 125   3                  {
+ 126   4                      k=0;
+ 127   4                      adc_val = 0;
+ 128   4                      ADCON |= 0X80;  
+ 129   4                      delay(1);
+ 130   4                      
+ 131   4                      //不开中断测试时，代码
+ 132   4                      while (!(ADCON & 0x01)) //Wait complete flag  && (j--)
+ 133   4                      {
+ 134   5                          delay(100);
+ 135   5                          if(k++>=200)
+ 136   5                          {
+ 137   6                              printf("Conversion timeout error\r\n");   //转换超时
+ 138   6                              break;
+ 139   6                          }
+ 140   5                      }
+ 141   4                      delay(1);                
+ 142   4                      adc_val = (((u16)ADCDH)<<4)|((u16)ADCDL>>4);
+ 143   4                      
+ 144   4      //                printf("mcu get adcVal = 0x%4X,        %d\r\n", adc_val, adc_val);
+ 145   4                      ADCON &= (~0x01); //clear flag
+ 146   4                                      
+ 147   4                      // 采样15个值，保存最大和最小值
+ 148   4                      eeromsum = eeromsum+adc_val;
+ 149   4                      eeromdat[num_cnt] = adc_val;
+ 150   4                       
+ 151   4                      if(mindat > eeromdat[num_cnt])
+ 152   4                          mindat = eeromdat[num_cnt]; 
+ 153   4                      if(maxdat < eeromdat[num_cnt])        
+ 154   4                          maxdat = eeromdat[num_cnt]; 
+ 155   4                      num_cnt++; 
+ 156   4                          
+ 157   4                      if(num_cnt>=15)
+ 158   4                      {
+ 159   5                          num_cnt = 0;
+ 160   5                          printf("Current count = %4d;", num);
+ 161   5                          num++;
+ 162   5                          adc_val = eeromsum/15;
+ 163   5                          
+ 164   5                          eeromsum=0; 
+ 165   5      
+ 166   5                          for(i=0;i<15;i++)
+ 167   5                              eeromsum+=(eeromdat[i]-adc_val)*(eeromdat[i]-adc_val);
+ 168   5      
+ 169   5                          fc=eeromsum*10/15;
+ 170   5                          
+ 171   5                          printf("min,max,average,fc        %4d,%4d,%4d,%4d\r\n",mindat,maxdat,adc_val,fc);
+ 172   5                          eeromsum = 0;
+ 173   5                          mindat = 4095;
+ 174   5                          maxdat = 0;                    
+ 175   5                      }       
+ 176   4                  }
+C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2022 11:41:22 PAGE 4   
+
+ 177   3                  i= 10;while(i--)delay(100);
+ 178   3              }
+ 179   2                      
+ 180   2          }
+ 181   1      
+ 182   1      
+ 183   1      }
+ 184          
+ 185              
+ 186           
+ 187              
+ 188             
+ 189              
+ 190          
+ 191          
+ 192          
+ 193          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    777    ----
+   CONSTANT SIZE    =    480    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      51
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

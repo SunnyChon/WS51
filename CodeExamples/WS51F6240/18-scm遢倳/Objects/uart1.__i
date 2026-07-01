@@ -1,0 +1,1 @@
+"..\hareware\uart1.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\HeadFile;..\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\uart1.lst) OBJECT(.\Objects\uart1.obj)

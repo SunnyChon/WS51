@@ -1,0 +1,7 @@
+现在时间是2020年11月26日 15:13:02:StopTarget closehandle mutex 
+现在时间是2020年11月30日 15:14:40:Get program code size is xxx bytes.
+
+现在时间是2020年11月30日 15:14:42:StopTarget closehandle mutex 
+现在时间是2020年11月30日 15:14:46:Get program code size is xxx bytes.
+
+现在时间是2020年11月30日 15:14:48:StopTarget closehandle mutex 

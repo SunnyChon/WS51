@@ -1,0 +1,3575 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEX
+                    -TEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\main.lst) PREPRINT(.\Listings\main.i) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, …Ó€⁄«∞∫£Œ¨Í…÷«ƒ‹ºº ı”–œﬁπ´Àæ
+   3          *Œƒº˛√˚:        nvr.c
+   4          *◊˜  ’ﬂ:        
+   5          *∞Ê  ±æ:        
+   6          *»’  ∆⁄:        
+   7          *√Ë   ˆ:        
+   8          *±∏  ◊¢:     
+   9          **********************************************************/
+  10          
+  11          #include "WS51F6240.h"
+   1      =1  #ifndef __WS51F6240_H
+   2      =1  #define __WS51F6240_H
+   3      =1  sfr OKER        = 0xff;
+   4      =1  
+   5      =1  sfr P0          = 0x80;
+   6      =1  sfr SP          = 0x81;
+   7      =1  sfr DP0L        = 0x82;
+   8      =1  sfr DP0H        = 0x83;
+   9      =1  sfr DP1L        = 0x84;
+  10      =1  sfr DP1H        = 0x85;
+  11      =1  sfr SCCON       = 0x86;
+  12      =1  sfr PCON        = 0x87;
+  13      =1  sfr TCON        = 0x88;
+  14      =1  sfr TMOD        = 0x89;
+  15      =1  sfr TL0         = 0x8a;
+  16      =1  sfr TL1         = 0x8b;
+  17      =1  sfr TH0         = 0x8c;
+  18      =1  sfr TH1         = 0x8d;
+  19      =1  sfr P1          = 0x90;
+  20      =1  sfr XSCON       = 0x95;
+  21      =1  sfr HRCON       = 0x96;
+  22      =1  sfr LRCON       = 0x97;
+  23      =1  sfr S0CON       = 0x98;
+  24      =1  sfr S0BUF       = 0x99;
+  25      =1  sfr S0CFG       = 0x9a;
+  26      =1  sfr S1CON       = 0x9b;
+  27      =1  sfr S1BUF       = 0x9c;
+  28      =1  sfr S1RELL      = 0x9d;
+  29      =1  sfr S1RELH      = 0x9e;
+  30      =1  sfr RSTFLG      = 0x9f;
+  31      =1  sfr P2          = 0xa0;
+  32      =1  sfr I2CCON      = 0xa1;
+  33      =1  sfr I2CADR      = 0xa2;
+  34      =1  sfr I2CFG0      = 0xa3;
+  35      =1  sfr I2CFG1      = 0xa4;
+  36      =1  sfr I2CTXD      = 0xa5;
+  37      =1  sfr I2CRXD      = 0xa6;
+  38      =1  sfr I2CFLG      = 0xa7;
+  39      =1  sfr IE          = 0xa8;
+  40      =1  sfr WDTCON      = 0xa9;
+  41      =1  sfr WDTFLG      = 0xaa;
+  42      =1  sfr TL3         = 0xae;
+  43      =1  sfr TH3         = 0xaf;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 2   
+
+  44      =1  sfr T3CON       = 0xb2;
+  45      =1  sfr T3MOD       = 0xb3;
+  46      =1  sfr T3RL        = 0xb4;
+  47      =1  sfr T3RH        = 0xb5;
+  48      =1  sfr T3CL        = 0xb6;
+  49      =1  sfr T3CH        = 0xb7;
+  50      =1  sfr IP          = 0xb8;
+  51      =1  sfr LVDCON      = 0xb9;
+  52      =1  sfr ADCBGP      = 0xbf;
+  53      =1  sfr ADCON       = 0xc0;
+  54      =1  sfr ADCFG       = 0xc1;
+  55      =1  sfr ADCHS       = 0xc2;
+  56      =1  sfr ADCDL       = 0xc3;
+  57      =1  sfr ADCDH       = 0xc4;
+  58      =1  sfr ADCPC       = 0xc5;
+  59      =1  sfr ADCPDL      = 0xc6;
+  60      =1  sfr ADCPDH      = 0xc7;
+  61      =1  sfr T2CON       = 0xc8;
+  62      =1  sfr T2MOD       = 0xc9;
+  63      =1  sfr T2CL        = 0xca;
+  64      =1  sfr T2CH        = 0xcb;
+  65      =1  sfr TL2         = 0xcc;
+  66      =1  sfr TH2         = 0xcd;
+  67      =1  sfr SCMCON      = 0xce;
+  68      =1  sfr SCMFLG      = 0xcf;
+  69      =1  sfr PSW         = 0xd0;
+  70      =1  sfr WKTCON      = 0xd1;
+  71      =1  sfr WKTSS       = 0xd2;
+  72      =1  sfr OPCON       = 0xd3;
+  73      =1  sfr OPCFG       = 0xd4;
+  74      =1  sfr EPIE        = 0xd8;
+  75      =1  sfr EPIF        = 0xd9;
+  76      =1  sfr EP0CON      = 0xda;
+  77      =1  sfr EP1CON      = 0xdb;
+  78      =1  sfr EP2CON      = 0xdc;
+  79      =1  sfr EP3CON      = 0xdd;
+  80      =1  sfr ACC         = 0xe0;
+  81      =1  sfr SPCON       = 0xe1;
+  82      =1  sfr SPDAT       = 0xe2;
+  83      =1  sfr SPFLG       = 0xe3;
+  84      =1  sfr PCOMS       = 0xe4;
+  85      =1  sfr PDRVS       = 0xe5;
+  86      =1  sfr EXIE        = 0xe8;
+  87      =1  sfr B           = 0xf0;
+  88      =1  sfr EXIP        = 0xf8;
+  89      =1  sfr PWCON       = 0xf9;
+  90      =1  sfr IT0CON      = 0xfa;
+  91      =1  sfr IT1CON      = 0xfb;
+  92      =1  sfr IDLFL       = 0xfc;
+  93      =1  sfr IDLFH       = 0xfd;
+  94      =1  sfr STPF        = 0xfe;
+  95      =1  #define P00F       (*(unsigned char volatile xdata *)0x8000)
+  96      =1  #define P01F       (*(unsigned char volatile xdata *)0x8001)
+  97      =1  #define P02F       (*(unsigned char volatile xdata *)0x8002)
+  98      =1  #define P03F       (*(unsigned char volatile xdata *)0x8003)
+  99      =1  #define P04F       (*(unsigned char volatile xdata *)0x8004)
+ 100      =1  #define P05F       (*(unsigned char volatile xdata *)0x8005)
+ 101      =1  #define P06F       (*(unsigned char volatile xdata *)0x8006)
+ 102      =1  #define P07F       (*(unsigned char volatile xdata *)0x8007)
+ 103      =1  #define P10F       (*(unsigned char volatile xdata *)0x8008)
+ 104      =1  #define P11F       (*(unsigned char volatile xdata *)0x8009)
+ 105      =1  #define P12F       (*(unsigned char volatile xdata *)0x800a)
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 3   
+
+ 106      =1  #define P13F       (*(unsigned char volatile xdata *)0x800b)
+ 107      =1  #define P14F       (*(unsigned char volatile xdata *)0x800c)
+ 108      =1  #define P15F       (*(unsigned char volatile xdata *)0x800d)
+ 109      =1  #define P16F       (*(unsigned char volatile xdata *)0x800e)
+ 110      =1  #define P17F       (*(unsigned char volatile xdata *)0x800f)
+ 111      =1  #define P20F       (*(unsigned char volatile xdata *)0x8010)
+ 112      =1  #define P21F       (*(unsigned char volatile xdata *)0x8011)
+ 113      =1  #define PWMRUN     (*(unsigned char volatile xdata *)0x8040)
+ 114      =1  #define PWMCLR     (*(unsigned char volatile xdata *)0x8041)
+ 115      =1  #define PWMUPD     (*(unsigned char volatile xdata *)0x8043)
+ 116      =1  #define PWMFLG0    (*(unsigned char volatile xdata *)0x8044)
+ 117      =1  #define PWMFLG1    (*(unsigned char volatile xdata *)0x8045)
+ 118      =1  #define PMEN      (*(unsigned char volatile xdata *)0x8048)
+ 119      =1  #define PMDAT      (*(unsigned char volatile xdata *)0x8049)
+ 120      =1  #define PMSCON     (*(unsigned char volatile xdata *)0x804a)
+ 121      =1  #define PMSDL     (*(unsigned char volatile xdata *)0x804b)
+ 122      =1  #define PMSDH     (*(unsigned char volatile xdata *)0x804c)
+ 123      =1  #define PMSML     (*(unsigned char volatile xdata *)0x804d)
+ 124      =1  #define PMSMH     (*(unsigned char volatile xdata *)0x804e)
+ 125      =1  #define PWM0CFG    (*(unsigned char volatile xdata *)0x8050)
+ 126      =1  #define PWM0PS     (*(unsigned char volatile xdata *)0x8051)
+ 127      =1  #define PWM0DUTL   (*(unsigned char volatile xdata *)0x8054)
+ 128      =1  #define PWM0DUTH   (*(unsigned char volatile xdata *)0x8055)
+ 129      =1  #define PWM0DIVL   (*(unsigned char volatile xdata *)0x8056)
+ 130      =1  #define PWM0DIVH   (*(unsigned char volatile xdata *)0x8057)
+ 131      =1  #define PWM1CFG    (*(unsigned char volatile xdata *)0x8058)
+ 132      =1  #define PWM1PS     (*(unsigned char volatile xdata *)0x8059)
+ 133      =1  #define PWM1DUTL   (*(unsigned char volatile xdata *)0x805c)
+ 134      =1  #define PWM1DUTH   (*(unsigned char volatile xdata *)0x805d)
+ 135      =1  #define PWM1DIVL   (*(unsigned char volatile xdata *)0x805e)
+ 136      =1  #define PWM1DIVH   (*(unsigned char volatile xdata *)0x805f)
+ 137      =1  #define PWM2CFG    (*(unsigned char volatile xdata *)0x8060)
+ 138      =1  #define PWM2PS     (*(unsigned char volatile xdata *)0x8061)
+ 139      =1  #define PWM2DUTL   (*(unsigned char volatile xdata *)0x8064)
+ 140      =1  #define PWM2DUTH   (*(unsigned char volatile xdata *)0x8065)
+ 141      =1  #define PWM2DIVL   (*(unsigned char volatile xdata *)0x8066)
+ 142      =1  #define PWM2DIVH   (*(unsigned char volatile xdata *)0x8067)
+ 143      =1  #define PWM3CFG    (*(unsigned char volatile xdata *)0x8068)
+ 144      =1  #define PWM3PS     (*(unsigned char volatile xdata *)0x8069)
+ 145      =1  #define PWM3DUTL   (*(unsigned char volatile xdata *)0x806c)
+ 146      =1  #define PWM3DUTH   (*(unsigned char volatile xdata *)0x806d)
+ 147      =1  #define PWM3DIVL   (*(unsigned char volatile xdata *)0x806e)
+ 148      =1  #define PWM3DIVH   (*(unsigned char volatile xdata *)0x806f)
+ 149      =1  #define PWM4CFG    (*(unsigned char volatile xdata *)0x8070)
+ 150      =1  #define PWM4PS     (*(unsigned char volatile xdata *)0x8071)
+ 151      =1  #define PWM4DUTL   (*(unsigned char volatile xdata *)0x8074)
+ 152      =1  #define PWM4DUTH   (*(unsigned char volatile xdata *)0x8075)
+ 153      =1  #define PWM4DIVL   (*(unsigned char volatile xdata *)0x8076)
+ 154      =1  #define PWM4DIVH   (*(unsigned char volatile xdata *)0x8077)
+ 155      =1  #define PWM5CFG    (*(unsigned char volatile xdata *)0x8078)
+ 156      =1  #define PWM5PS     (*(unsigned char volatile xdata *)0x8079)
+ 157      =1  #define PWM5DUTL   (*(unsigned char volatile xdata *)0x807c)
+ 158      =1  #define PWM5DUTH   (*(unsigned char volatile xdata *)0x807d)
+ 159      =1  #define PWM5DIVL   (*(unsigned char volatile xdata *)0x807e)
+ 160      =1  #define PWM5DIVH   (*(unsigned char volatile xdata *)0x807f)
+ 161      =1  #define PWM6CFG    (*(unsigned char volatile xdata *)0x8080)
+ 162      =1  #define PWM6PS     (*(unsigned char volatile xdata *)0x8081)
+ 163      =1  #define PWM6DUTL   (*(unsigned char volatile xdata *)0x8084)
+ 164      =1  #define PWM6DUTH   (*(unsigned char volatile xdata *)0x8085)
+ 165      =1  #define PWM6DIVL   (*(unsigned char volatile xdata *)0x8086)
+ 166      =1  #define PWM6DIVH   (*(unsigned char volatile xdata *)0x8087)
+ 167      =1  #define PWM7CFG    (*(unsigned char volatile xdata *)0x8088)
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 4   
+
+ 168      =1  #define PWM7PS     (*(unsigned char volatile xdata *)0x8089)
+ 169      =1  #define PWM7DUTL   (*(unsigned char volatile xdata *)0x808c)
+ 170      =1  #define PWM7DUTH   (*(unsigned char volatile xdata *)0x808d)
+ 171      =1  #define PWM7DIVL   (*(unsigned char volatile xdata *)0x808e)
+ 172      =1  #define PWM7DIVH   (*(unsigned char volatile xdata *)0x808f)
+ 173      =1  #define LEDCFG     (*(unsigned char volatile xdata *)0x80d0)
+ 174      =1  #define LED0D0    (*(unsigned char volatile xdata *)0x80d2)
+ 175      =1  #define LED0D1    (*(unsigned char volatile xdata *)0x80d3)
+ 176      =1  #define LED0D2    (*(unsigned char volatile xdata *)0x80d4)
+ 177      =1  #define LED1D0    (*(unsigned char volatile xdata *)0x80da)
+ 178      =1  #define LED1D1    (*(unsigned char volatile xdata *)0x80db)
+ 179      =1  #define LED1D2    (*(unsigned char volatile xdata *)0x80dc)
+ 180      =1  #define FBCON      (*(unsigned char volatile xdata *)0x80e0)
+ 181      =1  #define FBDAT      (*(unsigned char volatile xdata *)0x80e1)
+ 182      =1  #define FBFLG      (*(unsigned char volatile xdata *)0x80e2)
+ 183      =1  #define PIMOD      (*(unsigned char volatile xdata *)0x80e8)
+ 184      =1  #define P0IMSK     (*(unsigned char volatile xdata *)0x80e9)
+ 185      =1  #define P1IMSK     (*(unsigned char volatile xdata *)0x80ea)
+ 186      =1  #define P2IMSK     (*(unsigned char volatile xdata *)0x80eb)
+ 187      =1  #define BZCON      (*(unsigned char volatile xdata *)0x80f0)
+ 188      =1  #define BZPSC      (*(unsigned char volatile xdata *)0x80f1)
+ 189      =1  #define BZDUT      (*(unsigned char volatile xdata *)0x80f2)
+ 190      =1  #define BZDIV      (*(unsigned char volatile xdata *)0x80f3)
+ 191      =1                  
+ 192      =1  #define ACBCON    (*(unsigned char volatile xdata *)0x82b0)
+ 193      =1  #define AKDAT     (*(unsigned char volatile xdata *)0x82b2)
+ 194      =1  #define AMDAT     (*(unsigned char volatile xdata *)0x82b4)
+ 195      =1  
+ 196      =1  #define MECON      (*(unsigned char volatile xdata *)0x8300)
+ 197      =1  #define FSCMD      (*(unsigned char volatile xdata *)0x8301)
+ 198      =1  #define BTMSK      (*(unsigned char volatile xdata *)0x8302)
+ 199      =1  #define FSDAT      (*(unsigned char volatile xdata *)0x8303)
+ 200      =1  #define FSFLG       (*(unsigned char volatile xdata *)0x8304)
+ 201      =1  #define PADR        (*(unsigned char volatile xdata *)0x8305)
+ 202      =1  #define FSDARL       (*(unsigned char volatile xdata *)0x8306)
+ 203      =1  #define FSDARH       (*(unsigned char volatile xdata *)0x8307)
+ 204      =1  #define CKSUML     (*(unsigned char volatile xdata *)0x8308)
+ 205      =1  #define CKSUMH     (*(unsigned char volatile xdata *)0x8309)
+ 206      =1  #define IDCODE0    (*(unsigned char volatile xdata *)0x830a)
+ 207      =1  #define IDCODE1    (*(unsigned char volatile xdata *)0x830b)
+ 208      =1  #define IDCODE2    (*(unsigned char volatile xdata *)0x830c)
+ 209      =1  #define SPMAX      (*(unsigned char volatile xdata *)0x8407)
+ 210      =1  
+ 211      =1  
+ 212      =1  
+ 213      =1  #define idata01     (*(unsigned char volatile idata *)0x01) 
+ 214      =1  #define idata55     (*(unsigned char volatile idata *)0x55) 
+ 215      =1  #define idata7f     (*(unsigned char volatile idata *)0x7f) 
+ 216      =1  #define idata80     (*(unsigned char volatile idata *)0x80) 
+ 217      =1  #define idatad5     (*(unsigned char volatile idata *)0xd5) 
+ 218      =1  #define idataff     (*(unsigned char volatile idata *)0xff) 
+ 219      =1  #define data80      (*(unsigned char volatile data *)0x80)  
+ 220      =1  #define datad5      (*(unsigned char volatile data *)0xd5)  
+ 221      =1  #define dataff      (*(unsigned char volatile data *)0xff)  
+ 222      =1  #define pdata00     (*(unsigned char volatile pdata *)0x00) 
+ 223      =1  #define pdata55     (*(unsigned char volatile pdata *)0x55) 
+ 224      =1  #define pdataff     (*(unsigned char volatile pdata *)0xff) 
+ 225      =1  #define xdata100    (*(unsigned char volatile xdata *)0x100)
+ 226      =1  #define xdata155    (*(unsigned char volatile xdata *)0x155)
+ 227      =1  #define xdata1ff    (*(unsigned char volatile xdata *)0x1ff)
+ 228      =1  
+ 229      =1  sbit P00 = P0^0;        //6232
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 5   
+
+ 230      =1  sbit P01 = P0^1;        //6232
+ 231      =1  sbit P02 = P0^2;        //6552
+ 232      =1  sbit P03 = P0^3;        //6552
+ 233      =1  sbit P04 = P0^4;        //6552
+ 234      =1  sbit P05 = P0^5;        //6552
+ 235      =1  sbit P06 = P0^6;        //6552
+ 236      =1  sbit P07 = P0^7;        //6552
+ 237      =1    
+ 238      =1  sbit P20 = P2^0;        //6552
+ 239      =1  sbit P21 = P2^1;        //6552
+ 240      =1  sbit P22 = P2^2;        //6652
+ 241      =1  sbit P23 = P2^3;        //6652
+ 242      =1  sbit P24 = P2^4;        //6652
+ 243      =1  sbit P25 = P2^5;        //6652
+ 244      =1  sbit P26 = P2^6;        //6652
+ 245      =1  sbit P27 = P2^7;        //6652
+ 246      =1  
+ 247      =1  sbit P10 = P1^0;
+ 248      =1  sbit P11 = P1^1;
+ 249      =1  sbit P12 = P1^2;
+ 250      =1  sbit P13 = P1^3;
+ 251      =1  sbit P14 = P1^4;
+ 252      =1  sbit P15 = P1^5;
+ 253      =1  sbit P16 = P1^6;
+ 254      =1  sbit P17 = P1^7;
+ 255      =1  
+ 256      =1  //sbit P30 = P3^0;
+ 257      =1  //sbit P31 = P3^1;
+ 258      =1  //sbit P32 = P3^2;
+ 259      =1  //sbit P33 = P3^3;
+ 260      =1  //sbit P34 = P3^4;
+ 261      =1  //sbit P35 = P3^5;
+ 262      =1  //sbit P36 = P3^6;      //6232
+ 263      =1  //sbit P37 = P3^7;      //6232
+ 264      =1  
+ 265      =1  /* ‰∏≠Êñ≠‰ºòÂÖàÁ∫ßÂØÑÂ≠òÂô® IP (B8H) */
+ 266      =1  sbit PX3 = IP^6;                /* INT4 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é Touch Key/WDT/LVD/WKT/EP1 ‰∏≠Êñ≠ */
+ 267      =1  sbit PX2 = IP^5;                /* INT3 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºå Áî®‰∫é IIC/Timer2/PWM/EP0 ‰∏≠Êñ≠ */
+ 268      =1  sbit PS0 = IP^4;                /* INT2 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é UART0 ‰∏≠Êñ≠ */
+ 269      =1  sbit PT1 = IP^3;                /* Timer 1 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 270      =1  sbit PX1 = IP^2;                /* INT1 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 271      =1  sbit PT0 = IP^1;                /* Timer 0 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 272      =1  sbit PX0 = IP^0;                /* INT0 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 273      =1  
+ 274      =1  /* ‰∏≠Êñ≠‰ºòÂÖàÁ∫ßÂØÑÂ≠òÂô® EXIP (F8H) */
+ 275      =1  sbit PX6 = EXIP^2;              /* INT6 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é RTC/UART2/Timer 4/EP4 ‰∏≠Êñ≠ */
+ 276      =1  sbit PX5 = EXIP^1;              /* INT5 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é ADC/SPI/Timer 4/SCM/EP3 ‰∏≠Êñ≠ */
+ 277      =1  sbit PX4 = EXIP^0;              /* INT4 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é CMP/UART1/Timer 3/EP2 ‰∏≠Êñ≠ */
+ 278      =1  
+ 279      =1  /* ‰∏≠Êñ≠‰ΩøËÉΩÂØÑÂ≠òÂô® IE (A8H) */
+ 280      =1  sbit EA =        IE^7;          /* ÂÖ®Â±Ä‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰Ωç */
+ 281      =1  sbit EINT3 = IE^6;              /* Áî®‰∫é Touch Key/WDT/LVD/WKT/EP1 ‰∏≠Êñ≠ */
+ 282      =1  sbit EINT2 = IE^5;              /* Áî®‰∫é IIC/Timer2/PWM/EP0 ‰∏≠Êñ≠ */
+ 283      =1  sbit ES0 = IE^4;                /* UART0 ‰∏≠Êñ≠ */
+ 284      =1  sbit ET1 =       IE^3;          /* ÂÆöÊó∂Âô® 1 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰Ωç */
+ 285      =1  sbit EINT1 = IE^2;              /* ‰∏≠Êñ≠ 1 ‰ΩøËÉΩÊéßÂà∂‰ΩçÔºà‰∏≠Êñ≠ 1 Áî®‰∫éÂ§ñÈÉ®‰∏≠Êñ≠ 1Ôºâ */
+ 286      =1  sbit ET0 =       IE^1;          /* ÂÆöÊó∂Âô® 0 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰Ωç */
+ 287      =1  sbit EINT0 = IE^0;              /* 0 ‰ΩøËÉΩÊéßÂà∂‰ΩçÔºà‰∏≠Êñ≠ 0 Áî®‰∫éÂ§ñÈÉ®‰∏≠Êñ≠ 0Ôºâ */
+ 288      =1  
+ 289      =1  /* ‰∏≠Êñ≠‰ΩøËÉΩÂØÑÂ≠òÂô® EXIE (E8H) */
+ 290      =1  sbit EINT6 = EXIE^2;            /* INT7 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰ΩçÔºåÁî®‰∫é RTC/UART2/Timer 4/EP4 ‰∏≠Êñ≠ */  //6652
+ 291      =1  sbit EINT5 = EXIE^1;            /* INT5 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰ΩçÔºåÁî®‰∫é ADC/SPI/SCM/EP3 ‰∏≠Êñ≠ */
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 6   
+
+ 292      =1  sbit EINT4 = EXIE^0;            /* INT4 ‰ΩøËÉΩÊéßÂà∂‰ΩçÔºåÁî®‰∫é UART1/Timer3/EP2 ‰∏≠Êñ≠ */
+ 293      =1  
+ 294      =1  /* Â§ñÈÉ®‰∏≠Êñ≠‰ΩøËÉΩÂØÑÂ≠òÂô® EPIE (D8H) */
+ 295      =1  sbit EP3IE = EPIE^3;            /* EP3 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 296      =1  sbit EP2IE = EPIE^2;            /* EP2 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 297      =1  sbit EP1IE = EPIE^1;            /* EP1 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 298      =1  sbit EP0IE = EPIE^0;            /* EP0 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 299      =1  
+ 300      =1  /* ‰∏≤Âè£UART0ÂØÑÂ≠òÂô® S0CON (98H) */
+ 301      =1  sbit SM00 = S0CON^7;    /* ‰∏≤Âè£ 0 Ê®°ÂºèÈÄâÊã©‰ΩçÔºå */
+ 302      =1  sbit SM10 = S0CON^6;    /* ‰∏≤Âè£ 0 Ê®°ÂºèÈÄâÊã©‰ΩçÔºå */
+ 303      =1  sbit SM20 = S0CON^5;    /* Â§öÊú∫ÈÄö‰ø°‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 304      =1  sbit REN0 = S0CON^4;    /* ‰∏≤Ë°åÊé•Êî∂‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 305      =1  sbit TB80 = S0CON^3;    /* ÂèëÈÄÅÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 306      =1  sbit RB80 = S0CON^2;    /* Êé•Êî∂ÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 307      =1  sbit TI0 =      S0CON^1;        /* ÂèëÈÄÅ‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 308      =1  sbit RI0 =  S0CON^0;    /* Êé•Êî∂‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 309      =1  
+ 310      =1  /* ÂÆöÊó∂Âô®0/1 TCON (88H) */
+ 311      =1  sbit TF1 = TCON^7;              /* ÂÆöÊó∂Âô® 0 Ê®°Âºè 3 ÁöÑ TH0 Ê∫¢Âá∫/ÂÆöÊó∂Âô® 1 Ê∫¢Âá∫Ê†áÂøó‰ΩçÔºå‰∏≠Êñ≠Ë¢´ÂìçÂ∫îÂê
+             -éËá™Âä®Ê∏Ö 0. */
+ 312      =1  sbit TR1 = TCON^6;              /* ÂÆöÊó∂Âô® 1 ËøêË°åÊéßÂà∂‰ΩçÔºå 1 ÊúâÊïà */
+ 313      =1  sbit TF0 = TCON^5;              /* ÂÆöÊó∂Âô® 0 Ê∫¢Âá∫Ê†áÂøó‰ΩçÔºå‰∏≠Êñ≠Ë¢´ÂìçÂ∫îÂêéËá™Âä®Ê∏Ö 0 */
+ 314      =1  sbit TR0 = TCON^4;              /* ÂÆöÊó∂Âô® 0 ËøêË°åÊéßÂà∂‰ΩçÔºå 1 ÊúâÊïà */
+ 315      =1  sbit IE1 = TCON^3;              /* Â§ñÈÉ®‰∏≠Êñ≠ 1 ‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 316      =1  sbit IT1 = TCON^2;              /* Â§ñÈÉ®‰∏≠Êñ≠ 1 Ëß¶ÂèëÁ±ªÂûãÊéßÂà∂‰Ωç */
+ 317      =1  sbit IE0 = TCON^1;              /* Â§ñÈÉ®‰∏≠Êñ≠ 0 ‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 318      =1  sbit IT0 = TCON^0;              /* Â§ñÈÉ®‰∏≠Êñ≠ 0 Ëß¶ÂèëÁ±ªÂûãÊéßÂà∂‰Ωç */
+ 319      =1  
+ 320      =1  /* ÂÆöÊó∂Âô®2 T2CON (C8H) */
+ 321      =1  sbit TF2 =   T2CON^7;           /* ÂÆöÊó∂Âô® 2 Ê∫¢Âá∫Ê†áÂøó‰Ωç„ÄÇ ÂΩì RCLK Êàñ TCLK ‰∏∫ 1Ôºå TF2 ‰∏ç‰ºöË¢´ÁΩÆ 1 */
+ 322      =1  sbit EXF2 =  T2CON^6;           /* T2EX Ëß¶ÂèëÊ†áÂøó„ÄÇ */
+ 323      =1  sbit RCLK =  T2CON^5;           /* UART0 Âú®Ê®°Âºè 1 Âíå 3 Êó∂‰ΩøÁî®ÂÆöÊó∂Âô® 1/2 ‰Ωú‰∏∫Êé•Êî∂Ê≥¢ÁâπÁéáÊó∂Èíü */
+ 324      =1  sbit TCLK =  T2CON^4;           /* UART0 Âú®Ê®°Âºè 1 Âíå 3 Êó∂‰ΩøÁî®ÂÆöÊó∂Âô® 1/2 ‰Ωú‰∏∫ÂèëÈÄÅÊ≥¢ÁâπÁéáÊó∂Èíü */
+ 325      =1  sbit EXEN2 = T2CON^3;           /* T2EX ‰ΩøËÉΩ‰ø°Âè∑ÔºåÂú®ÂÆöÊó∂Âô®Ê≤°Êúâ‰Ωú‰∏∫ UART0 Êó∂ÈíüÊó∂ T2EX ÊúâÊïà */
+ 326      =1  sbit TR2 =   T2CON^2;           /* ÂÆöÊó∂Âô® 2 ÂêØÂä®‰ø°Âè∑Ôºå 1 ÊúâÊïà */
+ 327      =1  sbit CT2 =   T2CON^1;           /* ÂÆöÊó∂ÂäüËÉΩÊàñËÆ°Êï∞ÂäüËÉΩÈÄâÊã©‰ø°Âè∑ */
+ 328      =1  sbit CPRL2 = T2CON^0;           /* ÊäìÂèñÊàñÈáçËΩΩÂäüËÉΩÈÄâÊã©‰ø°Âè∑„ÄÇÂΩì RCLK Êàñ TCLK ‰∏∫ 1 Êó∂ÔºåÂÆöÊó∂Âô®Âº∫Âà
+             -∂ËøõÂÖ• Timer 2 ÈáçËΩΩÊ®°Âºè */
+ 329      =1  
+ 330      =1  /* Ê®°Êï∞ËΩ¨Êç¢Âô® ADCON (C0H) */
+ 331      =1  sbit ADST =  ADCON^7;           /* ADC ËΩ¨Êç¢ÂºÄÂßãÊéßÂà∂‰ΩçÔºåÂÜô 1 ÂêØÂä®ËΩ¨Êç¢ÔºåËΩ¨Êç¢ÂêéÁ°¨‰ª∂Ëá™Âä®Ê∏Ö 0 */
+ 332      =1  sbit ADIE =  ADCON^6;           /* ADC ‰∏≠Êñ≠‰ΩøËÉΩ‰Ωç */
+ 333      =1  sbit ADCF =  ADCON^0;           /* ADC ÈááÊ†∑ÂÆåÊàêÊ†áÂøó */
+ 334      =1  
+ 335      =1  
+ 336      =1  /* ‰∏≤Âè£UART1 ÂØÑÂ≠òÂô®S1CON (9BH) ‰∏çÂèØ‰ΩçÂØªÂùÄ */
+ 337      =1  #define SM11    0x80            /* Â∑•‰ΩúÊ®°ÂºèÈÄâÊã© */
+ 338      =1  #define IE1     0x40            /* ‰∏≠Êñ≠‰ΩøËÉΩÔºå 1 ÊúâÊïà */
+ 339      =1  #define SM21    0x20            /* Â§öÊú∫ÈÄö‰ø°‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 340      =1  #define REN1    0x10            /* ‰∏≤Ë°åÊé•Êî∂‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 341      =1  #define TB81    0x08            /* ÂèëÈÄÅÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 342      =1  #define RB81    0x04            /* Êé•Êî∂ÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 343      =1  #define TI1     0x02            /* ÂèëÈÄÅ‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 344      =1  #define RI1     0x01            /* Êé•Êî∂‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 345      =1  
+ 346      =1  #define ROR_8BIT(X,Y) ((X<<(8-Y))|(X>>Y))
+ 347      =1  #define ROL_8BIT(X,Y) ((X>>(8-Y))|(X<<Y)) 
+ 348      =1  
+ 349      =1  typedef         unsigned char   u8;
+ 350      =1  typedef         unsigned int    u16;
+ 351      =1  typedef         unsigned long   u32;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 7   
+
+ 352      =1  typedef     unsigned char   uint8_t;
+ 353      =1  typedef     unsigned int    uint16_t;
+ 354      =1  typedef     unsigned long   uint32_t;
+ 355      =1  
+ 356      =1  typedef     signed char     int8_t;
+ 357      =1  typedef     signed int      int16_t;
+ 358      =1  typedef     signed long     int32_t;
+ 359      =1  #endif
+ 360      =1  
+  12          #include <stdio.h>
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  STDIO.H
+   3      =1  
+   4      =1  Prototypes for standard I/O functions.
+   5      =1  Copyright (c) 1988-2002 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =1  All rights reserved.
+   7      =1  --------------------------------------------------------------------------*/
+   8      =1  
+   9      =1  #ifndef __STDIO_H__
+  10      =1  #define __STDIO_H__
+  11      =1  
+  12      =1  #ifndef EOF
+  13      =1   #define EOF -1
+  14      =1  #endif
+  15      =1  
+  16      =1  #ifndef NULL
+  17      =1   #define NULL ((void *) 0)
+  18      =1  #endif
+  19      =1  
+  20      =1  #ifndef _SIZE_T
+  21      =1   #define _SIZE_T
+  22      =1   typedef unsigned int size_t;
+  23      =1  #endif
+  24      =1  
+  25      =1  #pragma SAVE
+  26      =1  #pragma REGPARMS
+  27      =1  extern char _getkey (void);
+  28      =1  extern char getchar (void);
+  29      =1  extern char ungetchar (char);
+  30      =1  extern char putchar (char);
+  31      =1  extern int printf   (const char *, ...);
+  32      =1  extern int sprintf  (char *, const char *, ...);
+  33      =1  extern int vprintf  (const char *, char *);
+  34      =1  extern int vsprintf (char *, const char *, char *);
+  35      =1  extern char *gets (char *, int n);
+  36      =1  extern int scanf (const char *, ...);
+  37      =1  extern int sscanf (char *, const char *, ...);
+  38      =1  extern int puts (const char *);
+  39      =1  
+  40      =1  #pragma RESTORE
+  41      =1  
+  42      =1  #endif
+  43      =1  
+  13          #include "nvr.h"
+   1      =1  #ifndef __nvr_H
+   2      =1  #define __nvr_H
+   3      =1  
+   4      =1  //
+   5      =1  #define SECTOR_SIZE 128
+   6      =1  
+   7      =1  #define NVR1_START_ADDR 0X00    //NVR1…»«¯ ◊µÿ÷∑
+   8      =1  #define NVR2_START_ADDR 0X80    //NVR2…»«¯ ◊µÿ÷∑
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 8   
+
+   9      =1  #define NVR3_START_ADDR 0X100   //NVR3…»«¯ ◊µÿ÷∑
+  10      =1  #define NVR4_START_ADDR 0X180   //NVR4…»«¯ ◊µÿ÷∑
+  11      =1  #define NVR5_START_ADDR 0X200   //NVR1…»«¯ ◊µÿ÷∑
+  12      =1  #define NVR6_START_ADDR 0X280   //NVR2…»«¯ ◊µÿ÷∑
+  13      =1  #define NVR7_START_ADDR 0X300   //NVR3…»«¯ ◊µÿ÷∑
+  14      =1  #define NVR8_START_ADDR 0X380   //NVR4…»«¯ ◊µÿ÷∑
+  15      =1  #define NVR9_START_ADDR 0X400   //NVR1…»«¯ ◊µÿ÷∑
+  16      =1  #define NVR10_START_ADDR 0X480  //NVR2…»«¯ ◊µÿ÷∑
+  17      =1  #define NVR11_START_ADDR 0X500  //NVR3…»«¯ ◊µÿ÷∑
+  18      =1  #define NVR12_START_ADDR 0X670  //NVR4…»«¯ ◊µÿ÷∑
+  19      =1  
+  20      =1  
+  21      =1  
+  22      =1  #define NVR_FLASH_MARK_ENABLE_ADDR 0x10C
+  23      =1  #define NVR_FLASH_MARK_ENABLE_CMD 0xAA
+  24      =1  #define NVR_FLASH_MARK_ADDR 0x10D
+  25      =1  #define NVR_FLASH_MARK_DATA 0x80
+  26      =1  
+  27      =1  #define NVR_UNLOCK 0X78
+  28      =1  //#define NVR_WRITE 0X86
+  29      =1  #define NVR_WRITE 0X82
+  30      =1  //#define NVR_ERASE 0X87
+  31      =1  #define NVR_ERASE 0X83
+  32      =1  #define INNER_FLASH_ERASE_UN-MASK 0X04
+  33      =1  //#define NVR_BANDGAP_TRIMMING_ENABLE 0x100
+  34      =1  //#define NVR_BANDGAP_TRIMMING_AUTOLOAD_VALUE 0x101
+  35      =1  #define NVR_LOCK 0X87
+  36      =1  #define NVR_READ 0X81
+  37      =1  //#define NVR_READ 0X85
+  38      =1  
+  39      =1  void EraseNVR(unsigned short SectorAddr);
+  40      =1  void WriteDataNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len);
+  41      =1  void readDatafromNVR(unsigned char *buf,unsigned short SectorAddr,unsigned short len);
+  42      =1  void FlashCodeErase(unsigned short SectorNum,unsigned short len);
+  43      =1  
+  44      =1  #endif
+  45      =1  
+  14          
+  15          static void delay_1ms(void)
+  16          {
+  17   1              int j;
+  18   1              for(j=0;j<1700;++j);
+  19   1      }
+  20          void delay_ms(unsigned int i)
+  21          {
+  22   1              unsigned long j=0;
+  23   1                      for(j=0;j<(i*16/12);++j);
+  24   1      }
+  25          
+  26          static void delay(int i)
+  27          {
+  28   1              long j;
+  29   1              for(j=0;j<10*i;++j);
+  30   1      }
+  31          
+  32          //=========================================================
+  33          /*****************************************************
+  34          *∫Ø ˝√˚≥∆£∫void UART0_write(signed char dat)
+  35          *∫Ø ˝π¶ƒ‹£∫UART0_write
+  36          *»Îø⁄≤Œ ˝£∫void
+  37          *≥ˆø⁄≤Œ ˝£∫void
+  38          *****************************************************/
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 9   
+
+  39          void UART0_write(signed char dat)
+  40          {
+  41   1          S0BUF = dat;            //Send data to UART buffer
+  42   1          while(!TI0);
+  43   1          TI0 = 0;
+  44   1      }
+  45          
+  46          /*****************************************************
+  47          *∫Ø ˝π¶ƒ‹£∫÷ÿ∂®œÚcø‚∫Ø ˝printfµΩ¥Æø⁄£¨÷ÿ∂®œÚ∫Ûø… π”√printf∫Ø ˝
+  48          *****************************************************/
+  49          char putchar(char ch)
+  50          {
+  51   1          /* ∑¢ÀÕ“ª∏ˆ◊÷Ω⁄ ˝æ›µΩ¥Æø⁄ */
+  52   1          UART0_write((signed char) ch);
+  53   1              
+  54   1          return ch;
+  55   1      }
+  56          
+  57          /*****************************************************
+  58          *∫Ø ˝√˚≥∆£∫void writeHex(unsigned char num)
+  59          *∫Ø ˝π¶ƒ‹£∫writeHex¥Ú”°16Ω¯÷∆num
+  60          *»Îø⁄≤Œ ˝£∫num
+  61          *≥ˆø⁄≤Œ ˝£∫void
+  62          *****************************************************/
+  63          void writeHex(unsigned char num)
+  64          {
+  65   1              unsigned char i=0;
+  66   1              i=num/16;
+  67   1              if(i>9)UART0_write(i-10+'A');
+  68   1              else UART0_write(i+'0');
+  69   1              i=num%16;
+  70   1              if(i>9)UART0_write(i-10+'A');
+  71   1              else UART0_write(i+'0');
+  72   1              UART0_write(' ');
+  73   1      }
+  74          /*****************************************************
+  75          *∫Ø ˝√˚≥∆£∫void Uart0Mode1(void)
+  76          *∫Ø ˝π¶ƒ‹£∫8 Œª“Ï≤Ωƒ£ Ω£¨≤®Ãÿ¬ £∫ø…µ˜(T1/T2)
+  77          *»Îø⁄≤Œ ˝£∫
+  78          *≥ˆø⁄≤Œ ˝£∫
+  79          *****************************************************/
+  80          void Uart0Mode1(void)
+  81          {
+  82   1          SM00 = 0;
+  83   1          SM10 = 1;   //ƒ£ Ω—°‘Ò: ƒ£ Ω1
+  84   1          REN0 = 1;   //¥Æ––Ω” ’ πƒ‹Œª
+  85   1          RI0  = 0;   //Ω” ’÷–∂œ±Í÷æ
+  86   1          TI0  = 0;   //∑¢ÀÕ÷–∂œ±Í÷æ
+  87   1              
+  88   1          /* ƒ¨»œ∂® ±∆˜1◊˜Œ™ ±÷”‘¥(≈‰÷√Œª8Bit◊‘∂Ø÷ÿ‘ÿƒ£ Ω≤ªø™÷–∂œ≥Ã–Ú) */
+  89   1          /* TL1 ◊˜Œ™ 8 Œª∂® ±∆˜/º∆ ˝∆˜£¨ TH1 ◊˜Œ™◊‘∂Ø÷ÿ‘ÿºƒ¥Ê∆˜ */
+  90   1      //    TR1  = 0;    //œ»Õ£T1
+  91   1      //    TMOD = 0x20;                // ∂® ±∆˜£¨ ±÷”Œ™œµÕ≥ ±÷” 12 ∑÷∆µ
+  92   1      //    TH1  = 256-4;//≤®Ãÿ¬ 10417
+  93   1      //    TR1  = 1; //ø™ º‘À––//timer1 start running        
+  94   1          
+  95   1              //TIMER2 ◊˜Œ™uart0µƒ≤®Ãÿ¬  ±÷”‘¥ ≈‰÷√≤®Ãÿ¬ Œ™9600
+  96   1          TR2  = 0;
+  97   1          T2MOD= 0x00;/* ∂® ±2÷–∂œ≤ª πƒ‹£¨≤ª∑÷∆µ */
+  98   1          T2CL = 65536 - 52;
+  99   1          T2CH = 65536 - 52 >> 8;//≤®Ãÿ¬ £∫9600
+ 100   1          TL2  = T2CL;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 10  
+
+ 101   1          TH2  = T2CH;
+ 102   1          TR2  = 1;    //∆Ù∂Ø∂® ±∆˜2
+ 103   1          RCLK = 1;   //UART0‘⁄ƒ£ Ω1∫Õ3 ± π”√∂® ±∆˜1/2◊˜Œ™Ω” ’≤®Ãÿ¬  ±÷”
+ 104   1          TCLK = 1;           //UART0‘⁄ƒ£ Ω1∫Õ3 ± π”√∂® ±∆˜1/2◊˜Œ™Ω” ’≤®Ãÿ¬  ±÷”
+ 105   1      }
+ 106          
+ 107          unsigned char rbuf[SECTOR_SIZE]={0};
+ 108          unsigned char buf[SECTOR_SIZE]={0};
+ 109          
+ 110          /*****************************************************
+ 111          *∫Ø ˝√˚≥∆£∫void NVRCaseTest(void)
+ 112          *∫Ø ˝π¶ƒ‹£∫NVRª˘±æ∂¡–¥≤¡≤‚ ‘
+ 113          *»Îø⁄≤Œ ˝£∫void
+ 114          *≥ˆø⁄≤Œ ˝£∫void
+ 115          *****************************************************/
+ 116          void NVRCaseTest(void)
+ 117          {
+ 118   1              int i;
+ 119   1              
+ 120   1              // NVR1 ª˘±æ≤¡ –¥ ∂¡ (0~0x7f)
+ 121   1              EraseNVR(NVR1_START_ADDR);
+ 122   1              delay_ms(10);
+ 123   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=1;//i
+ 124   1              WriteDataNVR(buf,NVR1_START_ADDR,SECTOR_SIZE);
+ 125   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 126   1              readDatafromNVR(rbuf,NVR1_START_ADDR,SECTOR_SIZE);
+ 127   1              delay_ms(10);
+ 128   1              for(i=0;i<SECTOR_SIZE;i++)
+ 129   1                      printf("i=%x,val=0X%BX\r\n",NVR1_START_ADDR+i,rbuf[i]);
+ 130   1              
+ 131   1              // NVR2 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff)
+ 132   1              EraseNVR(NVR2_START_ADDR);
+ 133   1              delay_ms(10);
+ 134   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=2;//i+0x80
+ 135   1              WriteDataNVR(buf,NVR2_START_ADDR,SECTOR_SIZE);
+ 136   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 137   1              readDatafromNVR(rbuf,NVR2_START_ADDR,SECTOR_SIZE);
+ 138   1              delay_ms(10);
+ 139   1              for(i=0;i<SECTOR_SIZE;i++)
+ 140   1                      printf("i=%x,val=0X%BX\r\n",NVR2_START_ADDR+i,rbuf[i]);
+ 141   1              
+ 142   1              // NVR3 ª˘±æ≤¡ –¥ ∂¡ (0~0x7f)
+ 143   1              EraseNVR(NVR3_START_ADDR);
+ 144   1              delay_ms(10);
+ 145   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=3;//i
+ 146   1              WriteDataNVR(buf,NVR3_START_ADDR,SECTOR_SIZE);
+ 147   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 148   1              readDatafromNVR(rbuf,NVR3_START_ADDR,SECTOR_SIZE);
+ 149   1              delay_ms(10);
+ 150   1              for(i=0;i<SECTOR_SIZE;i++)
+ 151   1                      printf("i=%x,val=0X%BX\r\n",NVR3_START_ADDR+i,rbuf[i]);
+ 152   1              
+ 153   1              // NVR4 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 154   1              EraseNVR(NVR4_START_ADDR);
+ 155   1              delay_ms(10);
+ 156   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=4;
+ 157   1              WriteDataNVR(buf,NVR4_START_ADDR,SECTOR_SIZE);
+ 158   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 159   1              readDatafromNVR(rbuf,NVR4_START_ADDR,SECTOR_SIZE);
+ 160   1              delay_ms(10);
+ 161   1              for(i=0;i<SECTOR_SIZE;i++)
+ 162   1                      printf("i=%x,val=0X%BX\r\n",NVR4_START_ADDR+i,rbuf[i]); 
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 11  
+
+ 163   1      
+ 164   1              // NVR5 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 165   1              EraseNVR(NVR5_START_ADDR);
+ 166   1              delay_ms(10);
+ 167   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=5;
+ 168   1              WriteDataNVR(buf,NVR5_START_ADDR,SECTOR_SIZE);
+ 169   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 170   1              readDatafromNVR(rbuf,NVR5_START_ADDR,SECTOR_SIZE);
+ 171   1              delay_ms(10);
+ 172   1              for(i=0;i<SECTOR_SIZE;i++)
+ 173   1                      printf("i=%x,val=0X%BX\r\n",NVR5_START_ADDR+i,rbuf[i]);             
+ 174   1        
+ 175   1              // NVR6 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 176   1              EraseNVR(NVR6_START_ADDR);
+ 177   1              delay_ms(10);
+ 178   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=6;
+ 179   1              WriteDataNVR(buf,NVR6_START_ADDR,SECTOR_SIZE);
+ 180   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 181   1              readDatafromNVR(rbuf,NVR6_START_ADDR,SECTOR_SIZE);
+ 182   1              delay_ms(10);
+ 183   1              for(i=0;i<SECTOR_SIZE;i++)
+ 184   1                      printf("i=%x,val=0X%BX\r\n",NVR6_START_ADDR+i,rbuf[i]);            
+ 185   1       
+ 186   1              // NVR7 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 187   1              EraseNVR(NVR7_START_ADDR);
+ 188   1              delay_ms(10);
+ 189   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=7;
+ 190   1              WriteDataNVR(buf,NVR7_START_ADDR,SECTOR_SIZE);
+ 191   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 192   1              readDatafromNVR(rbuf,NVR7_START_ADDR,SECTOR_SIZE);
+ 193   1              delay_ms(10);
+ 194   1              for(i=0;i<SECTOR_SIZE;i++)
+ 195   1                      printf("i=%x,val=0X%BX\r\n",NVR7_START_ADDR+i,rbuf[i]);        
+ 196   1      
+ 197   1              // NVR8 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 198   1              EraseNVR(NVR8_START_ADDR);
+ 199   1              delay_ms(10);
+ 200   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=8;
+ 201   1              WriteDataNVR(buf,NVR8_START_ADDR,SECTOR_SIZE);
+ 202   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 203   1              readDatafromNVR(rbuf,NVR8_START_ADDR,SECTOR_SIZE);
+ 204   1              delay_ms(10);
+ 205   1              for(i=0;i<SECTOR_SIZE;i++)
+ 206   1                      printf("i=%x,val=0X%BX\r\n",NVR8_START_ADDR+i,rbuf[i]);         
+ 207   1      
+ 208   1              // NVR9 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 209   1              EraseNVR(NVR9_START_ADDR);
+ 210   1              delay_ms(10);
+ 211   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=9;
+ 212   1              WriteDataNVR(buf,NVR9_START_ADDR,SECTOR_SIZE);
+ 213   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 214   1              readDatafromNVR(rbuf,NVR9_START_ADDR,SECTOR_SIZE);
+ 215   1              delay_ms(10);
+ 216   1              for(i=0;i<SECTOR_SIZE;i++)
+ 217   1                      printf("i=%x,val=0X%BX\r\n",NVR9_START_ADDR+i,rbuf[i]);     
+ 218   1      
+ 219   1              // NVR10 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 220   1              EraseNVR(NVR10_START_ADDR);
+ 221   1              delay_ms(10);
+ 222   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=10;
+ 223   1              WriteDataNVR(buf,NVR10_START_ADDR,SECTOR_SIZE);
+ 224   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 12  
+
+ 225   1              readDatafromNVR(rbuf,NVR10_START_ADDR,SECTOR_SIZE);
+ 226   1              delay_ms(10);
+ 227   1              for(i=0;i<SECTOR_SIZE;i++)
+ 228   1                      printf("i=%x,val=0X%BX\r\n",NVR10_START_ADDR+i,rbuf[i]);       
+ 229   1      
+ 230   1              // NVR11 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 231   1              EraseNVR(NVR11_START_ADDR);
+ 232   1              delay_ms(10);
+ 233   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=11;
+ 234   1              WriteDataNVR(buf,NVR11_START_ADDR,SECTOR_SIZE);
+ 235   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 236   1              readDatafromNVR(rbuf,NVR11_START_ADDR,SECTOR_SIZE);
+ 237   1              delay_ms(10);
+ 238   1              for(i=0;i<SECTOR_SIZE;i++)
+ 239   1                      printf("i=%x,val=0X%BX\r\n",NVR11_START_ADDR+i,rbuf[i]);       
+ 240   1      
+ 241   1              // NVR12 ª˘±æ≤¡ –¥ ∂¡ (0x80~0xff) 
+ 242   1              EraseNVR(NVR12_START_ADDR);
+ 243   1              delay_ms(10);
+ 244   1              for(i=0;i<SECTOR_SIZE;i++)buf[i]=12;
+ 245   1              WriteDataNVR(buf,NVR12_START_ADDR,SECTOR_SIZE);
+ 246   1              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 247   1              readDatafromNVR(rbuf,NVR12_START_ADDR,SECTOR_SIZE);
+ 248   1              delay_ms(10);
+ 249   1              for(i=0;i<SECTOR_SIZE;i++)
+ 250   1                      printf("i=%x,val=0X%BX\r\n",NVR12_START_ADDR+i,rbuf[i]); 
+ 251   1      } 
+ 252          
+ 253          /*****************************************************
+ 254          *∫Ø ˝√˚≥∆£∫void nvrCkSumTest(void)
+ 255          *∫Ø ˝π¶ƒ‹£∫flash µƒ¿€º”∫Õºƒ¥Ê∆˜≤‚ ‘ 
+ 256          *»Îø⁄≤Œ ˝£∫void
+ 257          *≥ˆø⁄≤Œ ˝£∫void
+ 258          *****************************************************/
+ 259          void nvrCkSumTest(void)
+ 260          {
+ 261   1              unsigned int i,k;
+ 262   1              unsigned char j;        
+ 263   1              for(i=0;i<16;++i)
+ 264   1              {
+ 265   2                      FSDARL=((i*SECTOR_SIZE)&0xff);
+ 266   2                      FSDARH=(((i*SECTOR_SIZE)>>8)&0xff);
+ 267   2                      FSCMD=0x8c;
+ 268   2                      printf("i= %d, %bx_%bx", i, CKSUMH,CKSUML);
+ 269   2                      
+ 270   2                      //∂¡nvr«¯”Ú
+ 271   2                      for(k=0;k<SECTOR_SIZE;++k)rbuf[k]=0;
+ 272   2                      readDatafromNVR(rbuf,(i*SECTOR_SIZE),SECTOR_SIZE);
+ 273   2                      k=0;
+ 274   2                      for(j=0;j<SECTOR_SIZE;++j)
+ 275   2                      {
+ 276   3                              k += rbuf[j];
+ 277   3                      }
+ 278   2                      
+ 279   2                      j=k>>8;
+ 280   2                      printf(" %bx",j);
+ 281   2                      j=k&0xff;
+ 282   2                      printf("_%bx",j);
+ 283   2                      UART0_write('\r');
+ 284   2                      UART0_write('\n');
+ 285   2              }
+ 286   1      }  
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 13  
+
+ 287          
+ 288          void main(void)
+ 289          {   
+ 290   1          SCCON = 0x00;//HRC    
+ 291   1          HRCON |= 0x80;
+ 292   1          delay_1ms();
+ 293   1              
+ 294   1                      /*************************π‹Ω≈≈‰÷√**********************/ 
+ 295   1                P10F = 2;
+ 296   1                P07F = 7;//RX
+ 297   1          P06F = 7;//TX
+ 298   1              
+ 299   1                      /****** UART0 ƒ£ Ω1£®≤®Ãÿ¬ £∫9600 ø…µ˜£©**************/
+ 300   1          Uart0Mode1();
+ 301   1                printf("run====\r\n");  
+ 302   1              
+ 303   1                      NVRCaseTest();
+ 304   1                      nvrCkSumTest();
+ 305   1              
+ 306   1              while(1)
+ 307   1              {
+ 308   2                      P10=~P10;
+ 309   2                      delay(1000);
+ 310   2              }
+ 311   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 14  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION delay_1ms (BEGIN)
+                                           ; SOURCE LINE # 15
+                                           ; SOURCE LINE # 16
+                                           ; SOURCE LINE # 18
+;---- Variable 'j' assigned to Register 'R6/R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+0003         ?C0001:
+0003 0F                INC     R7
+0004 BF0001            CJNE    R7,#00H,?C0145
+0007 0E                INC     R6
+0008         ?C0145:
+0008 BE06F8            CJNE    R6,#06H,?C0001
+000B BFA4F5            CJNE    R7,#0A4H,?C0001
+                                           ; SOURCE LINE # 19
+000E         ?C0004:
+000E 22                RET     
+             ; FUNCTION delay_1ms (END)
+
+             ; FUNCTION L?0188 (BEGIN)
+0000         L?0189:
+0000 7F0A              MOV     R7,#0AH
+0002 7E00              MOV     R6,#00H
+             ; FUNCTION _delay_ms (BEGIN)
+                                           ; SOURCE LINE # 20
+0004 900000      R     MOV     DPTR,#i
+0007 EE                MOV     A,R6
+0008 F0                MOVX    @DPTR,A
+0009 A3                INC     DPTR
+000A EF                MOV     A,R7
+000B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 22
+000C A3                INC     DPTR
+000D 120000      E     LCALL   ?C?LSTKXDATA
+0010 00                DB      00H
+0011 00                DB      00H
+0012 00                DB      00H
+0013 00                DB      00H
+                                           ; SOURCE LINE # 23
+0014 900000      R     MOV     DPTR,#j
+0017 120000      E     LCALL   ?C?LSTKXDATA
+001A 00                DB      00H
+001B 00                DB      00H
+001C 00                DB      00H
+001D 00                DB      00H
+001E         ?C0005:
+001E 900000      R     MOV     DPTR,#i+01H
+0021 E0                MOVX    A,@DPTR
+0022 C4                SWAP    A
+0023 F8                MOV     R0,A
+0024 540F              ANL     A,#0FH
+0026 C8                XCH     A,R0
+0027 68                XRL     A,R0
+0028 FF                MOV     R7,A
+0029 900000      R     MOV     DPTR,#i
+002C E0                MOVX    A,@DPTR
+002D C4                SWAP    A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 15  
+
+002E 54F0              ANL     A,#0F0H
+0030 48                ORL     A,R0
+0031 FE                MOV     R6,A
+0032 7C00              MOV     R4,#00H
+0034 7D0C              MOV     R5,#0CH
+0036 120000      E     LCALL   ?C?UIDIV
+0039 E4                CLR     A
+003A FC                MOV     R4,A
+003B FD                MOV     R5,A
+003C 900000      R     MOV     DPTR,#j
+003F E0                MOVX    A,@DPTR
+0040 F8                MOV     R0,A
+0041 A3                INC     DPTR
+0042 E0                MOVX    A,@DPTR
+0043 F9                MOV     R1,A
+0044 A3                INC     DPTR
+0045 E0                MOVX    A,@DPTR
+0046 FA                MOV     R2,A
+0047 A3                INC     DPTR
+0048 E0                MOVX    A,@DPTR
+0049 FB                MOV     R3,A
+004A C3                CLR     C
+004B 120000      E     LCALL   ?C?ULCMP
+004E 5021              JNC     ?C0008
+0050 900000      R     MOV     DPTR,#j
+0053 E0                MOVX    A,@DPTR
+0054 FC                MOV     R4,A
+0055 A3                INC     DPTR
+0056 E0                MOVX    A,@DPTR
+0057 FD                MOV     R5,A
+0058 A3                INC     DPTR
+0059 E0                MOVX    A,@DPTR
+005A FE                MOV     R6,A
+005B A3                INC     DPTR
+005C E0                MOVX    A,@DPTR
+005D 2401              ADD     A,#01H
+005F FF                MOV     R7,A
+0060 E4                CLR     A
+0061 3E                ADDC    A,R6
+0062 FE                MOV     R6,A
+0063 E4                CLR     A
+0064 3D                ADDC    A,R5
+0065 FD                MOV     R5,A
+0066 E4                CLR     A
+0067 3C                ADDC    A,R4
+0068 FC                MOV     R4,A
+0069 900000      R     MOV     DPTR,#j
+006C 120000      E     LCALL   ?C?LSTXDATA
+006F 80AD              SJMP    ?C0005
+                                           ; SOURCE LINE # 24
+0071         ?C0008:
+0071 22                RET     
+             ; FUNCTION _delay_ms (END)
+
+             ; FUNCTION _delay (BEGIN)
+                                           ; SOURCE LINE # 26
+0000 900000      R     MOV     DPTR,#i
+0003 EE                MOV     A,R6
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EF                MOV     A,R7
+0007 F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 16  
+
+                                           ; SOURCE LINE # 27
+                                           ; SOURCE LINE # 29
+0008 A3                INC     DPTR
+0009 120000      E     LCALL   ?C?LSTKXDATA
+000C 00                DB      00H
+000D 00                DB      00H
+000E 00                DB      00H
+000F 00                DB      00H
+0010         ?C0009:
+0010 900000      R     MOV     DPTR,#i
+0013 E0                MOVX    A,@DPTR
+0014 FE                MOV     R6,A
+0015 A3                INC     DPTR
+0016 E0                MOVX    A,@DPTR
+0017 FF                MOV     R7,A
+0018 7C00              MOV     R4,#00H
+001A 7D0A              MOV     R5,#0AH
+001C 120000      E     LCALL   ?C?IMUL
+001F EE                MOV     A,R6
+0020 33                RLC     A
+0021 95E0              SUBB    A,ACC
+0023 FD                MOV     R5,A
+0024 FC                MOV     R4,A
+0025 A3                INC     DPTR
+0026 E0                MOVX    A,@DPTR
+0027 F8                MOV     R0,A
+0028 A3                INC     DPTR
+0029 E0                MOVX    A,@DPTR
+002A F9                MOV     R1,A
+002B A3                INC     DPTR
+002C E0                MOVX    A,@DPTR
+002D FA                MOV     R2,A
+002E A3                INC     DPTR
+002F E0                MOVX    A,@DPTR
+0030 FB                MOV     R3,A
+0031 C3                CLR     C
+0032 120000      E     LCALL   ?C?SLCMP
+0035 5027              JNC     ?C0012
+0037 900000      R     MOV     DPTR,#j
+003A E0                MOVX    A,@DPTR
+003B FC                MOV     R4,A
+003C A3                INC     DPTR
+003D E0                MOVX    A,@DPTR
+003E FD                MOV     R5,A
+003F A3                INC     DPTR
+0040 E0                MOVX    A,@DPTR
+0041 FE                MOV     R6,A
+0042 A3                INC     DPTR
+0043 E0                MOVX    A,@DPTR
+0044 FF                MOV     R7,A
+0045 E4                CLR     A
+0046 FA                MOV     R2,A
+0047 F9                MOV     R1,A
+0048 F8                MOV     R0,A
+0049 EF                MOV     A,R7
+004A 2401              ADD     A,#01H
+004C FF                MOV     R7,A
+004D EA                MOV     A,R2
+004E 3E                ADDC    A,R6
+004F FE                MOV     R6,A
+0050 E9                MOV     A,R1
+0051 3D                ADDC    A,R5
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 17  
+
+0052 FD                MOV     R5,A
+0053 E8                MOV     A,R0
+0054 3C                ADDC    A,R4
+0055 FC                MOV     R4,A
+0056 900000      R     MOV     DPTR,#j
+0059 120000      E     LCALL   ?C?LSTXDATA
+005C 80B2              SJMP    ?C0009
+                                           ; SOURCE LINE # 30
+005E         ?C0012:
+005E 22                RET     
+             ; FUNCTION _delay (END)
+
+             ; FUNCTION _UART0_write (BEGIN)
+                                           ; SOURCE LINE # 39
+;---- Variable 'dat' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 40
+                                           ; SOURCE LINE # 41
+0000 8F99              MOV     S0BUF,R7
+0002         ?C0013:
+                                           ; SOURCE LINE # 42
+0002 3099FD            JNB     TI0,?C0013
+                                           ; SOURCE LINE # 43
+0005 C299              CLR     TI0
+                                           ; SOURCE LINE # 44
+0007 22                RET     
+             ; FUNCTION _UART0_write (END)
+
+             ; FUNCTION _putchar (BEGIN)
+                                           ; SOURCE LINE # 49
+;---- Variable 'ch' assigned to Register 'R6' ----
+0000 AE07              MOV     R6,AR7
+                                           ; SOURCE LINE # 50
+                                           ; SOURCE LINE # 52
+0002 020000      R     LJMP    _UART0_write
+             ; FUNCTION _putchar (END)
+
+             ; FUNCTION _writeHex (BEGIN)
+                                           ; SOURCE LINE # 63
+;---- Variable 'num' assigned to Register 'R6' ----
+0000 AE07              MOV     R6,AR7
+                                           ; SOURCE LINE # 64
+                                           ; SOURCE LINE # 65
+;---- Variable 'i' assigned to Register 'R5' ----
+                                           ; SOURCE LINE # 66
+0002 EE                MOV     A,R6
+0003 C4                SWAP    A
+0004 540F              ANL     A,#0FH
+0006 FD                MOV     R5,A
+                                           ; SOURCE LINE # 67
+0007 D3                SETB    C
+0008 9409              SUBB    A,#09H
+000A 7480              MOV     A,#080H
+000C 9480              SUBB    A,#080H
+000E ED                MOV     A,R5
+000F 4004              JC      ?C0017
+0011 2437              ADD     A,#037H
+0013 8002              SJMP    ?C0186
+0015         ?C0017:
+                                           ; SOURCE LINE # 68
+0015 2430              ADD     A,#030H
+0017         ?C0186:
+0017 FF                MOV     R7,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 18  
+
+0018 120000      R     LCALL   _UART0_write
+001B         ?C0018:
+                                           ; SOURCE LINE # 69
+001B EE                MOV     A,R6
+001C 540F              ANL     A,#0FH
+001E FD                MOV     R5,A
+                                           ; SOURCE LINE # 70
+001F D3                SETB    C
+0020 9409              SUBB    A,#09H
+0022 7480              MOV     A,#080H
+0024 9480              SUBB    A,#080H
+0026 ED                MOV     A,R5
+0027 4004              JC      ?C0019
+0029 2437              ADD     A,#037H
+002B 8002              SJMP    ?C0187
+002D         ?C0019:
+                                           ; SOURCE LINE # 71
+002D 2430              ADD     A,#030H
+002F         ?C0187:
+002F FF                MOV     R7,A
+0030 120000      R     LCALL   _UART0_write
+0033         ?C0020:
+                                           ; SOURCE LINE # 72
+0033 7F20              MOV     R7,#020H
+0035 020000      R     LJMP    _UART0_write
+             ; FUNCTION _writeHex (END)
+
+             ; FUNCTION Uart0Mode1 (BEGIN)
+                                           ; SOURCE LINE # 80
+                                           ; SOURCE LINE # 81
+                                           ; SOURCE LINE # 82
+0000 C29F              CLR     SM00
+                                           ; SOURCE LINE # 83
+0002 D29E              SETB    SM10
+                                           ; SOURCE LINE # 84
+0004 D29C              SETB    REN0
+                                           ; SOURCE LINE # 85
+0006 C298              CLR     RI0
+                                           ; SOURCE LINE # 86
+0008 C299              CLR     TI0
+                                           ; SOURCE LINE # 96
+000A C2CA              CLR     TR2
+                                           ; SOURCE LINE # 97
+000C E4                CLR     A
+000D F5C9              MOV     T2MOD,A
+                                           ; SOURCE LINE # 98
+000F 75CACC            MOV     T2CL,#0CCH
+                                           ; SOURCE LINE # 99
+0012 75CBFF            MOV     T2CH,#0FFH
+                                           ; SOURCE LINE # 100
+0015 85CACC            MOV     TL2,T2CL
+                                           ; SOURCE LINE # 101
+0018 85CBCD            MOV     TH2,T2CH
+                                           ; SOURCE LINE # 102
+001B D2CA              SETB    TR2
+                                           ; SOURCE LINE # 103
+001D D2CD              SETB    RCLK
+                                           ; SOURCE LINE # 104
+001F D2CC              SETB    TCLK
+                                           ; SOURCE LINE # 105
+0021 22                RET     
+             ; FUNCTION Uart0Mode1 (END)
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 19  
+
+
+             ; FUNCTION NVRCaseTest (BEGIN)
+                                           ; SOURCE LINE # 116
+                                           ; SOURCE LINE # 117
+                                           ; SOURCE LINE # 121
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+0003 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 122
+0006 120000      R     LCALL   L?0188
+                                           ; SOURCE LINE # 123
+0009 E4                CLR     A
+000A 900000      R     MOV     DPTR,#i
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F F0                MOVX    @DPTR,A
+0010         ?C0023:
+0010 900000      R     MOV     DPTR,#i
+0013 E0                MOVX    A,@DPTR
+0014 FE                MOV     R6,A
+0015 A3                INC     DPTR
+0016 E0                MOVX    A,@DPTR
+0017 FF                MOV     R7,A
+0018 C3                CLR     C
+0019 9480              SUBB    A,#080H
+001B EE                MOV     A,R6
+001C 6480              XRL     A,#080H
+001E 9480              SUBB    A,#080H
+0020 501D              JNC     ?C0024
+0022 7400        R     MOV     A,#LOW buf
+0024 2F                ADD     A,R7
+0025 F582              MOV     DPL,A
+0027 7400        R     MOV     A,#HIGH buf
+0029 3E                ADDC    A,R6
+002A F583              MOV     DPH,A
+002C 7401              MOV     A,#01H
+002E F0                MOVX    @DPTR,A
+002F 900000      R     MOV     DPTR,#i+01H
+0032 E0                MOVX    A,@DPTR
+0033 04                INC     A
+0034 F0                MOVX    @DPTR,A
+0035 70D9              JNZ     ?C0023
+0037 900000      R     MOV     DPTR,#i
+003A E0                MOVX    A,@DPTR
+003B 04                INC     A
+003C F0                MOVX    @DPTR,A
+003D         ?C0146:
+003D 80D1              SJMP    ?C0023
+003F         ?C0024:
+                                           ; SOURCE LINE # 124
+003F 7B01              MOV     R3,#01H
+0041 7A00        R     MOV     R2,#HIGH buf
+0043 7900        R     MOV     R1,#LOW buf
+0045 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+0048 E4                CLR     A
+0049 F0                MOVX    @DPTR,A
+004A A3                INC     DPTR
+004B 7480              MOV     A,#080H
+004D F0                MOVX    @DPTR,A
+004E E4                CLR     A
+004F FD                MOV     R5,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 20  
+
+0050 FC                MOV     R4,A
+0051 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 125
+0054 E4                CLR     A
+0055 900000      R     MOV     DPTR,#i
+0058 F0                MOVX    @DPTR,A
+0059 A3                INC     DPTR
+005A F0                MOVX    @DPTR,A
+005B         ?C0026:
+005B 900000      R     MOV     DPTR,#i
+005E E0                MOVX    A,@DPTR
+005F FE                MOV     R6,A
+0060 A3                INC     DPTR
+0061 E0                MOVX    A,@DPTR
+0062 FF                MOV     R7,A
+0063 C3                CLR     C
+0064 9480              SUBB    A,#080H
+0066 EE                MOV     A,R6
+0067 6480              XRL     A,#080H
+0069 9480              SUBB    A,#080H
+006B 501C              JNC     ?C0027
+006D 7400        R     MOV     A,#LOW rbuf
+006F 2F                ADD     A,R7
+0070 F582              MOV     DPL,A
+0072 7400        R     MOV     A,#HIGH rbuf
+0074 3E                ADDC    A,R6
+0075 F583              MOV     DPH,A
+0077 E4                CLR     A
+0078 F0                MOVX    @DPTR,A
+0079 900000      R     MOV     DPTR,#i+01H
+007C E0                MOVX    A,@DPTR
+007D 04                INC     A
+007E F0                MOVX    @DPTR,A
+007F 70DA              JNZ     ?C0026
+0081 900000      R     MOV     DPTR,#i
+0084 E0                MOVX    A,@DPTR
+0085 04                INC     A
+0086 F0                MOVX    @DPTR,A
+0087         ?C0147:
+0087 80D2              SJMP    ?C0026
+0089         ?C0027:
+                                           ; SOURCE LINE # 126
+0089 7B01              MOV     R3,#01H
+008B 7A00        R     MOV     R2,#HIGH rbuf
+008D 7900        R     MOV     R1,#LOW rbuf
+008F 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0092 E4                CLR     A
+0093 F0                MOVX    @DPTR,A
+0094 A3                INC     DPTR
+0095 7480              MOV     A,#080H
+0097 F0                MOVX    @DPTR,A
+0098 E4                CLR     A
+0099 FD                MOV     R5,A
+009A FC                MOV     R4,A
+009B 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 127
+009E 120000      R     LCALL   L?0188
+                                           ; SOURCE LINE # 128
+00A1 E4                CLR     A
+00A2 900000      R     MOV     DPTR,#i
+00A5 F0                MOVX    @DPTR,A
+00A6 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 21  
+
+00A7 F0                MOVX    @DPTR,A
+00A8         ?C0029:
+00A8 900000      R     MOV     DPTR,#i
+00AB E0                MOVX    A,@DPTR
+00AC FE                MOV     R6,A
+00AD A3                INC     DPTR
+00AE E0                MOVX    A,@DPTR
+00AF FF                MOV     R7,A
+00B0 C3                CLR     C
+00B1 9480              SUBB    A,#080H
+00B3 EE                MOV     A,R6
+00B4 6480              XRL     A,#080H
+00B6 9480              SUBB    A,#080H
+00B8 502F              JNC     ?C0030
+                                           ; SOURCE LINE # 129
+00BA 7BFF              MOV     R3,#0FFH
+00BC 7A00        R     MOV     R2,#HIGH ?SC_0
+00BE 7900        R     MOV     R1,#LOW ?SC_0
+00C0 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+00C3 EE                MOV     A,R6
+00C4 F0                MOVX    @DPTR,A
+00C5 A3                INC     DPTR
+00C6 EF                MOV     A,R7
+00C7 F0                MOVX    @DPTR,A
+00C8 2400        R     ADD     A,#LOW rbuf
+00CA F582              MOV     DPL,A
+00CC 7400        R     MOV     A,#HIGH rbuf
+00CE 3E                ADDC    A,R6
+00CF F583              MOV     DPH,A
+00D1 E0                MOVX    A,@DPTR
+00D2 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+00D5 F0                MOVX    @DPTR,A
+00D6 120000      E     LCALL   _printf
+00D9 900000      R     MOV     DPTR,#i+01H
+00DC E0                MOVX    A,@DPTR
+00DD 04                INC     A
+00DE F0                MOVX    @DPTR,A
+00DF 70C7              JNZ     ?C0029
+00E1 900000      R     MOV     DPTR,#i
+00E4 E0                MOVX    A,@DPTR
+00E5 04                INC     A
+00E6 F0                MOVX    @DPTR,A
+00E7         ?C0148:
+00E7 80BF              SJMP    ?C0029
+00E9         ?C0030:
+                                           ; SOURCE LINE # 132
+00E9 7F80              MOV     R7,#080H
+00EB 7E00              MOV     R6,#00H
+00ED 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 133
+00F0 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 134
+00F3 E4                CLR     A
+00F4 900000      R     MOV     DPTR,#i
+00F7 F0                MOVX    @DPTR,A
+00F8 A3                INC     DPTR
+00F9 F0                MOVX    @DPTR,A
+00FA         ?C0032:
+00FA 900000      R     MOV     DPTR,#i
+00FD E0                MOVX    A,@DPTR
+00FE FE                MOV     R6,A
+00FF A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 22  
+
+0100 E0                MOVX    A,@DPTR
+0101 FF                MOV     R7,A
+0102 C3                CLR     C
+0103 9480              SUBB    A,#080H
+0105 EE                MOV     A,R6
+0106 6480              XRL     A,#080H
+0108 9480              SUBB    A,#080H
+010A 501D              JNC     ?C0033
+010C 7400        R     MOV     A,#LOW buf
+010E 2F                ADD     A,R7
+010F F582              MOV     DPL,A
+0111 7400        R     MOV     A,#HIGH buf
+0113 3E                ADDC    A,R6
+0114 F583              MOV     DPH,A
+0116 7402              MOV     A,#02H
+0118 F0                MOVX    @DPTR,A
+0119 900000      R     MOV     DPTR,#i+01H
+011C E0                MOVX    A,@DPTR
+011D 04                INC     A
+011E F0                MOVX    @DPTR,A
+011F 70D9              JNZ     ?C0032
+0121 900000      R     MOV     DPTR,#i
+0124 E0                MOVX    A,@DPTR
+0125 04                INC     A
+0126 F0                MOVX    @DPTR,A
+0127         ?C0149:
+0127 80D1              SJMP    ?C0032
+0129         ?C0033:
+                                           ; SOURCE LINE # 135
+0129 7B01              MOV     R3,#01H
+012B 7A00        R     MOV     R2,#HIGH buf
+012D 7900        R     MOV     R1,#LOW buf
+012F 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+0132 E4                CLR     A
+0133 F0                MOVX    @DPTR,A
+0134 A3                INC     DPTR
+0135 7480              MOV     A,#080H
+0137 F0                MOVX    @DPTR,A
+0138 FD                MOV     R5,A
+0139 7C00              MOV     R4,#00H
+013B 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 136
+013E E4                CLR     A
+013F 900000      R     MOV     DPTR,#i
+0142 F0                MOVX    @DPTR,A
+0143 A3                INC     DPTR
+0144 F0                MOVX    @DPTR,A
+0145         ?C0035:
+0145 900000      R     MOV     DPTR,#i
+0148 E0                MOVX    A,@DPTR
+0149 FE                MOV     R6,A
+014A A3                INC     DPTR
+014B E0                MOVX    A,@DPTR
+014C FF                MOV     R7,A
+014D C3                CLR     C
+014E 9480              SUBB    A,#080H
+0150 EE                MOV     A,R6
+0151 6480              XRL     A,#080H
+0153 9480              SUBB    A,#080H
+0155 501C              JNC     ?C0036
+0157 7400        R     MOV     A,#LOW rbuf
+0159 2F                ADD     A,R7
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 23  
+
+015A F582              MOV     DPL,A
+015C 7400        R     MOV     A,#HIGH rbuf
+015E 3E                ADDC    A,R6
+015F F583              MOV     DPH,A
+0161 E4                CLR     A
+0162 F0                MOVX    @DPTR,A
+0163 900000      R     MOV     DPTR,#i+01H
+0166 E0                MOVX    A,@DPTR
+0167 04                INC     A
+0168 F0                MOVX    @DPTR,A
+0169 70DA              JNZ     ?C0035
+016B 900000      R     MOV     DPTR,#i
+016E E0                MOVX    A,@DPTR
+016F 04                INC     A
+0170 F0                MOVX    @DPTR,A
+0171         ?C0150:
+0171 80D2              SJMP    ?C0035
+0173         ?C0036:
+                                           ; SOURCE LINE # 137
+0173 7B01              MOV     R3,#01H
+0175 7A00        R     MOV     R2,#HIGH rbuf
+0177 7900        R     MOV     R1,#LOW rbuf
+0179 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+017C E4                CLR     A
+017D F0                MOVX    @DPTR,A
+017E A3                INC     DPTR
+017F 7480              MOV     A,#080H
+0181 F0                MOVX    @DPTR,A
+0182 FD                MOV     R5,A
+0183 7C00              MOV     R4,#00H
+0185 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 138
+0188 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 139
+018B E4                CLR     A
+018C 900000      R     MOV     DPTR,#i
+018F F0                MOVX    @DPTR,A
+0190 A3                INC     DPTR
+0191 F0                MOVX    @DPTR,A
+0192         ?C0038:
+                                           ; SOURCE LINE # 140
+0192 7BFF              MOV     R3,#0FFH
+0194 7A00        R     MOV     R2,#HIGH ?SC_0
+0196 7900        R     MOV     R1,#LOW ?SC_0
+0198 900000      R     MOV     DPTR,#i
+019B E0                MOVX    A,@DPTR
+019C FC                MOV     R4,A
+019D A3                INC     DPTR
+019E E0                MOVX    A,@DPTR
+019F FD                MOV     R5,A
+01A0 2480              ADD     A,#080H
+01A2 FE                MOV     R6,A
+01A3 E4                CLR     A
+01A4 3C                ADDC    A,R4
+01A5 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+01A8 F0                MOVX    @DPTR,A
+01A9 A3                INC     DPTR
+01AA CE                XCH     A,R6
+01AB F0                MOVX    @DPTR,A
+01AC 7400        R     MOV     A,#LOW rbuf
+01AE 2D                ADD     A,R5
+01AF F582              MOV     DPL,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 24  
+
+01B1 7400        R     MOV     A,#HIGH rbuf
+01B3 3C                ADDC    A,R4
+01B4 F583              MOV     DPH,A
+01B6 E0                MOVX    A,@DPTR
+01B7 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+01BA F0                MOVX    @DPTR,A
+01BB 120000      E     LCALL   _printf
+01BE 900000      R     MOV     DPTR,#i+01H
+01C1 E0                MOVX    A,@DPTR
+01C2 04                INC     A
+01C3 F0                MOVX    @DPTR,A
+01C4 7006              JNZ     ?C0151
+01C6 900000      R     MOV     DPTR,#i
+01C9 E0                MOVX    A,@DPTR
+01CA 04                INC     A
+01CB F0                MOVX    @DPTR,A
+01CC         ?C0151:
+01CC C3                CLR     C
+01CD 900000      R     MOV     DPTR,#i+01H
+01D0 E0                MOVX    A,@DPTR
+01D1 9480              SUBB    A,#080H
+01D3 900000      R     MOV     DPTR,#i
+01D6 E0                MOVX    A,@DPTR
+01D7 6480              XRL     A,#080H
+01D9 9480              SUBB    A,#080H
+01DB 40B5              JC      ?C0038
+01DD         ?C0039:
+                                           ; SOURCE LINE # 143
+01DD 7F00              MOV     R7,#00H
+01DF 7E01              MOV     R6,#01H
+01E1 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 144
+01E4 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 145
+01E7 E4                CLR     A
+01E8 900000      R     MOV     DPTR,#i
+01EB F0                MOVX    @DPTR,A
+01EC A3                INC     DPTR
+01ED F0                MOVX    @DPTR,A
+01EE         ?C0041:
+01EE 900000      R     MOV     DPTR,#i
+01F1 E0                MOVX    A,@DPTR
+01F2 FE                MOV     R6,A
+01F3 A3                INC     DPTR
+01F4 E0                MOVX    A,@DPTR
+01F5 FF                MOV     R7,A
+01F6 C3                CLR     C
+01F7 9480              SUBB    A,#080H
+01F9 EE                MOV     A,R6
+01FA 6480              XRL     A,#080H
+01FC 9480              SUBB    A,#080H
+01FE 501D              JNC     ?C0042
+0200 7400        R     MOV     A,#LOW buf
+0202 2F                ADD     A,R7
+0203 F582              MOV     DPL,A
+0205 7400        R     MOV     A,#HIGH buf
+0207 3E                ADDC    A,R6
+0208 F583              MOV     DPH,A
+020A 7403              MOV     A,#03H
+020C F0                MOVX    @DPTR,A
+020D 900000      R     MOV     DPTR,#i+01H
+0210 E0                MOVX    A,@DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 25  
+
+0211 04                INC     A
+0212 F0                MOVX    @DPTR,A
+0213 70D9              JNZ     ?C0041
+0215 900000      R     MOV     DPTR,#i
+0218 E0                MOVX    A,@DPTR
+0219 04                INC     A
+021A F0                MOVX    @DPTR,A
+021B         ?C0152:
+021B 80D1              SJMP    ?C0041
+021D         ?C0042:
+                                           ; SOURCE LINE # 146
+021D 7B01              MOV     R3,#01H
+021F 7A00        R     MOV     R2,#HIGH buf
+0221 7900        R     MOV     R1,#LOW buf
+0223 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+0226 E4                CLR     A
+0227 F0                MOVX    @DPTR,A
+0228 A3                INC     DPTR
+0229 7480              MOV     A,#080H
+022B F0                MOVX    @DPTR,A
+022C 7D00              MOV     R5,#00H
+022E 7C01              MOV     R4,#01H
+0230 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 147
+0233 E4                CLR     A
+0234 900000      R     MOV     DPTR,#i
+0237 F0                MOVX    @DPTR,A
+0238 A3                INC     DPTR
+0239 F0                MOVX    @DPTR,A
+023A         ?C0044:
+023A 900000      R     MOV     DPTR,#i
+023D E0                MOVX    A,@DPTR
+023E FE                MOV     R6,A
+023F A3                INC     DPTR
+0240 E0                MOVX    A,@DPTR
+0241 FF                MOV     R7,A
+0242 C3                CLR     C
+0243 9480              SUBB    A,#080H
+0245 EE                MOV     A,R6
+0246 6480              XRL     A,#080H
+0248 9480              SUBB    A,#080H
+024A 501C              JNC     ?C0045
+024C 7400        R     MOV     A,#LOW rbuf
+024E 2F                ADD     A,R7
+024F F582              MOV     DPL,A
+0251 7400        R     MOV     A,#HIGH rbuf
+0253 3E                ADDC    A,R6
+0254 F583              MOV     DPH,A
+0256 E4                CLR     A
+0257 F0                MOVX    @DPTR,A
+0258 900000      R     MOV     DPTR,#i+01H
+025B E0                MOVX    A,@DPTR
+025C 04                INC     A
+025D F0                MOVX    @DPTR,A
+025E 70DA              JNZ     ?C0044
+0260 900000      R     MOV     DPTR,#i
+0263 E0                MOVX    A,@DPTR
+0264 04                INC     A
+0265 F0                MOVX    @DPTR,A
+0266         ?C0153:
+0266 80D2              SJMP    ?C0044
+0268         ?C0045:
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 26  
+
+                                           ; SOURCE LINE # 148
+0268 7B01              MOV     R3,#01H
+026A 7A00        R     MOV     R2,#HIGH rbuf
+026C 7900        R     MOV     R1,#LOW rbuf
+026E 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0271 E4                CLR     A
+0272 F0                MOVX    @DPTR,A
+0273 A3                INC     DPTR
+0274 7480              MOV     A,#080H
+0276 F0                MOVX    @DPTR,A
+0277 7D00              MOV     R5,#00H
+0279 7C01              MOV     R4,#01H
+027B 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 149
+027E 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 150
+0281 E4                CLR     A
+0282 900000      R     MOV     DPTR,#i
+0285 F0                MOVX    @DPTR,A
+0286 A3                INC     DPTR
+0287 F0                MOVX    @DPTR,A
+0288         ?C0047:
+                                           ; SOURCE LINE # 151
+0288 7BFF              MOV     R3,#0FFH
+028A 7A00        R     MOV     R2,#HIGH ?SC_0
+028C 7900        R     MOV     R1,#LOW ?SC_0
+028E 900000      R     MOV     DPTR,#i
+0291 E0                MOVX    A,@DPTR
+0292 FC                MOV     R4,A
+0293 A3                INC     DPTR
+0294 E0                MOVX    A,@DPTR
+0295 FD                MOV     R5,A
+0296 2400              ADD     A,#00H
+0298 FE                MOV     R6,A
+0299 EC                MOV     A,R4
+029A 3401              ADDC    A,#01H
+029C 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+029F F0                MOVX    @DPTR,A
+02A0 A3                INC     DPTR
+02A1 CE                XCH     A,R6
+02A2 F0                MOVX    @DPTR,A
+02A3 7400        R     MOV     A,#LOW rbuf
+02A5 2D                ADD     A,R5
+02A6 F582              MOV     DPL,A
+02A8 7400        R     MOV     A,#HIGH rbuf
+02AA 3C                ADDC    A,R4
+02AB F583              MOV     DPH,A
+02AD E0                MOVX    A,@DPTR
+02AE 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+02B1 F0                MOVX    @DPTR,A
+02B2 120000      E     LCALL   _printf
+02B5 900000      R     MOV     DPTR,#i+01H
+02B8 E0                MOVX    A,@DPTR
+02B9 04                INC     A
+02BA F0                MOVX    @DPTR,A
+02BB 7006              JNZ     ?C0154
+02BD 900000      R     MOV     DPTR,#i
+02C0 E0                MOVX    A,@DPTR
+02C1 04                INC     A
+02C2 F0                MOVX    @DPTR,A
+02C3         ?C0154:
+02C3 C3                CLR     C
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 27  
+
+02C4 900000      R     MOV     DPTR,#i+01H
+02C7 E0                MOVX    A,@DPTR
+02C8 9480              SUBB    A,#080H
+02CA 900000      R     MOV     DPTR,#i
+02CD E0                MOVX    A,@DPTR
+02CE 6480              XRL     A,#080H
+02D0 9480              SUBB    A,#080H
+02D2 40B4              JC      ?C0047
+02D4         ?C0048:
+                                           ; SOURCE LINE # 154
+02D4 7F80              MOV     R7,#080H
+02D6 7E01              MOV     R6,#01H
+02D8 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 155
+02DB 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 156
+02DE E4                CLR     A
+02DF 900000      R     MOV     DPTR,#i
+02E2 F0                MOVX    @DPTR,A
+02E3 A3                INC     DPTR
+02E4 F0                MOVX    @DPTR,A
+02E5         ?C0050:
+02E5 900000      R     MOV     DPTR,#i
+02E8 E0                MOVX    A,@DPTR
+02E9 FE                MOV     R6,A
+02EA A3                INC     DPTR
+02EB E0                MOVX    A,@DPTR
+02EC FF                MOV     R7,A
+02ED C3                CLR     C
+02EE 9480              SUBB    A,#080H
+02F0 EE                MOV     A,R6
+02F1 6480              XRL     A,#080H
+02F3 9480              SUBB    A,#080H
+02F5 501D              JNC     ?C0051
+02F7 7400        R     MOV     A,#LOW buf
+02F9 2F                ADD     A,R7
+02FA F582              MOV     DPL,A
+02FC 7400        R     MOV     A,#HIGH buf
+02FE 3E                ADDC    A,R6
+02FF F583              MOV     DPH,A
+0301 7404              MOV     A,#04H
+0303 F0                MOVX    @DPTR,A
+0304 900000      R     MOV     DPTR,#i+01H
+0307 E0                MOVX    A,@DPTR
+0308 04                INC     A
+0309 F0                MOVX    @DPTR,A
+030A 70D9              JNZ     ?C0050
+030C 900000      R     MOV     DPTR,#i
+030F E0                MOVX    A,@DPTR
+0310 04                INC     A
+0311 F0                MOVX    @DPTR,A
+0312         ?C0155:
+0312 80D1              SJMP    ?C0050
+0314         ?C0051:
+                                           ; SOURCE LINE # 157
+0314 7B01              MOV     R3,#01H
+0316 7A00        R     MOV     R2,#HIGH buf
+0318 7900        R     MOV     R1,#LOW buf
+031A 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+031D E4                CLR     A
+031E F0                MOVX    @DPTR,A
+031F A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 28  
+
+0320 7480              MOV     A,#080H
+0322 F0                MOVX    @DPTR,A
+0323 FD                MOV     R5,A
+0324 7C01              MOV     R4,#01H
+0326 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 158
+0329 E4                CLR     A
+032A 900000      R     MOV     DPTR,#i
+032D F0                MOVX    @DPTR,A
+032E A3                INC     DPTR
+032F F0                MOVX    @DPTR,A
+0330         ?C0053:
+0330 900000      R     MOV     DPTR,#i
+0333 E0                MOVX    A,@DPTR
+0334 FE                MOV     R6,A
+0335 A3                INC     DPTR
+0336 E0                MOVX    A,@DPTR
+0337 FF                MOV     R7,A
+0338 C3                CLR     C
+0339 9480              SUBB    A,#080H
+033B EE                MOV     A,R6
+033C 6480              XRL     A,#080H
+033E 9480              SUBB    A,#080H
+0340 501C              JNC     ?C0054
+0342 7400        R     MOV     A,#LOW rbuf
+0344 2F                ADD     A,R7
+0345 F582              MOV     DPL,A
+0347 7400        R     MOV     A,#HIGH rbuf
+0349 3E                ADDC    A,R6
+034A F583              MOV     DPH,A
+034C E4                CLR     A
+034D F0                MOVX    @DPTR,A
+034E 900000      R     MOV     DPTR,#i+01H
+0351 E0                MOVX    A,@DPTR
+0352 04                INC     A
+0353 F0                MOVX    @DPTR,A
+0354 70DA              JNZ     ?C0053
+0356 900000      R     MOV     DPTR,#i
+0359 E0                MOVX    A,@DPTR
+035A 04                INC     A
+035B F0                MOVX    @DPTR,A
+035C         ?C0156:
+035C 80D2              SJMP    ?C0053
+035E         ?C0054:
+                                           ; SOURCE LINE # 159
+035E 7B01              MOV     R3,#01H
+0360 7A00        R     MOV     R2,#HIGH rbuf
+0362 7900        R     MOV     R1,#LOW rbuf
+0364 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0367 E4                CLR     A
+0368 F0                MOVX    @DPTR,A
+0369 A3                INC     DPTR
+036A 7480              MOV     A,#080H
+036C F0                MOVX    @DPTR,A
+036D FD                MOV     R5,A
+036E 7C01              MOV     R4,#01H
+0370 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 160
+0373 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 161
+0376 E4                CLR     A
+0377 900000      R     MOV     DPTR,#i
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 29  
+
+037A F0                MOVX    @DPTR,A
+037B A3                INC     DPTR
+037C F0                MOVX    @DPTR,A
+037D         ?C0056:
+                                           ; SOURCE LINE # 162
+037D 7BFF              MOV     R3,#0FFH
+037F 7A00        R     MOV     R2,#HIGH ?SC_0
+0381 7900        R     MOV     R1,#LOW ?SC_0
+0383 900000      R     MOV     DPTR,#i
+0386 E0                MOVX    A,@DPTR
+0387 FC                MOV     R4,A
+0388 A3                INC     DPTR
+0389 E0                MOVX    A,@DPTR
+038A FD                MOV     R5,A
+038B 2480              ADD     A,#080H
+038D FE                MOV     R6,A
+038E EC                MOV     A,R4
+038F 3401              ADDC    A,#01H
+0391 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0394 F0                MOVX    @DPTR,A
+0395 A3                INC     DPTR
+0396 CE                XCH     A,R6
+0397 F0                MOVX    @DPTR,A
+0398 7400        R     MOV     A,#LOW rbuf
+039A 2D                ADD     A,R5
+039B F582              MOV     DPL,A
+039D 7400        R     MOV     A,#HIGH rbuf
+039F 3C                ADDC    A,R4
+03A0 F583              MOV     DPH,A
+03A2 E0                MOVX    A,@DPTR
+03A3 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+03A6 F0                MOVX    @DPTR,A
+03A7 120000      E     LCALL   _printf
+03AA 900000      R     MOV     DPTR,#i+01H
+03AD E0                MOVX    A,@DPTR
+03AE 04                INC     A
+03AF F0                MOVX    @DPTR,A
+03B0 7006              JNZ     ?C0157
+03B2 900000      R     MOV     DPTR,#i
+03B5 E0                MOVX    A,@DPTR
+03B6 04                INC     A
+03B7 F0                MOVX    @DPTR,A
+03B8         ?C0157:
+03B8 C3                CLR     C
+03B9 900000      R     MOV     DPTR,#i+01H
+03BC E0                MOVX    A,@DPTR
+03BD 9480              SUBB    A,#080H
+03BF 900000      R     MOV     DPTR,#i
+03C2 E0                MOVX    A,@DPTR
+03C3 6480              XRL     A,#080H
+03C5 9480              SUBB    A,#080H
+03C7 40B4              JC      ?C0056
+03C9         ?C0057:
+                                           ; SOURCE LINE # 165
+03C9 7F00              MOV     R7,#00H
+03CB 7E02              MOV     R6,#02H
+03CD 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 166
+03D0 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 167
+03D3 E4                CLR     A
+03D4 900000      R     MOV     DPTR,#i
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 30  
+
+03D7 F0                MOVX    @DPTR,A
+03D8 A3                INC     DPTR
+03D9 F0                MOVX    @DPTR,A
+03DA         ?C0059:
+03DA 900000      R     MOV     DPTR,#i
+03DD E0                MOVX    A,@DPTR
+03DE FE                MOV     R6,A
+03DF A3                INC     DPTR
+03E0 E0                MOVX    A,@DPTR
+03E1 FF                MOV     R7,A
+03E2 C3                CLR     C
+03E3 9480              SUBB    A,#080H
+03E5 EE                MOV     A,R6
+03E6 6480              XRL     A,#080H
+03E8 9480              SUBB    A,#080H
+03EA 501D              JNC     ?C0060
+03EC 7400        R     MOV     A,#LOW buf
+03EE 2F                ADD     A,R7
+03EF F582              MOV     DPL,A
+03F1 7400        R     MOV     A,#HIGH buf
+03F3 3E                ADDC    A,R6
+03F4 F583              MOV     DPH,A
+03F6 7405              MOV     A,#05H
+03F8 F0                MOVX    @DPTR,A
+03F9 900000      R     MOV     DPTR,#i+01H
+03FC E0                MOVX    A,@DPTR
+03FD 04                INC     A
+03FE F0                MOVX    @DPTR,A
+03FF 70D9              JNZ     ?C0059
+0401 900000      R     MOV     DPTR,#i
+0404 E0                MOVX    A,@DPTR
+0405 04                INC     A
+0406 F0                MOVX    @DPTR,A
+0407         ?C0158:
+0407 80D1              SJMP    ?C0059
+0409         ?C0060:
+                                           ; SOURCE LINE # 168
+0409 7B01              MOV     R3,#01H
+040B 7A00        R     MOV     R2,#HIGH buf
+040D 7900        R     MOV     R1,#LOW buf
+040F 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+0412 E4                CLR     A
+0413 F0                MOVX    @DPTR,A
+0414 A3                INC     DPTR
+0415 7480              MOV     A,#080H
+0417 F0                MOVX    @DPTR,A
+0418 7D00              MOV     R5,#00H
+041A 7C02              MOV     R4,#02H
+041C 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 169
+041F E4                CLR     A
+0420 900000      R     MOV     DPTR,#i
+0423 F0                MOVX    @DPTR,A
+0424 A3                INC     DPTR
+0425 F0                MOVX    @DPTR,A
+0426         ?C0062:
+0426 900000      R     MOV     DPTR,#i
+0429 E0                MOVX    A,@DPTR
+042A FE                MOV     R6,A
+042B A3                INC     DPTR
+042C E0                MOVX    A,@DPTR
+042D FF                MOV     R7,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 31  
+
+042E C3                CLR     C
+042F 9480              SUBB    A,#080H
+0431 EE                MOV     A,R6
+0432 6480              XRL     A,#080H
+0434 9480              SUBB    A,#080H
+0436 501C              JNC     ?C0063
+0438 7400        R     MOV     A,#LOW rbuf
+043A 2F                ADD     A,R7
+043B F582              MOV     DPL,A
+043D 7400        R     MOV     A,#HIGH rbuf
+043F 3E                ADDC    A,R6
+0440 F583              MOV     DPH,A
+0442 E4                CLR     A
+0443 F0                MOVX    @DPTR,A
+0444 900000      R     MOV     DPTR,#i+01H
+0447 E0                MOVX    A,@DPTR
+0448 04                INC     A
+0449 F0                MOVX    @DPTR,A
+044A 70DA              JNZ     ?C0062
+044C 900000      R     MOV     DPTR,#i
+044F E0                MOVX    A,@DPTR
+0450 04                INC     A
+0451 F0                MOVX    @DPTR,A
+0452         ?C0159:
+0452 80D2              SJMP    ?C0062
+0454         ?C0063:
+                                           ; SOURCE LINE # 170
+0454 7B01              MOV     R3,#01H
+0456 7A00        R     MOV     R2,#HIGH rbuf
+0458 7900        R     MOV     R1,#LOW rbuf
+045A 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+045D E4                CLR     A
+045E F0                MOVX    @DPTR,A
+045F A3                INC     DPTR
+0460 7480              MOV     A,#080H
+0462 F0                MOVX    @DPTR,A
+0463 7D00              MOV     R5,#00H
+0465 7C02              MOV     R4,#02H
+0467 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 171
+046A 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 172
+046D E4                CLR     A
+046E 900000      R     MOV     DPTR,#i
+0471 F0                MOVX    @DPTR,A
+0472 A3                INC     DPTR
+0473 F0                MOVX    @DPTR,A
+0474         ?C0065:
+                                           ; SOURCE LINE # 173
+0474 7BFF              MOV     R3,#0FFH
+0476 7A00        R     MOV     R2,#HIGH ?SC_0
+0478 7900        R     MOV     R1,#LOW ?SC_0
+047A 900000      R     MOV     DPTR,#i
+047D E0                MOVX    A,@DPTR
+047E FC                MOV     R4,A
+047F A3                INC     DPTR
+0480 E0                MOVX    A,@DPTR
+0481 FD                MOV     R5,A
+0482 2400              ADD     A,#00H
+0484 FE                MOV     R6,A
+0485 EC                MOV     A,R4
+0486 3402              ADDC    A,#02H
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 32  
+
+0488 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+048B F0                MOVX    @DPTR,A
+048C A3                INC     DPTR
+048D CE                XCH     A,R6
+048E F0                MOVX    @DPTR,A
+048F 7400        R     MOV     A,#LOW rbuf
+0491 2D                ADD     A,R5
+0492 F582              MOV     DPL,A
+0494 7400        R     MOV     A,#HIGH rbuf
+0496 3C                ADDC    A,R4
+0497 F583              MOV     DPH,A
+0499 E0                MOVX    A,@DPTR
+049A 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+049D F0                MOVX    @DPTR,A
+049E 120000      E     LCALL   _printf
+04A1 900000      R     MOV     DPTR,#i+01H
+04A4 E0                MOVX    A,@DPTR
+04A5 04                INC     A
+04A6 F0                MOVX    @DPTR,A
+04A7 7006              JNZ     ?C0160
+04A9 900000      R     MOV     DPTR,#i
+04AC E0                MOVX    A,@DPTR
+04AD 04                INC     A
+04AE F0                MOVX    @DPTR,A
+04AF         ?C0160:
+04AF C3                CLR     C
+04B0 900000      R     MOV     DPTR,#i+01H
+04B3 E0                MOVX    A,@DPTR
+04B4 9480              SUBB    A,#080H
+04B6 900000      R     MOV     DPTR,#i
+04B9 E0                MOVX    A,@DPTR
+04BA 6480              XRL     A,#080H
+04BC 9480              SUBB    A,#080H
+04BE 40B4              JC      ?C0065
+04C0         ?C0066:
+                                           ; SOURCE LINE # 176
+04C0 7F80              MOV     R7,#080H
+04C2 7E02              MOV     R6,#02H
+04C4 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 177
+04C7 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 178
+04CA E4                CLR     A
+04CB 900000      R     MOV     DPTR,#i
+04CE F0                MOVX    @DPTR,A
+04CF A3                INC     DPTR
+04D0 F0                MOVX    @DPTR,A
+04D1         ?C0068:
+04D1 900000      R     MOV     DPTR,#i
+04D4 E0                MOVX    A,@DPTR
+04D5 FE                MOV     R6,A
+04D6 A3                INC     DPTR
+04D7 E0                MOVX    A,@DPTR
+04D8 FF                MOV     R7,A
+04D9 C3                CLR     C
+04DA 9480              SUBB    A,#080H
+04DC EE                MOV     A,R6
+04DD 6480              XRL     A,#080H
+04DF 9480              SUBB    A,#080H
+04E1 501D              JNC     ?C0069
+04E3 7400        R     MOV     A,#LOW buf
+04E5 2F                ADD     A,R7
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 33  
+
+04E6 F582              MOV     DPL,A
+04E8 7400        R     MOV     A,#HIGH buf
+04EA 3E                ADDC    A,R6
+04EB F583              MOV     DPH,A
+04ED 7406              MOV     A,#06H
+04EF F0                MOVX    @DPTR,A
+04F0 900000      R     MOV     DPTR,#i+01H
+04F3 E0                MOVX    A,@DPTR
+04F4 04                INC     A
+04F5 F0                MOVX    @DPTR,A
+04F6 70D9              JNZ     ?C0068
+04F8 900000      R     MOV     DPTR,#i
+04FB E0                MOVX    A,@DPTR
+04FC 04                INC     A
+04FD F0                MOVX    @DPTR,A
+04FE         ?C0161:
+04FE 80D1              SJMP    ?C0068
+0500         ?C0069:
+                                           ; SOURCE LINE # 179
+0500 7B01              MOV     R3,#01H
+0502 7A00        R     MOV     R2,#HIGH buf
+0504 7900        R     MOV     R1,#LOW buf
+0506 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+0509 E4                CLR     A
+050A F0                MOVX    @DPTR,A
+050B A3                INC     DPTR
+050C 7480              MOV     A,#080H
+050E F0                MOVX    @DPTR,A
+050F FD                MOV     R5,A
+0510 7C02              MOV     R4,#02H
+0512 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 180
+0515 E4                CLR     A
+0516 900000      R     MOV     DPTR,#i
+0519 F0                MOVX    @DPTR,A
+051A A3                INC     DPTR
+051B F0                MOVX    @DPTR,A
+051C         ?C0071:
+051C 900000      R     MOV     DPTR,#i
+051F E0                MOVX    A,@DPTR
+0520 FE                MOV     R6,A
+0521 A3                INC     DPTR
+0522 E0                MOVX    A,@DPTR
+0523 FF                MOV     R7,A
+0524 C3                CLR     C
+0525 9480              SUBB    A,#080H
+0527 EE                MOV     A,R6
+0528 6480              XRL     A,#080H
+052A 9480              SUBB    A,#080H
+052C 501C              JNC     ?C0072
+052E 7400        R     MOV     A,#LOW rbuf
+0530 2F                ADD     A,R7
+0531 F582              MOV     DPL,A
+0533 7400        R     MOV     A,#HIGH rbuf
+0535 3E                ADDC    A,R6
+0536 F583              MOV     DPH,A
+0538 E4                CLR     A
+0539 F0                MOVX    @DPTR,A
+053A 900000      R     MOV     DPTR,#i+01H
+053D E0                MOVX    A,@DPTR
+053E 04                INC     A
+053F F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 34  
+
+0540 70DA              JNZ     ?C0071
+0542 900000      R     MOV     DPTR,#i
+0545 E0                MOVX    A,@DPTR
+0546 04                INC     A
+0547 F0                MOVX    @DPTR,A
+0548         ?C0162:
+0548 80D2              SJMP    ?C0071
+054A         ?C0072:
+                                           ; SOURCE LINE # 181
+054A 7B01              MOV     R3,#01H
+054C 7A00        R     MOV     R2,#HIGH rbuf
+054E 7900        R     MOV     R1,#LOW rbuf
+0550 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0553 E4                CLR     A
+0554 F0                MOVX    @DPTR,A
+0555 A3                INC     DPTR
+0556 7480              MOV     A,#080H
+0558 F0                MOVX    @DPTR,A
+0559 FD                MOV     R5,A
+055A 7C02              MOV     R4,#02H
+055C 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 182
+055F 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 183
+0562 E4                CLR     A
+0563 900000      R     MOV     DPTR,#i
+0566 F0                MOVX    @DPTR,A
+0567 A3                INC     DPTR
+0568 F0                MOVX    @DPTR,A
+0569         ?C0074:
+                                           ; SOURCE LINE # 184
+0569 7BFF              MOV     R3,#0FFH
+056B 7A00        R     MOV     R2,#HIGH ?SC_0
+056D 7900        R     MOV     R1,#LOW ?SC_0
+056F 900000      R     MOV     DPTR,#i
+0572 E0                MOVX    A,@DPTR
+0573 FC                MOV     R4,A
+0574 A3                INC     DPTR
+0575 E0                MOVX    A,@DPTR
+0576 FD                MOV     R5,A
+0577 2480              ADD     A,#080H
+0579 FE                MOV     R6,A
+057A EC                MOV     A,R4
+057B 3402              ADDC    A,#02H
+057D 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0580 F0                MOVX    @DPTR,A
+0581 A3                INC     DPTR
+0582 CE                XCH     A,R6
+0583 F0                MOVX    @DPTR,A
+0584 7400        R     MOV     A,#LOW rbuf
+0586 2D                ADD     A,R5
+0587 F582              MOV     DPL,A
+0589 7400        R     MOV     A,#HIGH rbuf
+058B 3C                ADDC    A,R4
+058C F583              MOV     DPH,A
+058E E0                MOVX    A,@DPTR
+058F 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+0592 F0                MOVX    @DPTR,A
+0593 120000      E     LCALL   _printf
+0596 900000      R     MOV     DPTR,#i+01H
+0599 E0                MOVX    A,@DPTR
+059A 04                INC     A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 35  
+
+059B F0                MOVX    @DPTR,A
+059C 7006              JNZ     ?C0163
+059E 900000      R     MOV     DPTR,#i
+05A1 E0                MOVX    A,@DPTR
+05A2 04                INC     A
+05A3 F0                MOVX    @DPTR,A
+05A4         ?C0163:
+05A4 C3                CLR     C
+05A5 900000      R     MOV     DPTR,#i+01H
+05A8 E0                MOVX    A,@DPTR
+05A9 9480              SUBB    A,#080H
+05AB 900000      R     MOV     DPTR,#i
+05AE E0                MOVX    A,@DPTR
+05AF 6480              XRL     A,#080H
+05B1 9480              SUBB    A,#080H
+05B3 40B4              JC      ?C0074
+05B5         ?C0075:
+                                           ; SOURCE LINE # 187
+05B5 7F00              MOV     R7,#00H
+05B7 7E03              MOV     R6,#03H
+05B9 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 188
+05BC 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 189
+05BF E4                CLR     A
+05C0 900000      R     MOV     DPTR,#i
+05C3 F0                MOVX    @DPTR,A
+05C4 A3                INC     DPTR
+05C5 F0                MOVX    @DPTR,A
+05C6         ?C0077:
+05C6 900000      R     MOV     DPTR,#i
+05C9 E0                MOVX    A,@DPTR
+05CA FE                MOV     R6,A
+05CB A3                INC     DPTR
+05CC E0                MOVX    A,@DPTR
+05CD FF                MOV     R7,A
+05CE C3                CLR     C
+05CF 9480              SUBB    A,#080H
+05D1 EE                MOV     A,R6
+05D2 6480              XRL     A,#080H
+05D4 9480              SUBB    A,#080H
+05D6 501D              JNC     ?C0078
+05D8 7400        R     MOV     A,#LOW buf
+05DA 2F                ADD     A,R7
+05DB F582              MOV     DPL,A
+05DD 7400        R     MOV     A,#HIGH buf
+05DF 3E                ADDC    A,R6
+05E0 F583              MOV     DPH,A
+05E2 7407              MOV     A,#07H
+05E4 F0                MOVX    @DPTR,A
+05E5 900000      R     MOV     DPTR,#i+01H
+05E8 E0                MOVX    A,@DPTR
+05E9 04                INC     A
+05EA F0                MOVX    @DPTR,A
+05EB 70D9              JNZ     ?C0077
+05ED 900000      R     MOV     DPTR,#i
+05F0 E0                MOVX    A,@DPTR
+05F1 04                INC     A
+05F2 F0                MOVX    @DPTR,A
+05F3         ?C0164:
+05F3 80D1              SJMP    ?C0077
+05F5         ?C0078:
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 36  
+
+                                           ; SOURCE LINE # 190
+05F5 7B01              MOV     R3,#01H
+05F7 7A00        R     MOV     R2,#HIGH buf
+05F9 7900        R     MOV     R1,#LOW buf
+05FB 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+05FE E4                CLR     A
+05FF F0                MOVX    @DPTR,A
+0600 A3                INC     DPTR
+0601 7480              MOV     A,#080H
+0603 F0                MOVX    @DPTR,A
+0604 7D00              MOV     R5,#00H
+0606 7C03              MOV     R4,#03H
+0608 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 191
+060B E4                CLR     A
+060C 900000      R     MOV     DPTR,#i
+060F F0                MOVX    @DPTR,A
+0610 A3                INC     DPTR
+0611 F0                MOVX    @DPTR,A
+0612         ?C0080:
+0612 900000      R     MOV     DPTR,#i
+0615 E0                MOVX    A,@DPTR
+0616 FE                MOV     R6,A
+0617 A3                INC     DPTR
+0618 E0                MOVX    A,@DPTR
+0619 FF                MOV     R7,A
+061A C3                CLR     C
+061B 9480              SUBB    A,#080H
+061D EE                MOV     A,R6
+061E 6480              XRL     A,#080H
+0620 9480              SUBB    A,#080H
+0622 501C              JNC     ?C0081
+0624 7400        R     MOV     A,#LOW rbuf
+0626 2F                ADD     A,R7
+0627 F582              MOV     DPL,A
+0629 7400        R     MOV     A,#HIGH rbuf
+062B 3E                ADDC    A,R6
+062C F583              MOV     DPH,A
+062E E4                CLR     A
+062F F0                MOVX    @DPTR,A
+0630 900000      R     MOV     DPTR,#i+01H
+0633 E0                MOVX    A,@DPTR
+0634 04                INC     A
+0635 F0                MOVX    @DPTR,A
+0636 70DA              JNZ     ?C0080
+0638 900000      R     MOV     DPTR,#i
+063B E0                MOVX    A,@DPTR
+063C 04                INC     A
+063D F0                MOVX    @DPTR,A
+063E         ?C0165:
+063E 80D2              SJMP    ?C0080
+0640         ?C0081:
+                                           ; SOURCE LINE # 192
+0640 7B01              MOV     R3,#01H
+0642 7A00        R     MOV     R2,#HIGH rbuf
+0644 7900        R     MOV     R1,#LOW rbuf
+0646 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0649 E4                CLR     A
+064A F0                MOVX    @DPTR,A
+064B A3                INC     DPTR
+064C 7480              MOV     A,#080H
+064E F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 37  
+
+064F 7D00              MOV     R5,#00H
+0651 7C03              MOV     R4,#03H
+0653 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 193
+0656 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 194
+0659 E4                CLR     A
+065A 900000      R     MOV     DPTR,#i
+065D F0                MOVX    @DPTR,A
+065E A3                INC     DPTR
+065F F0                MOVX    @DPTR,A
+0660         ?C0083:
+                                           ; SOURCE LINE # 195
+0660 7BFF              MOV     R3,#0FFH
+0662 7A00        R     MOV     R2,#HIGH ?SC_0
+0664 7900        R     MOV     R1,#LOW ?SC_0
+0666 900000      R     MOV     DPTR,#i
+0669 E0                MOVX    A,@DPTR
+066A FC                MOV     R4,A
+066B A3                INC     DPTR
+066C E0                MOVX    A,@DPTR
+066D FD                MOV     R5,A
+066E 2400              ADD     A,#00H
+0670 FE                MOV     R6,A
+0671 EC                MOV     A,R4
+0672 3403              ADDC    A,#03H
+0674 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0677 F0                MOVX    @DPTR,A
+0678 A3                INC     DPTR
+0679 CE                XCH     A,R6
+067A F0                MOVX    @DPTR,A
+067B 7400        R     MOV     A,#LOW rbuf
+067D 2D                ADD     A,R5
+067E F582              MOV     DPL,A
+0680 7400        R     MOV     A,#HIGH rbuf
+0682 3C                ADDC    A,R4
+0683 F583              MOV     DPH,A
+0685 E0                MOVX    A,@DPTR
+0686 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+0689 F0                MOVX    @DPTR,A
+068A 120000      E     LCALL   _printf
+068D 900000      R     MOV     DPTR,#i+01H
+0690 E0                MOVX    A,@DPTR
+0691 04                INC     A
+0692 F0                MOVX    @DPTR,A
+0693 7006              JNZ     ?C0166
+0695 900000      R     MOV     DPTR,#i
+0698 E0                MOVX    A,@DPTR
+0699 04                INC     A
+069A F0                MOVX    @DPTR,A
+069B         ?C0166:
+069B C3                CLR     C
+069C 900000      R     MOV     DPTR,#i+01H
+069F E0                MOVX    A,@DPTR
+06A0 9480              SUBB    A,#080H
+06A2 900000      R     MOV     DPTR,#i
+06A5 E0                MOVX    A,@DPTR
+06A6 6480              XRL     A,#080H
+06A8 9480              SUBB    A,#080H
+06AA 40B4              JC      ?C0083
+06AC         ?C0084:
+                                           ; SOURCE LINE # 198
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 38  
+
+06AC 7F80              MOV     R7,#080H
+06AE 7E03              MOV     R6,#03H
+06B0 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 199
+06B3 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 200
+06B6 E4                CLR     A
+06B7 900000      R     MOV     DPTR,#i
+06BA F0                MOVX    @DPTR,A
+06BB A3                INC     DPTR
+06BC F0                MOVX    @DPTR,A
+06BD         ?C0086:
+06BD 900000      R     MOV     DPTR,#i
+06C0 E0                MOVX    A,@DPTR
+06C1 FE                MOV     R6,A
+06C2 A3                INC     DPTR
+06C3 E0                MOVX    A,@DPTR
+06C4 FF                MOV     R7,A
+06C5 C3                CLR     C
+06C6 9480              SUBB    A,#080H
+06C8 EE                MOV     A,R6
+06C9 6480              XRL     A,#080H
+06CB 9480              SUBB    A,#080H
+06CD 501D              JNC     ?C0087
+06CF 7400        R     MOV     A,#LOW buf
+06D1 2F                ADD     A,R7
+06D2 F582              MOV     DPL,A
+06D4 7400        R     MOV     A,#HIGH buf
+06D6 3E                ADDC    A,R6
+06D7 F583              MOV     DPH,A
+06D9 7408              MOV     A,#08H
+06DB F0                MOVX    @DPTR,A
+06DC 900000      R     MOV     DPTR,#i+01H
+06DF E0                MOVX    A,@DPTR
+06E0 04                INC     A
+06E1 F0                MOVX    @DPTR,A
+06E2 70D9              JNZ     ?C0086
+06E4 900000      R     MOV     DPTR,#i
+06E7 E0                MOVX    A,@DPTR
+06E8 04                INC     A
+06E9 F0                MOVX    @DPTR,A
+06EA         ?C0167:
+06EA 80D1              SJMP    ?C0086
+06EC         ?C0087:
+                                           ; SOURCE LINE # 201
+06EC 7B01              MOV     R3,#01H
+06EE 7A00        R     MOV     R2,#HIGH buf
+06F0 7900        R     MOV     R1,#LOW buf
+06F2 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+06F5 E4                CLR     A
+06F6 F0                MOVX    @DPTR,A
+06F7 A3                INC     DPTR
+06F8 7480              MOV     A,#080H
+06FA F0                MOVX    @DPTR,A
+06FB FD                MOV     R5,A
+06FC 7C03              MOV     R4,#03H
+06FE 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 202
+0701 E4                CLR     A
+0702 900000      R     MOV     DPTR,#i
+0705 F0                MOVX    @DPTR,A
+0706 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 39  
+
+0707 F0                MOVX    @DPTR,A
+0708         ?C0089:
+0708 900000      R     MOV     DPTR,#i
+070B E0                MOVX    A,@DPTR
+070C FE                MOV     R6,A
+070D A3                INC     DPTR
+070E E0                MOVX    A,@DPTR
+070F FF                MOV     R7,A
+0710 C3                CLR     C
+0711 9480              SUBB    A,#080H
+0713 EE                MOV     A,R6
+0714 6480              XRL     A,#080H
+0716 9480              SUBB    A,#080H
+0718 501C              JNC     ?C0090
+071A 7400        R     MOV     A,#LOW rbuf
+071C 2F                ADD     A,R7
+071D F582              MOV     DPL,A
+071F 7400        R     MOV     A,#HIGH rbuf
+0721 3E                ADDC    A,R6
+0722 F583              MOV     DPH,A
+0724 E4                CLR     A
+0725 F0                MOVX    @DPTR,A
+0726 900000      R     MOV     DPTR,#i+01H
+0729 E0                MOVX    A,@DPTR
+072A 04                INC     A
+072B F0                MOVX    @DPTR,A
+072C 70DA              JNZ     ?C0089
+072E 900000      R     MOV     DPTR,#i
+0731 E0                MOVX    A,@DPTR
+0732 04                INC     A
+0733 F0                MOVX    @DPTR,A
+0734         ?C0168:
+0734 80D2              SJMP    ?C0089
+0736         ?C0090:
+                                           ; SOURCE LINE # 203
+0736 7B01              MOV     R3,#01H
+0738 7A00        R     MOV     R2,#HIGH rbuf
+073A 7900        R     MOV     R1,#LOW rbuf
+073C 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+073F E4                CLR     A
+0740 F0                MOVX    @DPTR,A
+0741 A3                INC     DPTR
+0742 7480              MOV     A,#080H
+0744 F0                MOVX    @DPTR,A
+0745 FD                MOV     R5,A
+0746 7C03              MOV     R4,#03H
+0748 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 204
+074B 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 205
+074E E4                CLR     A
+074F 900000      R     MOV     DPTR,#i
+0752 F0                MOVX    @DPTR,A
+0753 A3                INC     DPTR
+0754 F0                MOVX    @DPTR,A
+0755         ?C0092:
+                                           ; SOURCE LINE # 206
+0755 7BFF              MOV     R3,#0FFH
+0757 7A00        R     MOV     R2,#HIGH ?SC_0
+0759 7900        R     MOV     R1,#LOW ?SC_0
+075B 900000      R     MOV     DPTR,#i
+075E E0                MOVX    A,@DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 40  
+
+075F FC                MOV     R4,A
+0760 A3                INC     DPTR
+0761 E0                MOVX    A,@DPTR
+0762 FD                MOV     R5,A
+0763 2480              ADD     A,#080H
+0765 FE                MOV     R6,A
+0766 EC                MOV     A,R4
+0767 3403              ADDC    A,#03H
+0769 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+076C F0                MOVX    @DPTR,A
+076D A3                INC     DPTR
+076E CE                XCH     A,R6
+076F F0                MOVX    @DPTR,A
+0770 7400        R     MOV     A,#LOW rbuf
+0772 2D                ADD     A,R5
+0773 F582              MOV     DPL,A
+0775 7400        R     MOV     A,#HIGH rbuf
+0777 3C                ADDC    A,R4
+0778 F583              MOV     DPH,A
+077A E0                MOVX    A,@DPTR
+077B 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+077E F0                MOVX    @DPTR,A
+077F 120000      E     LCALL   _printf
+0782 900000      R     MOV     DPTR,#i+01H
+0785 E0                MOVX    A,@DPTR
+0786 04                INC     A
+0787 F0                MOVX    @DPTR,A
+0788 7006              JNZ     ?C0169
+078A 900000      R     MOV     DPTR,#i
+078D E0                MOVX    A,@DPTR
+078E 04                INC     A
+078F F0                MOVX    @DPTR,A
+0790         ?C0169:
+0790 C3                CLR     C
+0791 900000      R     MOV     DPTR,#i+01H
+0794 E0                MOVX    A,@DPTR
+0795 9480              SUBB    A,#080H
+0797 900000      R     MOV     DPTR,#i
+079A E0                MOVX    A,@DPTR
+079B 6480              XRL     A,#080H
+079D 9480              SUBB    A,#080H
+079F 40B4              JC      ?C0092
+07A1         ?C0093:
+                                           ; SOURCE LINE # 209
+07A1 7F00              MOV     R7,#00H
+07A3 7E04              MOV     R6,#04H
+07A5 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 210
+07A8 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 211
+07AB E4                CLR     A
+07AC 900000      R     MOV     DPTR,#i
+07AF F0                MOVX    @DPTR,A
+07B0 A3                INC     DPTR
+07B1 F0                MOVX    @DPTR,A
+07B2         ?C0095:
+07B2 900000      R     MOV     DPTR,#i
+07B5 E0                MOVX    A,@DPTR
+07B6 FE                MOV     R6,A
+07B7 A3                INC     DPTR
+07B8 E0                MOVX    A,@DPTR
+07B9 FF                MOV     R7,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 41  
+
+07BA C3                CLR     C
+07BB 9480              SUBB    A,#080H
+07BD EE                MOV     A,R6
+07BE 6480              XRL     A,#080H
+07C0 9480              SUBB    A,#080H
+07C2 501D              JNC     ?C0096
+07C4 7400        R     MOV     A,#LOW buf
+07C6 2F                ADD     A,R7
+07C7 F582              MOV     DPL,A
+07C9 7400        R     MOV     A,#HIGH buf
+07CB 3E                ADDC    A,R6
+07CC F583              MOV     DPH,A
+07CE 7409              MOV     A,#09H
+07D0 F0                MOVX    @DPTR,A
+07D1 900000      R     MOV     DPTR,#i+01H
+07D4 E0                MOVX    A,@DPTR
+07D5 04                INC     A
+07D6 F0                MOVX    @DPTR,A
+07D7 70D9              JNZ     ?C0095
+07D9 900000      R     MOV     DPTR,#i
+07DC E0                MOVX    A,@DPTR
+07DD 04                INC     A
+07DE F0                MOVX    @DPTR,A
+07DF         ?C0170:
+07DF 80D1              SJMP    ?C0095
+07E1         ?C0096:
+                                           ; SOURCE LINE # 212
+07E1 7B01              MOV     R3,#01H
+07E3 7A00        R     MOV     R2,#HIGH buf
+07E5 7900        R     MOV     R1,#LOW buf
+07E7 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+07EA E4                CLR     A
+07EB F0                MOVX    @DPTR,A
+07EC A3                INC     DPTR
+07ED 7480              MOV     A,#080H
+07EF F0                MOVX    @DPTR,A
+07F0 7D00              MOV     R5,#00H
+07F2 7C04              MOV     R4,#04H
+07F4 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 213
+07F7 E4                CLR     A
+07F8 900000      R     MOV     DPTR,#i
+07FB F0                MOVX    @DPTR,A
+07FC A3                INC     DPTR
+07FD F0                MOVX    @DPTR,A
+07FE         ?C0098:
+07FE 900000      R     MOV     DPTR,#i
+0801 E0                MOVX    A,@DPTR
+0802 FE                MOV     R6,A
+0803 A3                INC     DPTR
+0804 E0                MOVX    A,@DPTR
+0805 FF                MOV     R7,A
+0806 C3                CLR     C
+0807 9480              SUBB    A,#080H
+0809 EE                MOV     A,R6
+080A 6480              XRL     A,#080H
+080C 9480              SUBB    A,#080H
+080E 501C              JNC     ?C0099
+0810 7400        R     MOV     A,#LOW rbuf
+0812 2F                ADD     A,R7
+0813 F582              MOV     DPL,A
+0815 7400        R     MOV     A,#HIGH rbuf
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 42  
+
+0817 3E                ADDC    A,R6
+0818 F583              MOV     DPH,A
+081A E4                CLR     A
+081B F0                MOVX    @DPTR,A
+081C 900000      R     MOV     DPTR,#i+01H
+081F E0                MOVX    A,@DPTR
+0820 04                INC     A
+0821 F0                MOVX    @DPTR,A
+0822 70DA              JNZ     ?C0098
+0824 900000      R     MOV     DPTR,#i
+0827 E0                MOVX    A,@DPTR
+0828 04                INC     A
+0829 F0                MOVX    @DPTR,A
+082A         ?C0171:
+082A 80D2              SJMP    ?C0098
+082C         ?C0099:
+                                           ; SOURCE LINE # 214
+082C 7B01              MOV     R3,#01H
+082E 7A00        R     MOV     R2,#HIGH rbuf
+0830 7900        R     MOV     R1,#LOW rbuf
+0832 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0835 E4                CLR     A
+0836 F0                MOVX    @DPTR,A
+0837 A3                INC     DPTR
+0838 7480              MOV     A,#080H
+083A F0                MOVX    @DPTR,A
+083B 7D00              MOV     R5,#00H
+083D 7C04              MOV     R4,#04H
+083F 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 215
+0842 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 216
+0845 E4                CLR     A
+0846 900000      R     MOV     DPTR,#i
+0849 F0                MOVX    @DPTR,A
+084A A3                INC     DPTR
+084B F0                MOVX    @DPTR,A
+084C         ?C0101:
+                                           ; SOURCE LINE # 217
+084C 7BFF              MOV     R3,#0FFH
+084E 7A00        R     MOV     R2,#HIGH ?SC_0
+0850 7900        R     MOV     R1,#LOW ?SC_0
+0852 900000      R     MOV     DPTR,#i
+0855 E0                MOVX    A,@DPTR
+0856 FC                MOV     R4,A
+0857 A3                INC     DPTR
+0858 E0                MOVX    A,@DPTR
+0859 FD                MOV     R5,A
+085A 2400              ADD     A,#00H
+085C FE                MOV     R6,A
+085D EC                MOV     A,R4
+085E 3404              ADDC    A,#04H
+0860 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0863 F0                MOVX    @DPTR,A
+0864 A3                INC     DPTR
+0865 CE                XCH     A,R6
+0866 F0                MOVX    @DPTR,A
+0867 7400        R     MOV     A,#LOW rbuf
+0869 2D                ADD     A,R5
+086A F582              MOV     DPL,A
+086C 7400        R     MOV     A,#HIGH rbuf
+086E 3C                ADDC    A,R4
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 43  
+
+086F F583              MOV     DPH,A
+0871 E0                MOVX    A,@DPTR
+0872 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+0875 F0                MOVX    @DPTR,A
+0876 120000      E     LCALL   _printf
+0879 900000      R     MOV     DPTR,#i+01H
+087C E0                MOVX    A,@DPTR
+087D 04                INC     A
+087E F0                MOVX    @DPTR,A
+087F 7006              JNZ     ?C0172
+0881 900000      R     MOV     DPTR,#i
+0884 E0                MOVX    A,@DPTR
+0885 04                INC     A
+0886 F0                MOVX    @DPTR,A
+0887         ?C0172:
+0887 C3                CLR     C
+0888 900000      R     MOV     DPTR,#i+01H
+088B E0                MOVX    A,@DPTR
+088C 9480              SUBB    A,#080H
+088E 900000      R     MOV     DPTR,#i
+0891 E0                MOVX    A,@DPTR
+0892 6480              XRL     A,#080H
+0894 9480              SUBB    A,#080H
+0896 40B4              JC      ?C0101
+0898         ?C0102:
+                                           ; SOURCE LINE # 220
+0898 7F80              MOV     R7,#080H
+089A 7E04              MOV     R6,#04H
+089C 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 221
+089F 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 222
+08A2 E4                CLR     A
+08A3 900000      R     MOV     DPTR,#i
+08A6 F0                MOVX    @DPTR,A
+08A7 A3                INC     DPTR
+08A8 F0                MOVX    @DPTR,A
+08A9         ?C0104:
+08A9 900000      R     MOV     DPTR,#i
+08AC E0                MOVX    A,@DPTR
+08AD FE                MOV     R6,A
+08AE A3                INC     DPTR
+08AF E0                MOVX    A,@DPTR
+08B0 FF                MOV     R7,A
+08B1 C3                CLR     C
+08B2 9480              SUBB    A,#080H
+08B4 EE                MOV     A,R6
+08B5 6480              XRL     A,#080H
+08B7 9480              SUBB    A,#080H
+08B9 501D              JNC     ?C0105
+08BB 7400        R     MOV     A,#LOW buf
+08BD 2F                ADD     A,R7
+08BE F582              MOV     DPL,A
+08C0 7400        R     MOV     A,#HIGH buf
+08C2 3E                ADDC    A,R6
+08C3 F583              MOV     DPH,A
+08C5 740A              MOV     A,#0AH
+08C7 F0                MOVX    @DPTR,A
+08C8 900000      R     MOV     DPTR,#i+01H
+08CB E0                MOVX    A,@DPTR
+08CC 04                INC     A
+08CD F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 44  
+
+08CE 70D9              JNZ     ?C0104
+08D0 900000      R     MOV     DPTR,#i
+08D3 E0                MOVX    A,@DPTR
+08D4 04                INC     A
+08D5 F0                MOVX    @DPTR,A
+08D6         ?C0173:
+08D6 80D1              SJMP    ?C0104
+08D8         ?C0105:
+                                           ; SOURCE LINE # 223
+08D8 7B01              MOV     R3,#01H
+08DA 7A00        R     MOV     R2,#HIGH buf
+08DC 7900        R     MOV     R1,#LOW buf
+08DE 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+08E1 E4                CLR     A
+08E2 F0                MOVX    @DPTR,A
+08E3 A3                INC     DPTR
+08E4 7480              MOV     A,#080H
+08E6 F0                MOVX    @DPTR,A
+08E7 FD                MOV     R5,A
+08E8 7C04              MOV     R4,#04H
+08EA 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 224
+08ED E4                CLR     A
+08EE 900000      R     MOV     DPTR,#i
+08F1 F0                MOVX    @DPTR,A
+08F2 A3                INC     DPTR
+08F3 F0                MOVX    @DPTR,A
+08F4         ?C0107:
+08F4 900000      R     MOV     DPTR,#i
+08F7 E0                MOVX    A,@DPTR
+08F8 FE                MOV     R6,A
+08F9 A3                INC     DPTR
+08FA E0                MOVX    A,@DPTR
+08FB FF                MOV     R7,A
+08FC C3                CLR     C
+08FD 9480              SUBB    A,#080H
+08FF EE                MOV     A,R6
+0900 6480              XRL     A,#080H
+0902 9480              SUBB    A,#080H
+0904 501C              JNC     ?C0108
+0906 7400        R     MOV     A,#LOW rbuf
+0908 2F                ADD     A,R7
+0909 F582              MOV     DPL,A
+090B 7400        R     MOV     A,#HIGH rbuf
+090D 3E                ADDC    A,R6
+090E F583              MOV     DPH,A
+0910 E4                CLR     A
+0911 F0                MOVX    @DPTR,A
+0912 900000      R     MOV     DPTR,#i+01H
+0915 E0                MOVX    A,@DPTR
+0916 04                INC     A
+0917 F0                MOVX    @DPTR,A
+0918 70DA              JNZ     ?C0107
+091A 900000      R     MOV     DPTR,#i
+091D E0                MOVX    A,@DPTR
+091E 04                INC     A
+091F F0                MOVX    @DPTR,A
+0920         ?C0174:
+0920 80D2              SJMP    ?C0107
+0922         ?C0108:
+                                           ; SOURCE LINE # 225
+0922 7B01              MOV     R3,#01H
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 45  
+
+0924 7A00        R     MOV     R2,#HIGH rbuf
+0926 7900        R     MOV     R1,#LOW rbuf
+0928 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+092B E4                CLR     A
+092C F0                MOVX    @DPTR,A
+092D A3                INC     DPTR
+092E 7480              MOV     A,#080H
+0930 F0                MOVX    @DPTR,A
+0931 FD                MOV     R5,A
+0932 7C04              MOV     R4,#04H
+0934 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 226
+0937 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 227
+093A E4                CLR     A
+093B 900000      R     MOV     DPTR,#i
+093E F0                MOVX    @DPTR,A
+093F A3                INC     DPTR
+0940 F0                MOVX    @DPTR,A
+0941         ?C0110:
+                                           ; SOURCE LINE # 228
+0941 7BFF              MOV     R3,#0FFH
+0943 7A00        R     MOV     R2,#HIGH ?SC_0
+0945 7900        R     MOV     R1,#LOW ?SC_0
+0947 900000      R     MOV     DPTR,#i
+094A E0                MOVX    A,@DPTR
+094B FC                MOV     R4,A
+094C A3                INC     DPTR
+094D E0                MOVX    A,@DPTR
+094E FD                MOV     R5,A
+094F 2480              ADD     A,#080H
+0951 FE                MOV     R6,A
+0952 EC                MOV     A,R4
+0953 3404              ADDC    A,#04H
+0955 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0958 F0                MOVX    @DPTR,A
+0959 A3                INC     DPTR
+095A CE                XCH     A,R6
+095B F0                MOVX    @DPTR,A
+095C 7400        R     MOV     A,#LOW rbuf
+095E 2D                ADD     A,R5
+095F F582              MOV     DPL,A
+0961 7400        R     MOV     A,#HIGH rbuf
+0963 3C                ADDC    A,R4
+0964 F583              MOV     DPH,A
+0966 E0                MOVX    A,@DPTR
+0967 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+096A F0                MOVX    @DPTR,A
+096B 120000      E     LCALL   _printf
+096E 900000      R     MOV     DPTR,#i+01H
+0971 E0                MOVX    A,@DPTR
+0972 04                INC     A
+0973 F0                MOVX    @DPTR,A
+0974 7006              JNZ     ?C0175
+0976 900000      R     MOV     DPTR,#i
+0979 E0                MOVX    A,@DPTR
+097A 04                INC     A
+097B F0                MOVX    @DPTR,A
+097C         ?C0175:
+097C C3                CLR     C
+097D 900000      R     MOV     DPTR,#i+01H
+0980 E0                MOVX    A,@DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 46  
+
+0981 9480              SUBB    A,#080H
+0983 900000      R     MOV     DPTR,#i
+0986 E0                MOVX    A,@DPTR
+0987 6480              XRL     A,#080H
+0989 9480              SUBB    A,#080H
+098B 40B4              JC      ?C0110
+098D         ?C0111:
+                                           ; SOURCE LINE # 231
+098D 7F00              MOV     R7,#00H
+098F 7E05              MOV     R6,#05H
+0991 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 232
+0994 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 233
+0997 E4                CLR     A
+0998 900000      R     MOV     DPTR,#i
+099B F0                MOVX    @DPTR,A
+099C A3                INC     DPTR
+099D F0                MOVX    @DPTR,A
+099E         ?C0113:
+099E 900000      R     MOV     DPTR,#i
+09A1 E0                MOVX    A,@DPTR
+09A2 FE                MOV     R6,A
+09A3 A3                INC     DPTR
+09A4 E0                MOVX    A,@DPTR
+09A5 FF                MOV     R7,A
+09A6 C3                CLR     C
+09A7 9480              SUBB    A,#080H
+09A9 EE                MOV     A,R6
+09AA 6480              XRL     A,#080H
+09AC 9480              SUBB    A,#080H
+09AE 501D              JNC     ?C0114
+09B0 7400        R     MOV     A,#LOW buf
+09B2 2F                ADD     A,R7
+09B3 F582              MOV     DPL,A
+09B5 7400        R     MOV     A,#HIGH buf
+09B7 3E                ADDC    A,R6
+09B8 F583              MOV     DPH,A
+09BA 740B              MOV     A,#0BH
+09BC F0                MOVX    @DPTR,A
+09BD 900000      R     MOV     DPTR,#i+01H
+09C0 E0                MOVX    A,@DPTR
+09C1 04                INC     A
+09C2 F0                MOVX    @DPTR,A
+09C3 70D9              JNZ     ?C0113
+09C5 900000      R     MOV     DPTR,#i
+09C8 E0                MOVX    A,@DPTR
+09C9 04                INC     A
+09CA F0                MOVX    @DPTR,A
+09CB         ?C0176:
+09CB 80D1              SJMP    ?C0113
+09CD         ?C0114:
+                                           ; SOURCE LINE # 234
+09CD 7B01              MOV     R3,#01H
+09CF 7A00        R     MOV     R2,#HIGH buf
+09D1 7900        R     MOV     R1,#LOW buf
+09D3 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+09D6 E4                CLR     A
+09D7 F0                MOVX    @DPTR,A
+09D8 A3                INC     DPTR
+09D9 7480              MOV     A,#080H
+09DB F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 47  
+
+09DC 7D00              MOV     R5,#00H
+09DE 7C05              MOV     R4,#05H
+09E0 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 235
+09E3 E4                CLR     A
+09E4 900000      R     MOV     DPTR,#i
+09E7 F0                MOVX    @DPTR,A
+09E8 A3                INC     DPTR
+09E9 F0                MOVX    @DPTR,A
+09EA         ?C0116:
+09EA 900000      R     MOV     DPTR,#i
+09ED E0                MOVX    A,@DPTR
+09EE FE                MOV     R6,A
+09EF A3                INC     DPTR
+09F0 E0                MOVX    A,@DPTR
+09F1 FF                MOV     R7,A
+09F2 C3                CLR     C
+09F3 9480              SUBB    A,#080H
+09F5 EE                MOV     A,R6
+09F6 6480              XRL     A,#080H
+09F8 9480              SUBB    A,#080H
+09FA 501C              JNC     ?C0117
+09FC 7400        R     MOV     A,#LOW rbuf
+09FE 2F                ADD     A,R7
+09FF F582              MOV     DPL,A
+0A01 7400        R     MOV     A,#HIGH rbuf
+0A03 3E                ADDC    A,R6
+0A04 F583              MOV     DPH,A
+0A06 E4                CLR     A
+0A07 F0                MOVX    @DPTR,A
+0A08 900000      R     MOV     DPTR,#i+01H
+0A0B E0                MOVX    A,@DPTR
+0A0C 04                INC     A
+0A0D F0                MOVX    @DPTR,A
+0A0E 70DA              JNZ     ?C0116
+0A10 900000      R     MOV     DPTR,#i
+0A13 E0                MOVX    A,@DPTR
+0A14 04                INC     A
+0A15 F0                MOVX    @DPTR,A
+0A16         ?C0177:
+0A16 80D2              SJMP    ?C0116
+0A18         ?C0117:
+                                           ; SOURCE LINE # 236
+0A18 7B01              MOV     R3,#01H
+0A1A 7A00        R     MOV     R2,#HIGH rbuf
+0A1C 7900        R     MOV     R1,#LOW rbuf
+0A1E 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0A21 E4                CLR     A
+0A22 F0                MOVX    @DPTR,A
+0A23 A3                INC     DPTR
+0A24 7480              MOV     A,#080H
+0A26 F0                MOVX    @DPTR,A
+0A27 7D00              MOV     R5,#00H
+0A29 7C05              MOV     R4,#05H
+0A2B 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 237
+0A2E 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 238
+0A31 E4                CLR     A
+0A32 900000      R     MOV     DPTR,#i
+0A35 F0                MOVX    @DPTR,A
+0A36 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 48  
+
+0A37 F0                MOVX    @DPTR,A
+0A38         ?C0119:
+                                           ; SOURCE LINE # 239
+0A38 7BFF              MOV     R3,#0FFH
+0A3A 7A00        R     MOV     R2,#HIGH ?SC_0
+0A3C 7900        R     MOV     R1,#LOW ?SC_0
+0A3E 900000      R     MOV     DPTR,#i
+0A41 E0                MOVX    A,@DPTR
+0A42 FC                MOV     R4,A
+0A43 A3                INC     DPTR
+0A44 E0                MOVX    A,@DPTR
+0A45 FD                MOV     R5,A
+0A46 2400              ADD     A,#00H
+0A48 FE                MOV     R6,A
+0A49 EC                MOV     A,R4
+0A4A 3405              ADDC    A,#05H
+0A4C 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0A4F F0                MOVX    @DPTR,A
+0A50 A3                INC     DPTR
+0A51 CE                XCH     A,R6
+0A52 F0                MOVX    @DPTR,A
+0A53 7400        R     MOV     A,#LOW rbuf
+0A55 2D                ADD     A,R5
+0A56 F582              MOV     DPL,A
+0A58 7400        R     MOV     A,#HIGH rbuf
+0A5A 3C                ADDC    A,R4
+0A5B F583              MOV     DPH,A
+0A5D E0                MOVX    A,@DPTR
+0A5E 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+0A61 F0                MOVX    @DPTR,A
+0A62 120000      E     LCALL   _printf
+0A65 900000      R     MOV     DPTR,#i+01H
+0A68 E0                MOVX    A,@DPTR
+0A69 04                INC     A
+0A6A F0                MOVX    @DPTR,A
+0A6B 7006              JNZ     ?C0178
+0A6D 900000      R     MOV     DPTR,#i
+0A70 E0                MOVX    A,@DPTR
+0A71 04                INC     A
+0A72 F0                MOVX    @DPTR,A
+0A73         ?C0178:
+0A73 C3                CLR     C
+0A74 900000      R     MOV     DPTR,#i+01H
+0A77 E0                MOVX    A,@DPTR
+0A78 9480              SUBB    A,#080H
+0A7A 900000      R     MOV     DPTR,#i
+0A7D E0                MOVX    A,@DPTR
+0A7E 6480              XRL     A,#080H
+0A80 9480              SUBB    A,#080H
+0A82 40B4              JC      ?C0119
+0A84         ?C0120:
+                                           ; SOURCE LINE # 242
+0A84 7F70              MOV     R7,#070H
+0A86 7E06              MOV     R6,#06H
+0A88 120000      E     LCALL   _EraseNVR
+                                           ; SOURCE LINE # 243
+0A8B 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 244
+0A8E E4                CLR     A
+0A8F 900000      R     MOV     DPTR,#i
+0A92 F0                MOVX    @DPTR,A
+0A93 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 49  
+
+0A94 F0                MOVX    @DPTR,A
+0A95         ?C0122:
+0A95 900000      R     MOV     DPTR,#i
+0A98 E0                MOVX    A,@DPTR
+0A99 FE                MOV     R6,A
+0A9A A3                INC     DPTR
+0A9B E0                MOVX    A,@DPTR
+0A9C FF                MOV     R7,A
+0A9D C3                CLR     C
+0A9E 9480              SUBB    A,#080H
+0AA0 EE                MOV     A,R6
+0AA1 6480              XRL     A,#080H
+0AA3 9480              SUBB    A,#080H
+0AA5 501D              JNC     ?C0123
+0AA7 7400        R     MOV     A,#LOW buf
+0AA9 2F                ADD     A,R7
+0AAA F582              MOV     DPL,A
+0AAC 7400        R     MOV     A,#HIGH buf
+0AAE 3E                ADDC    A,R6
+0AAF F583              MOV     DPH,A
+0AB1 740C              MOV     A,#0CH
+0AB3 F0                MOVX    @DPTR,A
+0AB4 900000      R     MOV     DPTR,#i+01H
+0AB7 E0                MOVX    A,@DPTR
+0AB8 04                INC     A
+0AB9 F0                MOVX    @DPTR,A
+0ABA 70D9              JNZ     ?C0122
+0ABC 900000      R     MOV     DPTR,#i
+0ABF E0                MOVX    A,@DPTR
+0AC0 04                INC     A
+0AC1 F0                MOVX    @DPTR,A
+0AC2         ?C0179:
+0AC2 80D1              SJMP    ?C0122
+0AC4         ?C0123:
+                                           ; SOURCE LINE # 245
+0AC4 7B01              MOV     R3,#01H
+0AC6 7A00        R     MOV     R2,#HIGH buf
+0AC8 7900        R     MOV     R1,#LOW buf
+0ACA 900000      E     MOV     DPTR,#?_WriteDataNVR?BYTE+05H
+0ACD E4                CLR     A
+0ACE F0                MOVX    @DPTR,A
+0ACF A3                INC     DPTR
+0AD0 7480              MOV     A,#080H
+0AD2 F0                MOVX    @DPTR,A
+0AD3 7D70              MOV     R5,#070H
+0AD5 7C06              MOV     R4,#06H
+0AD7 120000      E     LCALL   _WriteDataNVR
+                                           ; SOURCE LINE # 246
+0ADA E4                CLR     A
+0ADB 900000      R     MOV     DPTR,#i
+0ADE F0                MOVX    @DPTR,A
+0ADF A3                INC     DPTR
+0AE0 F0                MOVX    @DPTR,A
+0AE1         ?C0125:
+0AE1 900000      R     MOV     DPTR,#i
+0AE4 E0                MOVX    A,@DPTR
+0AE5 FE                MOV     R6,A
+0AE6 A3                INC     DPTR
+0AE7 E0                MOVX    A,@DPTR
+0AE8 FF                MOV     R7,A
+0AE9 C3                CLR     C
+0AEA 9480              SUBB    A,#080H
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 50  
+
+0AEC EE                MOV     A,R6
+0AED 6480              XRL     A,#080H
+0AEF 9480              SUBB    A,#080H
+0AF1 501C              JNC     ?C0126
+0AF3 7400        R     MOV     A,#LOW rbuf
+0AF5 2F                ADD     A,R7
+0AF6 F582              MOV     DPL,A
+0AF8 7400        R     MOV     A,#HIGH rbuf
+0AFA 3E                ADDC    A,R6
+0AFB F583              MOV     DPH,A
+0AFD E4                CLR     A
+0AFE F0                MOVX    @DPTR,A
+0AFF 900000      R     MOV     DPTR,#i+01H
+0B02 E0                MOVX    A,@DPTR
+0B03 04                INC     A
+0B04 F0                MOVX    @DPTR,A
+0B05 70DA              JNZ     ?C0125
+0B07 900000      R     MOV     DPTR,#i
+0B0A E0                MOVX    A,@DPTR
+0B0B 04                INC     A
+0B0C F0                MOVX    @DPTR,A
+0B0D         ?C0180:
+0B0D 80D2              SJMP    ?C0125
+0B0F         ?C0126:
+                                           ; SOURCE LINE # 247
+0B0F 7B01              MOV     R3,#01H
+0B11 7A00        R     MOV     R2,#HIGH rbuf
+0B13 7900        R     MOV     R1,#LOW rbuf
+0B15 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+0B18 E4                CLR     A
+0B19 F0                MOVX    @DPTR,A
+0B1A A3                INC     DPTR
+0B1B 7480              MOV     A,#080H
+0B1D F0                MOVX    @DPTR,A
+0B1E 7D70              MOV     R5,#070H
+0B20 7C06              MOV     R4,#06H
+0B22 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 248
+0B25 120000      R     LCALL   L?0189
+                                           ; SOURCE LINE # 249
+0B28 E4                CLR     A
+0B29 900000      R     MOV     DPTR,#i
+0B2C F0                MOVX    @DPTR,A
+0B2D A3                INC     DPTR
+0B2E F0                MOVX    @DPTR,A
+0B2F         ?C0128:
+                                           ; SOURCE LINE # 250
+0B2F 7BFF              MOV     R3,#0FFH
+0B31 7A00        R     MOV     R2,#HIGH ?SC_0
+0B33 7900        R     MOV     R1,#LOW ?SC_0
+0B35 900000      R     MOV     DPTR,#i
+0B38 E0                MOVX    A,@DPTR
+0B39 FC                MOV     R4,A
+0B3A A3                INC     DPTR
+0B3B E0                MOVX    A,@DPTR
+0B3C FD                MOV     R5,A
+0B3D 2470              ADD     A,#070H
+0B3F FE                MOV     R6,A
+0B40 EC                MOV     A,R4
+0B41 3406              ADDC    A,#06H
+0B43 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0B46 F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 51  
+
+0B47 A3                INC     DPTR
+0B48 CE                XCH     A,R6
+0B49 F0                MOVX    @DPTR,A
+0B4A 7400        R     MOV     A,#LOW rbuf
+0B4C 2D                ADD     A,R5
+0B4D F582              MOV     DPL,A
+0B4F 7400        R     MOV     A,#HIGH rbuf
+0B51 3C                ADDC    A,R4
+0B52 F583              MOV     DPH,A
+0B54 E0                MOVX    A,@DPTR
+0B55 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+0B58 F0                MOVX    @DPTR,A
+0B59 120000      E     LCALL   _printf
+0B5C 900000      R     MOV     DPTR,#i+01H
+0B5F E0                MOVX    A,@DPTR
+0B60 04                INC     A
+0B61 F0                MOVX    @DPTR,A
+0B62 7006              JNZ     ?C0181
+0B64 900000      R     MOV     DPTR,#i
+0B67 E0                MOVX    A,@DPTR
+0B68 04                INC     A
+0B69 F0                MOVX    @DPTR,A
+0B6A         ?C0181:
+0B6A C3                CLR     C
+0B6B 900000      R     MOV     DPTR,#i+01H
+0B6E E0                MOVX    A,@DPTR
+0B6F 9480              SUBB    A,#080H
+0B71 900000      R     MOV     DPTR,#i
+0B74 E0                MOVX    A,@DPTR
+0B75 6480              XRL     A,#080H
+0B77 9480              SUBB    A,#080H
+0B79 40B4              JC      ?C0128
+                                           ; SOURCE LINE # 251
+0B7B         ?C0131:
+0B7B 22                RET     
+             ; FUNCTION NVRCaseTest (END)
+
+             ; FUNCTION nvrCkSumTest (BEGIN)
+                                           ; SOURCE LINE # 259
+                                           ; SOURCE LINE # 260
+                                           ; SOURCE LINE # 263
+0000 E4                CLR     A
+0001 900000      R     MOV     DPTR,#i
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 F0                MOVX    @DPTR,A
+0007         ?C0132:
+                                           ; SOURCE LINE # 264
+                                           ; SOURCE LINE # 265
+0007 900000      R     MOV     DPTR,#i
+000A E0                MOVX    A,@DPTR
+000B FE                MOV     R6,A
+000C A3                INC     DPTR
+000D E0                MOVX    A,@DPTR
+000E FF                MOV     R7,A
+000F 75F080            MOV     B,#080H
+0012 A4                MUL     AB
+0013 908306            MOV     DPTR,#08306H
+0016 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 266
+0017 EF                MOV     A,R7
+0018 7807              MOV     R0,#07H
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 52  
+
+001A         ?C0182:
+001A C3                CLR     C
+001B 33                RLC     A
+001C CE                XCH     A,R6
+001D 33                RLC     A
+001E CE                XCH     A,R6
+001F D8F9              DJNZ    R0,?C0182
+0021 EE                MOV     A,R6
+0022 908307            MOV     DPTR,#08307H
+0025 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 267
+0026 908301            MOV     DPTR,#08301H
+0029 748C              MOV     A,#08CH
+002B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 268
+002C 7BFF              MOV     R3,#0FFH
+002E 7A00        R     MOV     R2,#HIGH ?SC_17
+0030 7900        R     MOV     R1,#LOW ?SC_17
+0032 900000      R     MOV     DPTR,#i
+0035 E0                MOVX    A,@DPTR
+0036 FF                MOV     R7,A
+0037 A3                INC     DPTR
+0038 E0                MOVX    A,@DPTR
+0039 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+003C CF                XCH     A,R7
+003D F0                MOVX    @DPTR,A
+003E A3                INC     DPTR
+003F EF                MOV     A,R7
+0040 F0                MOVX    @DPTR,A
+0041 908309            MOV     DPTR,#08309H
+0044 E0                MOVX    A,@DPTR
+0045 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+0048 F0                MOVX    @DPTR,A
+0049 908308            MOV     DPTR,#08308H
+004C E0                MOVX    A,@DPTR
+004D 900000      E     MOV     DPTR,#?_printf?BYTE+06H
+0050 F0                MOVX    @DPTR,A
+0051 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 271
+0054 E4                CLR     A
+0055 900000      R     MOV     DPTR,#k
+0058 F0                MOVX    @DPTR,A
+0059 A3                INC     DPTR
+005A F0                MOVX    @DPTR,A
+005B         ?C0135:
+005B 900000      R     MOV     DPTR,#k
+005E E0                MOVX    A,@DPTR
+005F FE                MOV     R6,A
+0060 A3                INC     DPTR
+0061 E0                MOVX    A,@DPTR
+0062 FF                MOV     R7,A
+0063 C3                CLR     C
+0064 9480              SUBB    A,#080H
+0066 EE                MOV     A,R6
+0067 9400              SUBB    A,#00H
+0069 501C              JNC     ?C0136
+006B 7400        R     MOV     A,#LOW rbuf
+006D 2F                ADD     A,R7
+006E F582              MOV     DPL,A
+0070 7400        R     MOV     A,#HIGH rbuf
+0072 3E                ADDC    A,R6
+0073 F583              MOV     DPH,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 53  
+
+0075 E4                CLR     A
+0076 F0                MOVX    @DPTR,A
+0077 900000      R     MOV     DPTR,#k+01H
+007A E0                MOVX    A,@DPTR
+007B 04                INC     A
+007C F0                MOVX    @DPTR,A
+007D 70DC              JNZ     ?C0135
+007F 900000      R     MOV     DPTR,#k
+0082 E0                MOVX    A,@DPTR
+0083 04                INC     A
+0084 F0                MOVX    @DPTR,A
+0085         ?C0183:
+0085 80D4              SJMP    ?C0135
+0087         ?C0136:
+                                           ; SOURCE LINE # 272
+0087 7B01              MOV     R3,#01H
+0089 7A00        R     MOV     R2,#HIGH rbuf
+008B 7900        R     MOV     R1,#LOW rbuf
+008D 900000      R     MOV     DPTR,#i
+0090 E0                MOVX    A,@DPTR
+0091 FE                MOV     R6,A
+0092 A3                INC     DPTR
+0093 E0                MOVX    A,@DPTR
+0094 7807              MOV     R0,#07H
+0096         ?C0184:
+0096 C3                CLR     C
+0097 33                RLC     A
+0098 CE                XCH     A,R6
+0099 33                RLC     A
+009A CE                XCH     A,R6
+009B D8F9              DJNZ    R0,?C0184
+009D FD                MOV     R5,A
+009E AC06              MOV     R4,AR6
+00A0 900000      E     MOV     DPTR,#?_readDatafromNVR?BYTE+05H
+00A3 E4                CLR     A
+00A4 F0                MOVX    @DPTR,A
+00A5 A3                INC     DPTR
+00A6 7480              MOV     A,#080H
+00A8 F0                MOVX    @DPTR,A
+00A9 120000      E     LCALL   _readDatafromNVR
+                                           ; SOURCE LINE # 273
+00AC E4                CLR     A
+00AD 900000      R     MOV     DPTR,#k
+00B0 F0                MOVX    @DPTR,A
+00B1 A3                INC     DPTR
+00B2 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 274
+00B3 A3                INC     DPTR
+00B4 F0                MOVX    @DPTR,A
+00B5         ?C0138:
+00B5 900000      R     MOV     DPTR,#j
+00B8 E0                MOVX    A,@DPTR
+00B9 FF                MOV     R7,A
+00BA C3                CLR     C
+00BB 9480              SUBB    A,#080H
+00BD 7480              MOV     A,#080H
+00BF 9480              SUBB    A,#080H
+00C1 5021              JNC     ?C0139
+                                           ; SOURCE LINE # 275
+                                           ; SOURCE LINE # 276
+00C3 7400        R     MOV     A,#LOW rbuf
+00C5 2F                ADD     A,R7
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 54  
+
+00C6 F582              MOV     DPL,A
+00C8 E4                CLR     A
+00C9 3400        R     ADDC    A,#HIGH rbuf
+00CB F583              MOV     DPH,A
+00CD E0                MOVX    A,@DPTR
+00CE FF                MOV     R7,A
+00CF 900000      R     MOV     DPTR,#k+01H
+00D2 E0                MOVX    A,@DPTR
+00D3 2F                ADD     A,R7
+00D4 F0                MOVX    @DPTR,A
+00D5 900000      R     MOV     DPTR,#k
+00D8 E0                MOVX    A,@DPTR
+00D9 3400              ADDC    A,#00H
+00DB F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 277
+00DC 900000      R     MOV     DPTR,#j
+00DF E0                MOVX    A,@DPTR
+00E0 04                INC     A
+00E1 F0                MOVX    @DPTR,A
+00E2 80D1              SJMP    ?C0138
+00E4         ?C0139:
+                                           ; SOURCE LINE # 279
+00E4 900000      R     MOV     DPTR,#k
+00E7 E0                MOVX    A,@DPTR
+00E8 900000      R     MOV     DPTR,#j
+00EB F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 280
+00EC 7BFF              MOV     R3,#0FFH
+00EE 7A00        R     MOV     R2,#HIGH ?SC_32
+00F0 7900        R     MOV     R1,#LOW ?SC_32
+00F2 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+00F5 F0                MOVX    @DPTR,A
+00F6 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 281
+00F9 900000      R     MOV     DPTR,#k
+00FC A3                INC     DPTR
+00FD E0                MOVX    A,@DPTR
+00FE A3                INC     DPTR
+00FF F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 282
+0100 7BFF              MOV     R3,#0FFH
+0102 7A00        R     MOV     R2,#HIGH ?SC_37
+0104 7900        R     MOV     R1,#LOW ?SC_37
+0106 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0109 F0                MOVX    @DPTR,A
+010A 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 283
+010D 7F0D              MOV     R7,#0DH
+010F 120000      R     LCALL   _UART0_write
+                                           ; SOURCE LINE # 284
+0112 7F0A              MOV     R7,#0AH
+0114 120000      R     LCALL   _UART0_write
+                                           ; SOURCE LINE # 285
+0117 900000      R     MOV     DPTR,#i+01H
+011A E0                MOVX    A,@DPTR
+011B 04                INC     A
+011C F0                MOVX    @DPTR,A
+011D 7006              JNZ     ?C0185
+011F 900000      R     MOV     DPTR,#i
+0122 E0                MOVX    A,@DPTR
+0123 04                INC     A
+0124 F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 55  
+
+0125         ?C0185:
+0125 C3                CLR     C
+0126 900000      R     MOV     DPTR,#i+01H
+0129 E0                MOVX    A,@DPTR
+012A 9410              SUBB    A,#010H
+012C 900000      R     MOV     DPTR,#i
+012F E0                MOVX    A,@DPTR
+0130 9400              SUBB    A,#00H
+0132 5003              JNC     $ + 5H
+0134 020000      R     LJMP    ?C0132
+                                           ; SOURCE LINE # 286
+0137         ?C0141:
+0137 22                RET     
+             ; FUNCTION nvrCkSumTest (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 288
+                                           ; SOURCE LINE # 289
+                                           ; SOURCE LINE # 290
+0000 E4                CLR     A
+0001 F586              MOV     SCCON,A
+                                           ; SOURCE LINE # 291
+0003 439680            ORL     HRCON,#080H
+                                           ; SOURCE LINE # 292
+0006 120000      R     LCALL   delay_1ms
+                                           ; SOURCE LINE # 295
+0009 908008            MOV     DPTR,#08008H
+000C 7402              MOV     A,#02H
+000E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 296
+000F 908007            MOV     DPTR,#08007H
+0012 7407              MOV     A,#07H
+0014 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 297
+0015 908006            MOV     DPTR,#08006H
+0018 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 300
+0019 120000      R     LCALL   Uart0Mode1
+                                           ; SOURCE LINE # 301
+001C 7BFF              MOV     R3,#0FFH
+001E 7A00        R     MOV     R2,#HIGH ?SC_42
+0020 7900        R     MOV     R1,#LOW ?SC_42
+0022 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 303
+0025 120000      R     LCALL   NVRCaseTest
+                                           ; SOURCE LINE # 304
+0028 120000      R     LCALL   nvrCkSumTest
+002B         ?C0142:
+                                           ; SOURCE LINE # 306
+                                           ; SOURCE LINE # 307
+                                           ; SOURCE LINE # 308
+002B B290              CPL     P10
+                                           ; SOURCE LINE # 309
+002D 7FE8              MOV     R7,#0E8H
+002F 7E03              MOV     R6,#03H
+0031 120000      R     LCALL   _delay
+                                           ; SOURCE LINE # 310
+0034 80F5              SJMP    ?C0142
+             ; FUNCTION main (END)
+
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 56  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+SM00 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+SM10 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+_WriteDataNVR. . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+delay_1ms. . . . . . . . . . . . . . .  STATIC   CODE   PROC     0000H  -----
+  j. . . . . . . . . . . . . . . . . .  * REG *  DATA   INT      0006H  2
+int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+Uart0Mode1 . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+_delay . . . . . . . . . . . . . . . .  STATIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0000H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  LONG     0002H  4
+size_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+T2CH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+REN0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+_printf. . . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+NVRCaseTest. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0000H  2
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+EPIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+EXIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E8H  1
+u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+rbuf . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0000H  128
+P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+EXIP . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F8H  1
+buf. . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0080H  128
+_readDatafromNVR . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+RI0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+TI0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+_delay_ms. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0004H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   0002H  4
+_writeHex. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  num. . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0006H  1
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+nvrCkSumTest . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  k. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0002H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0004H  1
+S0BUF. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+S0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 16:11:02 PAGE 57  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+ADCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
+T2MOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+_EraseNVR. . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+SCCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
+_putchar . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  ch . . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0006H  1
+HRCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
+_UART0_write . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  dat. . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0007H  1
+uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   3633    ----
+   CONSTANT SIZE    =     52    ----
+   XDATA SIZE       =    256      19
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

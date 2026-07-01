@@ -1,0 +1,120 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:47:41 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND P
+                    -RINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:        wkt.c
+   4          *作  者:        
+   5          *版  本:        
+   6          *日  期:        
+   7          *描  述:        
+   8          *备  注:     
+   9          **********************************************************/
+  10          
+  11          /*********************************WKT简介********************************************
+  12          芯片内置了一个自唤醒定时器（WKT），用于低功耗模式下的周期唤醒芯片，也可用作通用定时器。
+  13          WKT 可选内部 32K 时钟源 LRC和外部losc时钟，如果开启 WKT 计数，则 LRC 会自动开启。
+  14          通过 WKTSS 可选产生一次中断的时间
+  15          *************************************************************************************/
+  16          #include "WS51F6240.h"  
+  17          #include "intrins.h"
+  18          
+  19          static void delay_1ms(void)
+  20          {
+  21   1              int j;
+  22   1              for(j=0;j<1700;++j);
+  23   1      }
+  24          
+  25          static void delay_10ms(void)
+  26          {
+  27   1              int j;
+  28   1              for(j=0;j<17700;++j);
+  29   1      }
+  30          /*****************************************************
+  31          *函数名称：init_wkt(void)
+  32          *函数功能：wkt初始化
+  33          *入口参数：
+  34          *出口参数：
+  35          *****************************************************/
+  36          void init_wkt(void)
+  37          {
+  38   1              WKTCON = 0X80; /*WKTCON   WKTE                  bit7  使能信号
+  39   1                                                                                                                      WKTCKS          bit6  wkt时钟选择 
+  40   1                                                                                                                                                                                      0 LRC时钟 
+  41   1                                                                                                                                                                                      1 losc时钟
+  42   1                                                                                                                      WKTIF                   bit0  WKT中断标志
+  43   1                                                                              */
+  44   1              WKTSS = 0;   // WKTSS bit7-0 中断的时间选择 从0开始值+1对应时间+3.90625ms(losc)/4ms(LRC)
+  45   1      }
+  46          /*****************************************************
+  47          * 中断服务函数
+  48          *****************************************************/
+  49          void wkt_isr() interrupt 6 
+  50          {
+  51   1              if((WKTCON&0x01) == 0x01)
+  52   1              {
+  53   2                      P11 = ~P11;
+  54   2                      WKTCON &= 0xFE;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:47:41 PAGE 2   
+
+  55   2                      // todo...
+  56   2              }
+  57   1      } 
+  58           
+  59          /**************************************************************
+  60          说明：例程用LRC时钟 4ms产生中断  改变WKTSS的值可以产生不同的中断时间
+  61                                  看P11翻转时间 若使用外部时钟losc则把if 0 变为if 1
+  62          ***************************************************************/
+  63          void main()
+  64          {    
+  65   1                      SCCON = 0x00;//HRC  
+  66   1                      HRCON |= 0x80;  
+  67   1      #if 0 
+              /*********************外部losc时钟配置*****************/
+                      /****************管脚配置       *************/
+                  P17F = 5;
+                      P21F = 5;
+                      
+                  //使能SCM
+                  SCMCON = 0x08+0x02; //+0x04
+                  
+                  //配置外部时钟使能
+                  XSCON = 0x08;
+                  
+                  //等待外部时钟稳定
+                  while((XSCON&0x01)==0x0);
+                              delay_1ms();
+                      
+                  //切换系统时钟为外部低速 RC
+              //      SCCON = 0x40;//LOSC 
+              #endif
+  86   1              /*************** 管脚配置 ****************/     
+  87   1               P11F=0X02; 
+  88   1      
+  89   1              /*************** 自唤醒定时器 初始化 ****************/  
+  90   1               init_wkt();
+  91   1              
+  92   1               IE = 0XC0;   
+  93   1               while(1);
+  94   1      }       
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     75    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

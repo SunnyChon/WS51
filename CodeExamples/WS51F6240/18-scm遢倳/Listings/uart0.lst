@@ -1,0 +1,153 @@
+C51 COMPILER V9.59.0.0   UART0                                                             07/29/2020 17:02:17 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE UART0
+OBJECT MODULE PLACED IN .\Objects\uart0.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\hareware\uart0.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HeadFile;..\harew
+                    -are) DEBUG OBJECTEXTEND PRINT(.\Listings\uart0.lst) OBJECT(.\Objects\uart0.obj)
+
+line level    source
+
+   1          
+   2          #include "WS51F6232.h"
+   3          #include <stdio.h>
+   4          
+   5          unsigned char Rx_flag=0,Tx_flag=0;
+   6          void UART0_write(signed char dat)
+   7          {
+   8   1          Tx_flag = 0;
+   9   1          S0BUF = dat;            //Send data to UART buffer
+  10   1          while(!Tx_flag);
+  11   1      }
+  12          
+  13          ///重定向c库函数printf到串口，重定向后可使用printf函数
+  14          char putchar(char ch)
+  15          {
+  16   1          /* 发送一个字节数据到串口 */
+  17   1          UART0_write((signed char) ch);
+  18   1              
+  19   1          return ch;
+  20   1      }
+  21          
+  22          unsigned char dat0;
+  23          /*****************************************************
+  24          * 中断服务函数
+  25          *****************************************************/
+  26          void Uart_Isr() interrupt 4
+  27          {
+  28   1          if(RI0 == 1)     
+  29   1          {
+  30   2              RI0 = 0;     //清除标志位
+  31   2              dat0 = S0BUF;  
+  32   2              Rx_flag = 1;
+  33   2          }
+  34   1          if(TI0 == 1)     
+  35   1          {
+  36   2              TI0 = 0;     //清除标志位
+  37   2              Tx_flag = 1;
+  38   2          }
+  39   1      }
+  40          
+  41          /*****************************************************
+  42          *函数名称：void Uart0Mode1(void)
+  43          *函数功能：8 位异步模式，波特率：可调(T1/T2)
+  44          *入口参数：
+  45          *出口参数：
+  46          *****************************************************/
+  47          void Uart0Mode1(void)
+  48          {
+  49   1          SM00 = 0;
+  50   1          SM10 = 1;   //模式选择: 模式1
+  51   1          REN0 = 0;   //串行接收使能位
+  52   1          RI0 = 0;    //接收中断标志
+  53   1          TI0 = 0;    //发送中断标志
+  54   1              
+C51 COMPILER V9.59.0.0   UART0                                                             07/29/2020 17:02:17 PAGE 2   
+
+  55   1      //    /* 默认定时器1作为时钟源(配置位8Bit自动重载模式不开中断程序) */
+  56   1      //    /* TL1 作为 8 位定时器/计数器， TH1 作为自动重载寄存器 */
+  57   1      //    TR1 = 0;    //先停T1
+  58   1      //    TMOD = 0x20;                // 定时器，时钟为系统时钟 12 分频
+  59   1      //    TH1 = 256-4;//波特率10417
+  60   1      //    TR1 = 1;  //开始运行//timer1 start running    
+  61   1          
+  62   1              //TIMER2 作为uart0的波特率时钟源
+  63   1          TR2 = 0;
+  64   1          T2MOD = 0x00;/* 定时2中断不使能，不分频 */
+  65   1          T2CL = 65536 - 52;
+  66   1          T2CH = 65536 - 52 >> 8;//波特率：9600
+  67   1          TL2 = T2CL;
+  68   1          TH2 = T2CH;
+  69   1          TR2 = 1;    //启动定时器2
+  70   1          RCLK = 1;
+  71   1          TCLK = 1;   
+  72   1      }
+  73          
+  74          /*****************************************************
+  75          *函数名称：void vcan_sendware(u16 *wareaddr, unsigned int waresize)
+  76          *函数功能：虚拟示波器
+  77          *入口参数：
+  78          *出口参数：
+  79          *****************************************************/
+  80          void vcan_sendware(u16 *wareaddr, unsigned int waresize)
+  81          {
+  82   1              int i;
+  83   1              #define CMD_WARE     3
+  84   1              unsigned char cmdf[2] = {CMD_WARE, ~CMD_WARE};    //yy_ÉãÏñÍ·´®¿Úµ÷ÊÔ Ê¹ÓÃµÄÃüÁî
+  85   1              unsigned char cmdr[2] = {~CMD_WARE, CMD_WARE};    //yy_ÉãÏñÍ·´®¿Úµ÷ÊÔ Ê¹ÓÃµÄÃüÁî
+  86   1      
+  87   1              for(i=0;i<sizeof(cmdf);++i)
+  88   1              {UART0_write(*(cmdf+i));//先发送命令
+  89   2              }
+  90   1              
+  91   1              for(i=0;i<waresize;++i)
+  92   1              {
+  93   2                      UART0_write(*(wareaddr+i));//再发送图像
+  94   2                      UART0_write((*(wareaddr+i))>>8);//再发送图像
+  95   2              }
+  96   1              
+  97   1              for(i=0;i<sizeof(cmdr);++i)
+  98   1              UART0_write(*(cmdr+i));//发送命令
+  99   1      }
+ 100          
+ 101          void putBinary(unsigned int number)//将一个int型数据的二进制形式正序，倒叙打印输出
+ 102          {
+ 103   1          unsigned int value;
+ 104   1          int i;
+ 105   1      //    for (i = 31; i >= 0;i--)//正序
+ 106   1      //    {
+ 107   1      //        value = number >> i & 1;
+ 108   1      //        printf("%d", value);
+ 109   1      //    }
+ 110   1      //    printf("\r\n");
+ 111   1          
+ 112   1          for (i = 12; i >= 0;i--)//正序
+ 113   1          {
+ 114   2              value = number >> i & 1;
+ 115   2              printf("%d", value);
+ 116   2          }
+C51 COMPILER V9.59.0.0   UART0                                                             07/29/2020 17:02:17 PAGE 3   
+
+ 117   1      //    printf("\r\n");
+ 118   1      
+ 119   1      //    for (i = 0; i <= 31; i++)//倒叙
+ 120   1      //    {
+ 121   1      //        value = number >> i & 1;
+ 122   1      //        printf("%d", value);
+ 123   1      //    }
+ 124   1      //    printf("\r\n");
+ 125   1      }  
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    296    ----
+   CONSTANT SIZE    =      7    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3      15
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

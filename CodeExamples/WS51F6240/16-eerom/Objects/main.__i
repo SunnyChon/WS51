@@ -1,0 +1,1 @@
+"main.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\main.lst) PREPRINT(.\Listings\main.i) OBJECT(.\Objects\main.obj)

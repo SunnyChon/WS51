@@ -1,0 +1,372 @@
+C51 COMPILER V9.59.0.0   TIMER                                                             06/10/2019 14:59:39 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN .\Objects\timer.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\C51\BIN\C51.EXE hareware\timer.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\hareware) DEBUG O
+                    -BJECTEXTEND PRINT(.\Listings\timer.lst) OBJECT(.\Objects\timer.obj)
+
+line level    source
+
+   1          #include "timer.h"
+   2          
+   3          
+   4          uint32_t count=0, count1=0;                         //1000 times counter
+   5          /********************* Timer0ÖÐ¶Ïº¯Êý************************/
+   6          void timer0_isr (void) interrupt TIMER0_VECTOR
+   7          { 
+   8   1          /* set timer0 as mode0 (13-bit) */
+   9   1          TL0 = TIME_CNTVAL_13bit & 0x1F;              //initial timer0 low byte
+  10   1          TH0 = TIME_CNTVAL_13bit >> 5;                //initial timer0 high byte
+  11   1          
+  12   1      //    /* set timer0 as mode1 (16-bit) */
+  13   1      //    TL0 = TIME_CNTVAL_16bit;                     //initial timer0 low byte
+  14   1      //    TH0 = TIME_CNTVAL_16bit >> 8;                //initial timer0 high byte
+  15   1          
+  16   1      //    /* set timer0 as mode2 (8-bit) */
+  17   1      //    //×Ô¶¯8Î»ÖØÔØ TL0 = TH0;
+  18   1      //    
+  19   1      //    /* set timer0 as mode3  TIM_8Bit_2 */
+  20   1      //    TL0 = TIME_CNTVAL_8bit; 
+  21   1      
+  22   1      //    if (++count >= 1000)               //1ms * 1000 -> 1s
+  23   1          {
+  24   2      //        P00 = ! P00;
+  25   2              P01 = ! P01;
+  26   2              count = 0;
+  27   2          }
+  28   1        
+  29   1      }
+  30          //========================================================================
+  31          // º¯Êý: u8     Timer_Inilize(u8 TIM, TIM_InitTypeDef *TIMx)
+  32          // ÃèÊö: ¶¨Ê±Æ÷³õÊ¼»¯³ÌÐò.
+  33          // ²ÎÊý: TIMx: ½á¹¹²ÎÊý,Çë²Î¿¼timer.hÀïµÄ¶¨Òå.
+  34          //       TIM: Timer0, Timer1
+  35          // ·µ»Ø: ³É¹¦·µ»Ø0, ¿Õ²Ù×÷·µ»Ø1,´íÎó·µ»Ø2.
+  36          // °æ±¾:
+  37          //========================================================================
+  38          u8 Timer_Inilize(u8 TIM, TIM_01_InitTypeDef *TIMx)
+  39          {
+  40   1          if(TIM > Timer1)    return 1;       //¿Õ²Ù×÷
+  41   1      
+  42   1      /*============================================================
+  43   1        ============================TIME0=========================== */        
+  44   1          if(TIM == Timer0)
+  45   1          {   
+  46   2              /* Ä£Ê½0:TIM_13Bit, Ä£Ê½1:TIM_16Bit, Ä£Ê½2:TIM_8BitAutoReload, Ä£Ê½3:TIM_8Bit_2, */
+  47   2              if(TIMx->TIM_Mode >  TIM_8Bit_2)        return 2;       //´íÎó
+  48   2              
+  49   2              TMOD = (TMOD & ~0x03) | TIMx->TIM_Mode;         /* ¸³ÖµÄ£Ê½ */
+  50   2              
+  51   2              if(TIMx->TIM_CTM == TIM_CLKCNT)     {TMOD |= CT0; TMOD &= ~GATE0;}    //1£º¼ÆÊýÆ÷£¬Ê±ÖÓÎª T0 ÊäÈëÊ
+             -±ÖÓ
+  52   2                      else                                                            TMOD &= ~CT0;    //0£º¶¨Ê±Æ÷£¬Ê±ÖÓÎªÏµÍ³Ê±ÖÓ 12 ·ÖÆµ
+  53   2      
+C51 COMPILER V9.59.0.0   TIMER                                                             06/10/2019 14:59:39 PAGE 2   
+
+  54   2              if(TIMx->TIM_Mode ==  TIM_13Bit)                
+  55   2              {/* mode0 (13bit) */
+  56   3                  TL0 = (TIMx->TIM_Value) & 0x1F;              //initial timer0 low byte
+  57   3                  TH0 = (TIMx->TIM_Value) >> 5;                //initial timer0 high byte
+  58   3              }
+  59   2              else if(TIMx->TIM_Mode ==  TIM_16Bit)           
+  60   2              {/* mode1 (16bit) */
+  61   3                  TL0 = (TIMx->TIM_Value);                     //initial timer0 low byte
+  62   3                  TH0 = (TIMx->TIM_Value) >> 8;                //initial timer0 high byte
+  63   3              }
+  64   2              else if(TIMx->TIM_Mode ==  TIM_8BitAutoReload)  
+  65   2              {/* mode2 (8bit) */
+  66   3                  TL0 = (TIMx->TIM_Value);                    //initial timer0 low byte
+  67   3                  TH0 = (TIMx->TIM_Value);                    //initial timer0 high byte
+  68   3              }
+  69   2              else                                            
+  70   2              {/* mode3  TIM_8Bit_2 */
+  71   3                  TL0 = (TIMx->TIM_Value);                    //initial timer0 low byte
+  72   3                  TH0 = (TIMx->TIM_Value) >> 8;                //initial timer0 high byte
+  73   3                  
+  74   3                  //¿ªÖÐ¶ÏÊ¹ÄÜÎ»,¿ªÊ¼ÔËÐÐ TH0 start running 
+  75   3                  if(TIMx->TIM_TH0_Run == ENABLE)     {ET1 = 1;TR1 = 1;}
+  76   3              }
+  77   2              
+  78   2              if(TIMx->TIM_Interrupt == ENABLE)               ET0 = 1;        //ÔÊÐíÖÐ¶Ï
+  79   2                      else                                                                    ET0 = 0;        //½ûÖ¹ÖÐ¶Ï 
+  80   2              if(TIMx->TIM_Polity == PolityHigh)              PT0 = 1;        //¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+  81   2                      else                                                                    PT0 = 0;        //µÍÓÅÏÈ¼¶ÖÐ¶Ï
+  82   2              
+  83   2              if(TIMx->TIM_Run == ENABLE)     TR0 = 1;        //¿ªÊ¼ÔËÐÐ//timer0 start running  
+  84   2              else                        TR0 = 0;
+  85   2              return  0;              //³É¹¦
+  86   2          }
+  87   1          
+  88   1      /*============================================================
+  89   1        ============================TIME1=========================== */        
+  90   1          if(TIM == Timer1)
+  91   1          {
+  92   2              /* Ä£Ê½0:²»ÄÜÊ¹ÓÃ, Ä£Ê½1:TIM_16Bit, Ä£Ê½2:TIM_8BitAutoReload, Ä£Ê½3:TH1¡¢ TL1 »á±»Ëø×¡£¬µÈÐ§ÓÚ TR1
+             -=0 */
+  93   2              if(TIMx->TIM_Mode > TIM_8BitAutoReload) return 2;       //´íÎó
+  94   2              
+  95   2              TMOD = (TMOD & ~0x30) | (TIMx->TIM_Mode<<4);        /* ¸³ÖµÄ£Ê½ */     
+  96   2              
+  97   2              if(TIMx->TIM_CTM == TIM_CLKCNT){TMOD |= CT1; TMOD &= ~GATE1;}   //1£º¼ÆÊýÆ÷£¬Ê±ÖÓÎª T0 ÊäÈëÊ±ÖÓ
+  98   2                      else                                               {TMOD &= ~CT1;}   //0£º¶¨Ê±Æ÷£¬Ê±ÖÓÎªÏµÍ³Ê±ÖÓ 12 ·ÖÆµ
+  99   2             
+ 100   2              if(TIMx->TIM_Mode ==  TIM_13Bit)    
+ 101   2              {/* mode0 ´ËÄ£Ê½±£Áô£¬²»ÄÜÊ¹ÓÃ */
+ 102   3                  return 1;
+ 103   3              }
+ 104   2              else if(TIMx->TIM_Mode ==  TIM_16Bit)   
+ 105   2              {/* mode1 (16bit) */
+ 106   3                  TL1 = (TIMx->TIM_Value);              //initial timer1 low byte
+ 107   3                  TH1 = (TIMx->TIM_Value) >> 8;         //initial timer1 high byte
+ 108   3              }
+ 109   2              else                                    
+ 110   2              {/* mode2 (8bit) */
+ 111   3                  TL1 = (TIMx->TIM_Value);              //initial timer1 low byte
+ 112   3                  TH1 = (TIMx->TIM_Value);              //initial timer1 high byte
+ 113   3              }
+ 114   2              
+C51 COMPILER V9.59.0.0   TIMER                                                             06/10/2019 14:59:39 PAGE 3   
+
+ 115   2              if(TIMx->TIM_Interrupt == ENABLE)               ET1 = 1;        //ÔÊÐíÖÐ¶Ï
+ 116   2                      else                                                                    ET1 = 0;        //½ûÖ¹ÖÐ¶Ï 
+ 117   2              
+ 118   2              if(TIMx->TIM_Polity == PolityHigh)              PT1 = 1;        //¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+ 119   2                      else                                                                    PT1 = 0;        //µÍÓÅÏÈ¼¶ÖÐ¶Ï
+ 120   2              
+ 121   2              if(TIMx->TIM_Run == ENABLE)     TR1 = 1;        //¿ªÊ¼ÔËÐÐ//timer1 start running 
+ 122   2              else                                            TR1 = 0;    
+ 123   2              
+ 124   2              return  0;              //³É¹¦
+ 125   2          }
+ 126   1          return 1;   //¿Õ²Ù×÷
+ 127   1      }
+ 128          
+ 129          //========================================================================
+ 130          // º¯Êý: u8     Timer2_Inilize(TIM_InitTypeDef *TIMx)
+ 131          // ÃèÊö: ¶¨Ê±Æ÷³õÊ¼»¯³ÌÐò.
+ 132          // ²ÎÊý: TIM3: ½á¹¹²ÎÊý,Çë²Î¿¼timer.hÀïµÄ¶¨Òå.
+ 133          //#define       TIM2_MODEA0                 0   /* ÖØÔØÄ£Ê½A ¼ÆÊýÒç³ö´¥·¢ÖØÔØ */
+ 134          //#define       TIM2_MODEB0                 1   /* ÖØÔØÄ£Ê½B ¼ÆÊýÒç³ö´¥·¢ÖØÔØ */
+ 135          //#define       TIM2_MODE_GRAB                  2   /* ×¥È¡Ä£Ê½ */
+ 136          //#define       TIM2_MODE_BAUDRATE      3   /* ²¨ÌØÂÊ²úÉúÆ÷Ä£Ê½ */
+ 137          //#define       TIM2_MODE_T2OUT                 4   /* Ê±ÖÓÊä³öÄ£Ê½ */
+ 138          // ·µ»Ø: ³É¹¦·µ»Ø0, ¿Õ²Ù×÷·µ»Ø1,´íÎó·µ»Ø2.
+ 139          // °æ±¾:
+ 140          //========================================================================
+ 141          u8 Timer2_Inilize(TIM2_InitTypeDef *TIMx)
+ 142          {
+ 143   1      /*============================================================
+ 144   1        ============================TIME2=========================== */     
+ 145   1          /* ÖØÔØÄ£Ê½A/B¡¢×¥È¡Ä£Ê½¡¢²¨ÌØÂÊ²úÉúÆ÷Ä£Ê½ºÍÊ±ÖÓÊä³öÄ£Ê½¡£ */
+ 146   1          if(TIMx->TIM_Mode > TIM2_MODE_T2OUT)        return 2;       //´íÎó
+ 147   1                 
+ 148   1      //============================================================        
+ 149   1      /* ²¨ÌØÂÊ²úÉúÆ÷Ä£Ê½(UARTÖÐÅäÖÃ) */
+ 150   1      
+ 151   1      //============================================================        
+ 152   1      /* Ê±ÖÓÊä³öÄ£Ê½ */
+ 153   1          /* T2 Òý½ÅÊä³öÆµÂÊÎª 2 ±¶Òç³öÖÜÆÚµÄÊ±ÖÓ */
+ 154   1          if(TIM2_MODE_T2OUT == TIMx->TIM_Mode)
+ 155   1          {
+ 156   2              T2MOD = 0x02;//T2OE = 1; /* Ê±ÖÓÊä³öÄ£Ê½ */
+ 157   2              
+ 158   2              TIMx->TIM_Value = 65536-FOSC/(TIMx->TIM_ClkOut*2);
+ 159   2          }  
+ 160   1      
+ 161   1      //============================================================        
+ 162   1      /* ×¥È¡Ä£Ê½ */   
+ 163   1          if(TIM2_MODE_GRAB == TIMx->TIM_Mode)
+ 164   1          {
+ 165   2              CPRL2 = 1;       /* ×¥È¡¹¦ÄÜ */
+ 166   2              T2MOD = 0x00;    /* ×¥È¡Ä£Ê½ *//* ÖÐ¶ÏÊ¹ÄÜ£¬²»·ÖÆµ, T2EX ´¥·¢×¥È¡ */
+ 167   2              EXEN2 = 0;       /* T2EX Ê¹ÄÜÐÅºÅ */
+ 168   2              
+ 169   2              if(TIMx->TIM_Grab_Method == TIM2_T2CL_W)
+ 170   2              {/* ¾ÍÊÇ¶Ôt2clËæ±ãÐ´Ò»¸öÖµ£¬¾Í¿ÉÒÔ²úÉúÒ»´Î²¶»ñ */
+ 171   3                  T2MOD |= T2CM;  /* 1£ºÈí¼þÐ´ T2CL ×¥È¡ */ 
+ 172   3              }            
+ 173   2          } 
+ 174   1          
+ 175   1      //============================================================        
+ 176   1      /* ÖØÔØÄ£Ê½A */
+C51 COMPILER V9.59.0.0   TIMER                                                             06/10/2019 14:59:39 PAGE 4   
+
+ 177   1          if(TIM2_MODEA0 == TIMx->TIM_Mode)
+ 178   1          {
+ 179   2              T2MOD = 0x80;    /* ÖØÔØÄ£Ê½A *//* ¶¨Ê±Æ÷ 2 ÖÐ¶ÏÊ¹ÄÜ£¬²»·ÖÆµ */
+ 180   2              CPRL2 = 0;       /* ÖØÔØ¹¦ÄÜ */
+ 181   2          } 
+ 182   1          
+ 183   1      //============================================================        
+ 184   1      /* ÖØÔØÄ£Ê½B */
+ 185   1          /*  ´ËÊ± T2EX ÎªµÍÊ±¶¨Ê±Æ÷µÝ¼õ¼ÆÊý£¬ 
+ 186   1              T2EXÎª¸ßÊ±¶¨Ê±Æ÷µÝÔö¼ÆÊý */
+ 187   1          
+ 188   1          /* EXF2 ±êÖ¾²»ÔÙ²úÉúÖÐ¶Ï£¬¶øÊÇ×÷Îª¼ÆÊýÆ÷µÃµÚ 17 Î»·­×ª */
+ 189   1          if(TIM2_MODEB0 == TIMx->TIM_Mode)
+ 190   1          {
+ 191   2              T2MOD = 0x81;    /* ÖØÔØÄ£Ê½B *//* ¶¨Ê±Æ÷ 2 ÖÐ¶ÏÊ¹ÄÜ£¬²»·ÖÆµ */
+ 192   2              CPRL2 = 0;       /* ÖØÔØ¹¦ÄÜ */ 
+ 193   2          }  
+ 194   1      
+ 195   1      //============================================================               
+ 196   1          if(TIMx->TIM_CTM == TIM_CLKCNT)
+ 197   1          {
+ 198   2              CT2 = 1;         /* ¼ÆÊý¹¦ÄÜ */
+ 199   2          }
+ 200   1          else
+ 201   1          {
+ 202   2              CT2 = 0;         /* ¶¨Ê±¹¦ÄÜ */
+ 203   2          }
+ 204   1          
+ 205   1          if(TIMx->TIM_T2EX_EN == ENABLE)     EXEN2 = 1; /* T2EX Ê¹ÄÜÐÅºÅ£¬ÔÚ¶¨Ê±Æ÷Ã»ÓÐ×÷Îª UART0 Ê±ÖÓÊ± T2EX ÓÐ
+             -Ð§ */
+ 206   1          else                                EXEN2 = 0; /* Ö»ÓÐ¼ÆÊýÒç³ö²ÅÄÜ´¥·¢ÖØÔØ */
+ 207   1          
+ 208   1          if(TIMx->TIM_T2EX_Edge == RISING_EDGE)   T2MOD |= T2XPS;  /* Ñ¡ÔñÊÇÉÏÉýÑØ */
+ 209   1          else                                     T2MOD &= ~T2XPS; /* »¹ÊÇÏÂ½µÑØ */
+ 210   1          
+ 211   1          if(TIMx->TTIM_Edge_Cnt == RISING_EDGE)   T2MOD |= T2PS;  /* Ñ¡ÔñÊÇÉÏÉýÑØ */
+ 212   1          else                                     T2MOD &= ~T2PS; /* »¹ÊÇÏÂ½µÑØ */        
+ 213   1          
+ 214   1          T2CL = (TIMx->TIM_Value);
+ 215   1          T2CH = (TIMx->TIM_Value) >> 8;
+ 216   1          TL2 = T2CL;
+ 217   1          TH2 = T2CH;
+ 218   1          
+ 219   1          EXF2 = 0;
+ 220   1          TF2 = 0;             /* ÇåÖÐ¶Ï±êÖ¾ */
+ 221   1          
+ 222   1          if(TIMx->TIM_Polity == PolityHigh)          PX3 = 1;        //¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+ 223   1          else                                                                        PX3 = 0;        //µÍÓÅÏÈ¼¶ÖÐ¶Ï
+ 224   1          
+ 225   1          if(TIMx->TIM_T2_Interrupt == ENABLE)    T2MOD |= T2IE;  //¿ª¶¨Ê±Æ÷2ÖÐ¶ÏÊ¹ÄÜ
+ 226   1          else                                    T2MOD &= ~T2IE;  //¹Ø¶¨Ê±Æ÷2ÖÐ¶ÏÊ¹ÄÜ 
+ 227   1          
+ 228   1          if(TIMx->TIM_Interrupt == ENABLE)       EINT3 = 1;  //INT3ÖÐ¶ÏÊ¹ÄÜ
+ 229   1          else                                    EINT3 = 0;  //INT3ÖÐ¶ÏÊ¹ÄÜ                          
+ 230   1          
+ 231   1          if(TIMx->TIM_Run == ENABLE)     TR2 = 1;    //Æô¶¯¶¨Ê±Æ÷2
+ 232   1          else                                                    TR2 = 0;   
+ 233   1          return      0;              //³É¹¦
+ 234   1      
+ 235   1      }
+ 236          
+ 237          //========================================================================
+C51 COMPILER V9.59.0.0   TIMER                                                             06/10/2019 14:59:39 PAGE 5   
+
+ 238          // º¯Êý: u8     Timer3_Inilize(TIM_InitTypeDef *TIMx)
+ 239          // ÃèÊö: ¶¨Ê±Æ÷³õÊ¼»¯³ÌÐò.
+ 240          // ²ÎÊý: TIM3: ½á¹¹²ÎÊý,Çë²Î¿¼timer.hÀïµÄ¶¨Òå.
+ 241          //    #define   TIM3_CNT_MODE               0   /* Á¬Ðø¼ÆÊýÄ£Ê½ */
+ 242          //    #define   TIM3_GATED_MODE             1   /* ÃÅ¿ØÄ£Ê½ */
+ 243          //    #define   TIM3_TRIGGER_MODE               2   /* ´¥·¢Ä£Ê½ */
+ 244          //    #define   TIM3_RESET_MODE             3   /* ¸´Î»Ä£Ê½ */
+ 245          //    #define   TIM3_GRAB_MODE                  4   /* ×¥È¡¹¦ÄÜ */
+ 246          // ·µ»Ø: ³É¹¦·µ»Ø0, ¿Õ²Ù×÷·µ»Ø1,´íÎó·µ»Ø2.
+ 247          // °æ±¾:
+ 248          //========================================================================
+ 249          u8 Timer3_Inilize(TIM3_InitTypeDef *TIM3)
+ 250          {
+ 251   1      /*============================================================
+ 252   1        ============================TIME3=========================== */     
+ 253   1          /* TIM3¹¤×÷Ä£Ê½£º¼ÆÊýÄ£Ê½¡¢ÃÅ¿ØÄ£Ê½¡¢´¥·¢Ä£Ê½ºÍ¸´Î»Ä£Ê½ ×¥È¡Ä£Ê½ */
+ 254   1          if(TIM3->TIM3_Mode > TIM3_GRAB_MODE)        return 2;       //´íÎó
+ 255   1          
+ 256   1      //¹¤×÷Ä£Ê½ÅäÖÃ    
+ 257   1          T3MOD &= ~MOD;
+ 258   1          T3MOD |= (TIM3->TIM3_Mode)<<6;
+ 259   1          
+ 260   1          if(TIM3->TIM3_Mode == TIM3_GRAB_MODE)
+ 261   1          {/* ×¥È¡Ä£Ê½ */
+ 262   2              T3MOD |= CAPE;
+ 263   2              //T3EX ÎÞÐ§±ßÑØ×¥È¡Ê¹ÄÜ
+ 264   2              if(TIM3->TIM3_T3EX_Choose == ENABLE)
+ 265   2              {
+ 266   3                  T3MOD |= DBE;//1£º T3EX Ë«±ßÑØ¾ù¿ÉÒÔ²úÉú×¥È¡´¥·¢
+ 267   3              }
+ 268   2              else
+ 269   2              {
+ 270   3                  T3MOD &= ~DBE;//0£º T3EX ½öÓÐÐ§±ßÑØ¿ÉÒÔ²úÉú×¥È¡´¥·¢
+ 271   3              }
+ 272   2          }
+ 273   1      
+ 274   1      //Ê±ÖÓÔ´Ñ¡Ôñ(0£º ÏµÍ³Ê±ÖÓ; 1£ºÏµÍ³Ê±ÖÓ/2; 2£ºÏµÍ³Ê±ÖÓ/4; 3£ºÍâ²¿Ê±ÖÓ TI3)
+ 275   1          T3CON &= ~CKS3;
+ 276   1          T3CON |= (TIM3->TIM3_CLKCTM)<<4;
+ 277   1      
+ 278   1      //¼ÆÊý·½Ïò
+ 279   1          if(TIM3->TIM3_Direction == COUNT_UP)        T3CON &= ~DIR3; //ÏòÉÏ¼ÆÊý
+ 280   1          else                                                                    T3CON |= DIR3;      //ÏòÏÂ¼ÆÊý 
+ 281   1          
+ 282   1      //×°ÔØ¼ÆÊýÖµ T3RL£¬T3RH
+ 283   1          T3CL = 0;
+ 284   1          T3CH = 0;
+ 285   1          T3RL = TIM3->TIM3_Value;
+ 286   1              T3RH = (TIM3->TIM3_Value) >> 8;
+ 287   1          TL3 = T3RL;
+ 288   1              TH3 = T3RH;
+ 289   1       
+ 290   1      //T3EX ¼«ÐÔÑ¡Ôñ    
+ 291   1          if(TIM3->TIM3_T3EX_Polarity == RISING_EDGE) //T3EXÉÏÉýÑØÓÐÐ§/¸ßµçÆ½
+ 292   1          {
+ 293   2              T3MOD &= ~T3EP;
+ 294   2          }
+ 295   1          else                                        //T3EXÏÂÉýÑØÓÐÐ§/µÍµçÆ½
+ 296   1          {
+ 297   2              T3MOD |= T3EP;
+ 298   2          } 
+ 299   1          
+C51 COMPILER V9.59.0.0   TIMER                                                             06/10/2019 14:59:39 PAGE 6   
+
+ 300   1      //TI3 ¼«ÐÔÑ¡Ôñ    
+ 301   1          if(TIM3->TIM3_TI3_Polarity == RISING_EDGE) //ÉÏÉýÑØÓÐÐ§
+ 302   1          {
+ 303   2              T3CON &= ~T3PS;
+ 304   2          }
+ 305   1          else                                        //ÏÂÉýÑØÓÐÐ§
+ 306   1          {
+ 307   2              T3CON |= T3PS;
+ 308   2          }      
+ 309   1          
+ 310   1      //ÓÅÏÈ¼¶ÉèÖÃ    
+ 311   1          if(TIM3->TIM3_Polity == PolityHigh)         PX4 = 1;        //¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+ 312   1          else                                                                        PX4 = 0;        //µÍÓÅÏÈ¼¶ÖÐ¶Ï
+ 313   1          
+ 314   1      //Òç³öÖÐ¶ÏÔÊÐí    
+ 315   1          if(TIM3->TIM3_OverInterrupt == ENABLE)      T3CON |= T3IE;  //Ê¹ÄÜ
+ 316   1          else                                                                        T3CON &= ~T3IE; //¹Ø±Õ
+ 317   1      //±ßÑØÖÐ¶ÏÔÊÐí    
+ 318   1          if(TIM3->TIM3_EdgeInterrupt == ENABLE)      T3CON |= T3EXIE;        //Ê¹ÄÜ
+ 319   1          else                                                                        T3CON &= ~T3EXIE;       //¹Ø±Õ
+ 320   1      //×¥È¡ÖÐ¶ÏÔÊÐí    
+ 321   1          if(TIM3->TIM3_GrabInterrupt == ENABLE)      T3CON |= T3CTIE;        //Ê¹ÄÜ
+ 322   1          else                                                                        T3CON &= ~T3CTIE;       //¹Ø±Õ
+ 323   1      
+ 324   1      //¿ªÖÐ¶ÏINT4    
+ 325   1          if(TIM3->TIM3_Interrupt == ENABLE)     EINT4 = 1;  //¿ª¶¨Ê±Æ÷3ÖÐ¶ÏÊ¹ÄÜ
+ 326   1          else                                   EINT4 = 0;  //¹Ø¶¨Ê±Æ÷3ÖÐ¶ÏÊ¹ÄÜ                          
+ 327   1          
+ 328   1      //ÊÇ·ñÔËÐÐ
+ 329   1          if(TIM3->TIM3_Run == ENABLE)     T3CON |= TR3;    //Æô¶¯¶¨Ê±Æ÷3
+ 330   1          else                                                         T3CON &= ~TR3;
+ 331   1         
+ 332   1          return      0;              //³É¹¦
+ 333   1          
+ 334   1      }
+ 335          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    963    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

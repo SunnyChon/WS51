@@ -1,0 +1,402 @@
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE WS51F7030
+OBJECT MODULE PLACED IN .\Objects\WS51F7030.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE WS51F7030.c LARGE OPTIMIZE(0,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJE
+                    -CTEXTEND PRINT(.\Listings\WS51F7030.lst) TABS(2) OBJECT(.\Objects\WS51F7030.obj)
+
+line level    source
+
+   1          
+   2          xdata unsigned char P00F      _at_ 0x8000;   
+   3          xdata unsigned char P01F      _at_ 0x8001;   
+   4          xdata unsigned char P02F      _at_ 0x8002;   
+   5          xdata unsigned char P03F      _at_ 0x8003;  
+   6          xdata unsigned char P04F      _at_ 0x8004;   
+   7          xdata unsigned char P05F      _at_ 0x8005;  
+   8          xdata unsigned char P06F      _at_ 0x8006;   
+   9          xdata unsigned char P07F      _at_ 0x8007;   
+  10          
+  11          xdata unsigned char P10F      _at_ 0x8008;
+  12          xdata unsigned char P11F      _at_ 0x8009;
+  13          xdata unsigned char P12F      _at_ 0x800a;
+  14          xdata unsigned char P13F      _at_ 0x800b;
+  15          xdata unsigned char P14F      _at_ 0x800c;
+  16          xdata unsigned char P15F      _at_ 0x800d;
+  17          xdata unsigned char P16F      _at_ 0x800e;
+  18          xdata unsigned char P17F      _at_ 0x800f;
+  19          
+  20          xdata unsigned char P20F      _at_ 0x8010;   
+  21          xdata unsigned char P21F      _at_ 0x8011;   
+  22          xdata unsigned char P22F      _at_ 0x8012;   //6652
+  23          xdata unsigned char P23F      _at_ 0x8013;   //6652
+  24          xdata unsigned char P24F      _at_ 0x8014;   //6652
+  25          xdata unsigned char P25F      _at_ 0x8015;   //6652
+  26          xdata unsigned char P26F      _at_ 0x8016;   //6652
+  27          xdata unsigned char P27F      _at_ 0x8017;   //6652
+  28          
+  29          xdata unsigned char P30F      _at_ 0x8018;
+  30          xdata unsigned char P31F      _at_ 0x8019;
+  31          xdata unsigned char P32F      _at_ 0x801a;
+  32          xdata unsigned char P33F      _at_ 0x801b;
+  33          xdata unsigned char P34F      _at_ 0x801c;
+  34          xdata unsigned char P35F      _at_ 0x801d;
+  35          xdata unsigned char P36F      _at_ 0x801e;  //6232
+  36          xdata unsigned char P37F      _at_ 0x801f;  //6232
+  37          
+  38          
+  39          xdata unsigned char P40F      _at_ 0x8020;//6652
+  40          xdata unsigned char P41F      _at_ 0x8021;//6652
+  41          xdata unsigned char P42F      _at_ 0x8022;//6652
+  42          xdata unsigned char P43F      _at_ 0x8023;//6652
+  43          xdata unsigned char P44F      _at_ 0x8024;//6652
+  44          xdata unsigned char P45F      _at_ 0x8025;//6652
+  45          xdata unsigned char P46F      _at_ 0x8026;//6652
+  46          xdata unsigned char P47F      _at_ 0x8027;//6652
+  47          
+  48          
+  49          xdata unsigned char P50F      _at_ 0x8028;//6652
+  50          xdata unsigned char P51F      _at_ 0x8029;//6652
+  51          xdata unsigned char P52F      _at_ 0x802a;//6652
+  52          xdata unsigned char P53F      _at_ 0x802b;//6652
+  53          xdata unsigned char P54F      _at_ 0x802c;//6652
+  54          xdata unsigned char P55F      _at_ 0x802d;//6652
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 2   
+
+  55          
+  56          xdata unsigned char T4CON     _at_ 0x8038;//6652
+  57          xdata unsigned char T4MOD     _at_ 0x8039;//6652
+  58          xdata unsigned char T4RL      _at_ 0x803a;//6652
+  59          xdata unsigned char T4RH      _at_ 0x803b;//6652
+  60          xdata unsigned char T4CL      _at_ 0x803c;//6652
+  61          xdata unsigned char T4CH      _at_ 0x803d;//6652
+  62          xdata unsigned char TL4       _at_ 0x803e;//6652
+  63          xdata unsigned char TH4       _at_ 0x803f;//6652
+  64          
+  65          
+  66          xdata unsigned char PWMRUN    _at_ 0x8040;//6652
+  67          //xdata unsigned char PWMEN     _at_ 0x8040;//6652
+  68          xdata unsigned char PWMCLR    _at_ 0x8041;//6652
+  69          xdata unsigned char PWMUPD    _at_ 0x8043;//6652
+  70          xdata unsigned char PWMFLG0   _at_ 0x8044;//6652
+  71          xdata unsigned char PWMFLG1   _at_ 0x8045;//6652
+  72          
+  73          xdata unsigned char PMEN    _at_ 0x8048;//6652
+  74          xdata unsigned char PMDAT   _at_ 0x8049;//6652
+  75          xdata unsigned char PMSCON    _at_ 0x804a;//6652
+  76          xdata unsigned char PMSDL   _at_ 0x804b;//6652
+  77          xdata unsigned char PMSDH   _at_ 0x804c;//6652
+  78          xdata unsigned char PMSML   _at_ 0x804D;//6652
+  79          xdata unsigned char PMSMH   _at_ 0x804E;//6652
+  80          
+  81          xdata unsigned char PWM0CFG   _at_ 0x8050;
+  82          xdata unsigned char PWM0PS    _at_ 0x8051;  //6232
+  83          xdata unsigned char PWM0DUTL  _at_ 0x8054;
+  84          xdata unsigned char PWM0DUTH  _at_ 0x8055;
+  85          xdata unsigned char PWM0DIVL  _at_ 0x8056;
+  86          xdata unsigned char PWM0DIVH  _at_ 0x8057;
+  87          
+  88          xdata unsigned char PWM1CFG   _at_ 0x8058;  //6652
+  89          xdata unsigned char PWM1PS    _at_ 0x8059;  //6232
+  90          xdata unsigned char PWM1DUTL  _at_ 0x805c;
+  91          xdata unsigned char PWM1DUTH  _at_ 0x805d;
+  92          xdata unsigned char PWM1DIVL  _at_ 0x805e;
+  93          xdata unsigned char PWM1DIVH  _at_ 0x805f;
+  94          
+  95          xdata unsigned char PWM2CFG   _at_ 0x8060;
+  96          xdata unsigned char PWM2PS    _at_ 0x8061;  //6232
+  97          xdata unsigned char PWM2DUTL  _at_ 0x8064;
+  98          xdata unsigned char PWM2DUTH  _at_ 0x8065;
+  99          xdata unsigned char PWM2DIVL  _at_ 0x8066;
+ 100          xdata unsigned char PWM2DIVH  _at_ 0x8067;
+ 101          
+ 102          xdata unsigned char PWM3CFG   _at_ 0x8068;  //6652
+ 103          xdata unsigned char PWM3PS    _at_ 0x8069;  //6232
+ 104          xdata unsigned char PWM3DUTL  _at_ 0x806c;
+ 105          xdata unsigned char PWM3DUTH  _at_ 0x806d;
+ 106          xdata unsigned char PWM3DIVL  _at_ 0x806e;
+ 107          xdata unsigned char PWM3DIVH  _at_ 0x806f;
+ 108          
+ 109          xdata unsigned char PWM4CFG   _at_ 0x8070;
+ 110          xdata unsigned char PWM4PS    _at_ 0x8071;  //6232
+ 111          xdata unsigned char PWM4DUTL  _at_ 0x8074;
+ 112          xdata unsigned char PWM4DUTH  _at_ 0x8075;
+ 113          xdata unsigned char PWM4DIVL  _at_ 0x8076;
+ 114          xdata unsigned char PWM4DIVH  _at_ 0x8077;
+ 115          
+ 116          xdata unsigned char PWM5CFG   _at_ 0x8078;  //6652
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 3   
+
+ 117          xdata unsigned char PWM5PS    _at_ 0x8079;  //6232
+ 118          xdata unsigned char PWM5DUTL  _at_ 0x807c;
+ 119          xdata unsigned char PWM5DUTH  _at_ 0x807d;
+ 120          xdata unsigned char PWM5DIVL  _at_ 0x807e;
+ 121          xdata unsigned char PWM5DIVH  _at_ 0x807f;
+ 122          
+ 123          xdata unsigned char PWM6CFG   _at_ 0x8080;  //6232  
+ 124          xdata unsigned char PWM6PS    _at_ 0x8081;  //6232  
+ 125          xdata unsigned char PWM6DUTL  _at_ 0x8084;  //6232
+ 126          xdata unsigned char PWM6DUTH  _at_ 0x8085;  //6232
+ 127          xdata unsigned char PWM6DIVL  _at_ 0x8086;  //6232
+ 128          xdata unsigned char PWM6DIVH  _at_ 0x8087;  //6232
+ 129          
+ 130          xdata unsigned char PWM7CFG   _at_ 0x8088;  //6232
+ 131          xdata unsigned char PWM7PS    _at_ 0x8089;  //6232
+ 132          xdata unsigned char PWM7DUTL  _at_ 0x808c;  //6232
+ 133          xdata unsigned char PWM7DUTH  _at_ 0x808d;  //6232
+ 134          xdata unsigned char PWM7DIVL  _at_ 0x808e;  //6232
+ 135          xdata unsigned char PWM7DIVH  _at_ 0x808f;  //6232
+ 136          
+ 137          xdata unsigned char LEDCFG    _at_ 0x80d0;//0032
+ 138          xdata unsigned char LED0D0   _at_ 0x80d2;//0032
+ 139          xdata unsigned char LED0D1   _at_ 0x80d3;//0032
+ 140          xdata unsigned char LED0D2   _at_ 0x80d4;//0032
+ 141          
+ 142          xdata unsigned char LED1D0   _at_ 0x80da;//0032
+ 143          xdata unsigned char LED1D1   _at_ 0x80db;//0032
+ 144          xdata unsigned char LED1D2   _at_ 0x80dc;//0032
+ 145          
+ 146          xdata unsigned char FBCON     _at_ 0x80e0;//6652
+ 147          xdata unsigned char FBDAT     _at_ 0x80e1;//6652
+ 148          xdata unsigned char FBFLG     _at_ 0x80e2;//6652
+ 149          //xdata unsigned char PMEN      _at_ 0x80e4;//6652
+ 150          //xdata unsigned char PMDAT     _at_ 0x80e5;//6652
+ 151          
+ 152          
+ 153          
+ 154          xdata unsigned char PIMOD _at_ 0x80e8;  //6232
+ 155          xdata unsigned char P0IMSK  _at_ 0x80e9;  //6232
+ 156          xdata unsigned char P1IMSK  _at_ 0x80ea;  //6232
+ 157          xdata unsigned char P2IMSK  _at_ 0x80eb;  //6552
+ 158          xdata unsigned char P3IMSK  _at_ 0x80ec;  //6232
+ 159          xdata unsigned char P4IMSK  _at_ 0x80ed;  //6652
+ 160          xdata unsigned char P5IMSK  _at_ 0x80ee;  //6652
+ 161          
+ 162          xdata unsigned char BZCON _at_ 0x80F0;  //6232
+ 163          xdata unsigned char BZPSC _at_ 0x80F1;  //6232
+ 164          xdata unsigned char BZDUT _at_ 0x80F2;  //6232
+ 165          xdata unsigned char BZDIV _at_ 0x80F3;  //6232
+ 166          
+ 167          
+ 168          
+ 169          
+ 170          xdata unsigned char TKPCS0    _at_ 0x80f8;
+ 171          xdata unsigned char TKPCS1    _at_ 0x80f9;
+ 172          xdata unsigned char TKPCS2    _at_ 0x80fa;
+ 173          xdata unsigned char TKPCS3    _at_ 0x80fB;  //6232
+ 174          xdata unsigned char TKPCS4    _at_ 0x80fc;  //6552
+ 175          xdata unsigned char TKPCS5    _at_ 0x80fd;  //6552
+ 176          xdata unsigned char TKPCS6    _at_ 0x80fe;  //6652
+ 177          xdata unsigned char TKPCS7    _at_ 0x80ff;  //6652
+ 178                                       
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 4   
+
+ 179          xdata unsigned char TK0MXL    _at_ 0x8100;
+ 180          xdata unsigned char TK0MXH    _at_ 0x8101;
+ 181          xdata unsigned char TK1MXL    _at_ 0x8102;
+ 182          xdata unsigned char TK1MXH    _at_ 0x8103;
+ 183          xdata unsigned char TK2MXL    _at_ 0x8104;
+ 184          xdata unsigned char TK2MXH    _at_ 0x8105;
+ 185          xdata unsigned char TK3MXL    _at_ 0x8106;
+ 186          xdata unsigned char TK3MXH    _at_ 0x8107;
+ 187          
+ 188          xdata unsigned char TK4MXL    _at_ 0x8108;
+ 189          xdata unsigned char TK4MXH    _at_ 0x8109;
+ 190          xdata unsigned char TK5MXL    _at_ 0x810a;
+ 191          xdata unsigned char TK5MXH    _at_ 0x810b;
+ 192          xdata unsigned char TK6MXL    _at_ 0x810c;
+ 193          xdata unsigned char TK6MXH    _at_ 0x810d;
+ 194          xdata unsigned char TK7MXL    _at_ 0x810e;
+ 195          xdata unsigned char TK7MXH    _at_ 0x810f;
+ 196          
+ 197          xdata unsigned char TK8MXL    _at_ 0x8110;
+ 198          xdata unsigned char TK8MXH    _at_ 0x8111;
+ 199          xdata unsigned char TK9MXL    _at_ 0x8112;
+ 200          xdata unsigned char TK9MXH    _at_ 0x8113;
+ 201          xdata unsigned char TK10MXL   _at_ 0x8114;
+ 202          xdata unsigned char TK10MXH   _at_ 0x8115;
+ 203          xdata unsigned char TK11MXL   _at_ 0x8116;
+ 204          xdata unsigned char TK11MXH   _at_ 0x8117;
+ 205          
+ 206          xdata unsigned char TK0MNL    _at_ 0x8140;
+ 207          xdata unsigned char TK0MNH    _at_ 0x8141;
+ 208          xdata unsigned char TK1MNL    _at_ 0x8142;
+ 209          xdata unsigned char TK1MNH    _at_ 0x8143;
+ 210          xdata unsigned char TK2MNL    _at_ 0x8144;
+ 211          xdata unsigned char TK2MNH    _at_ 0x8145;
+ 212          xdata unsigned char TK3MNL    _at_ 0x8146;
+ 213          xdata unsigned char TK3MNH    _at_ 0x8147;
+ 214          
+ 215          xdata unsigned char TK4MNL    _at_ 0x8148;
+ 216          xdata unsigned char TK4MNH    _at_ 0x8149;
+ 217          xdata unsigned char TK5MNL    _at_ 0x814a;
+ 218          xdata unsigned char TK5MNH    _at_ 0x814b;
+ 219          xdata unsigned char TK6MNL    _at_ 0x814c;
+ 220          xdata unsigned char TK6MNH    _at_ 0x814d;
+ 221          xdata unsigned char TK7MNL    _at_ 0x814e;
+ 222          xdata unsigned char TK7MNH    _at_ 0x814f;
+ 223          
+ 224          xdata unsigned char TK8MNL    _at_ 0x8150;
+ 225          xdata unsigned char TK8MNH    _at_ 0x8151;
+ 226          xdata unsigned char TK9MNL    _at_ 0x8152;
+ 227          xdata unsigned char TK9MNH    _at_ 0x8153;
+ 228          xdata unsigned char TK10MNL   _at_ 0x8154;
+ 229          xdata unsigned char TK10MNH   _at_ 0x8155;
+ 230          xdata unsigned char TK11MNL   _at_ 0x8156;
+ 231          xdata unsigned char TK11MNH   _at_ 0x8157;
+ 232          
+ 233          xdata unsigned char TK0MSL    _at_ 0x8180;
+ 234          xdata unsigned char TK0MSH    _at_ 0x8181;
+ 235          xdata unsigned char TK1MSL    _at_ 0x8182;
+ 236          xdata unsigned char TK1MSH    _at_ 0x8183;
+ 237          xdata unsigned char TK2MSL    _at_ 0x8184;
+ 238          xdata unsigned char TK2MSH    _at_ 0x8185;
+ 239          xdata unsigned char TK3MSL    _at_ 0x8186;
+ 240          xdata unsigned char TK3MSH    _at_ 0x8187;
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 5   
+
+ 241          
+ 242          xdata unsigned char TK4MSL    _at_ 0x8188;
+ 243          xdata unsigned char TK4MSH    _at_ 0x8189;
+ 244          xdata unsigned char TK5MSL    _at_ 0x818a;
+ 245          xdata unsigned char TK5MSH    _at_ 0x818b;
+ 246          xdata unsigned char TK6MSL    _at_ 0x818c;
+ 247          xdata unsigned char TK6MSH    _at_ 0x818d;
+ 248          xdata unsigned char TK7MSL    _at_ 0x818e;
+ 249          xdata unsigned char TK7MSH    _at_ 0x818f;
+ 250          
+ 251          xdata unsigned char TK8MSL    _at_ 0x8190;
+ 252          xdata unsigned char TK8MSH    _at_ 0x8191;
+ 253          xdata unsigned char TK9MSL    _at_ 0x8192;
+ 254          xdata unsigned char TK9MSH    _at_ 0x8193;
+ 255          xdata unsigned char TK10MSL   _at_ 0x8194;
+ 256          xdata unsigned char TK10MSH   _at_ 0x8195;
+ 257          xdata unsigned char TK11MSL   _at_ 0x8196;
+ 258          xdata unsigned char TK11MSH   _at_ 0x8197;
+ 259          
+ 260          
+ 261          xdata unsigned char TK0PS     _at_ 0x81C0;  //6232
+ 262          xdata unsigned char TK1PS     _at_ 0x81C1;  //6232
+ 263          xdata unsigned char TK2PS     _at_ 0x81C2;  //6232
+ 264          xdata unsigned char TK3PS     _at_ 0x81C3;  //6232
+ 265          xdata unsigned char TK4PS     _at_ 0x81C4;  //6232
+ 266          xdata unsigned char TK5PS     _at_ 0x81C5;  //6232
+ 267          xdata unsigned char TK6PS     _at_ 0x81C6;  //6232
+ 268          xdata unsigned char TK7PS     _at_ 0x81C7;  //6232
+ 269          
+ 270          xdata unsigned char TK8PS     _at_ 0x81C8;  //6232
+ 271          xdata unsigned char TK9PS     _at_ 0x81C9;  //6232
+ 272          xdata unsigned char TK10PS    _at_ 0x81Ca;  //6232
+ 273          xdata unsigned char TK11PS    _at_ 0x81Cb;  //6232
+ 274          
+ 275          
+ 276          
+ 277          xdata unsigned char LXDAT00 _at_ 0x8200;  //6552
+ 278          xdata unsigned char LXDAT01 _at_ 0x8201;  //6552
+ 279          xdata unsigned char LXDAT02 _at_ 0x8202;  //6552
+ 280          xdata unsigned char LXDAT03 _at_ 0x8203;  //6552
+ 281          xdata unsigned char LXDAT04 _at_ 0x8204;  //6552
+ 282          xdata unsigned char LXDAT05 _at_ 0x8205;  //6552
+ 283          xdata unsigned char LXDAT06 _at_ 0x8206;  //6552
+ 284          xdata unsigned char LXDAT07 _at_ 0x8207;  //6552
+ 285          
+ 286          xdata unsigned char LXDAT08 _at_ 0x8208;  //6552
+ 287          xdata unsigned char LXDAT09 _at_ 0x8209;  //6552
+ 288          xdata unsigned char LXDAT10 _at_ 0x820a;  //6552
+ 289          xdata unsigned char LXDAT11 _at_ 0x820b;  //6552
+ 290          xdata unsigned char LXDAT12 _at_ 0x820c;  //6552
+ 291          xdata unsigned char LXDAT13 _at_ 0x820d;  //6552
+ 292          xdata unsigned char LXDAT14 _at_ 0x820e;  //6552
+ 293          xdata unsigned char LXDAT15 _at_ 0x820f;  //6552
+ 294          
+ 295          xdata unsigned char LXDAT16 _at_ 0x8210;  //6552
+ 296          xdata unsigned char LXDAT17 _at_ 0x8211;  //6552
+ 297          xdata unsigned char LXDAT18 _at_ 0x8212;  //6552
+ 298          xdata unsigned char LXDAT19 _at_ 0x8213;  //6652
+ 299          xdata unsigned char LXDAT20 _at_ 0x8214;  //6652
+ 300          xdata unsigned char LXDAT21 _at_ 0x8215;  //6652
+ 301          xdata unsigned char LXDAT22 _at_ 0x8216;  //6652
+ 302          xdata unsigned char LXDAT23 _at_ 0x8217;  //6652
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 6   
+
+ 303          
+ 304          xdata unsigned char LXDAT24 _at_ 0x8218;  //6652
+ 305          xdata unsigned char LXDAT25 _at_ 0x8219;  //6652
+ 306          xdata unsigned char LXDAT26 _at_ 0x821a;  //6652
+ 307          xdata unsigned char LXDAT27 _at_ 0x821b;  //6652
+ 308          
+ 309          xdata unsigned char RTCCON  _at_ 0x8280;  //6652
+ 310          xdata unsigned char RTCFLG  _at_ 0x8281;  //6652
+ 311          xdata unsigned char RTCSS   _at_ 0x8282;  //6652
+ 312          xdata unsigned char RTCS    _at_ 0x8283;  //6652
+ 313          xdata unsigned char RTCM    _at_ 0x8284;  //6652
+ 314          xdata unsigned char RTCH    _at_ 0x8285;  //6652
+ 315          xdata unsigned char RTMSS   _at_ 0x8286;  //6652
+ 316          xdata unsigned char RTCDL   _at_ 0x8287;  //6652
+ 317          
+ 318          xdata unsigned char RTCDH   _at_ 0x8288;  //6652
+ 319          xdata unsigned char RTAS    _at_ 0x8289;  //6652
+ 320          xdata unsigned char RTAM    _at_ 0x828a;  //6652
+ 321          xdata unsigned char RTAH    _at_ 0x828b;  //6652
+ 322          
+ 323          
+ 324          xdata unsigned char LSCON     _at_ 0x8290;
+ 325          xdata unsigned char LSCFG     _at_ 0x8291;
+ 326          xdata unsigned char LSDTM0    _at_ 0x8293;
+ 327          xdata unsigned char LSDTM1    _at_ 0x8294;
+ 328          xdata unsigned char LSPTM0    _at_ 0x8295;
+ 329          xdata unsigned char LSPTM1    _at_ 0x8296;
+ 330          xdata unsigned char LSCOM     _at_ 0x8297;
+ 331                                       
+ 332          xdata unsigned char LSPE0     _at_ 0x8298;
+ 333          xdata unsigned char LSPE1     _at_ 0x8299;
+ 334          xdata unsigned char LSPE2     _at_ 0x829a;  //6552
+ 335          xdata unsigned char LSPE3     _at_ 0x829b;  //6652
+ 336          
+ 337          
+ 338          xdata unsigned char LSDAT0    _at_ 0x82a0;
+ 339          xdata unsigned char LSDAT1    _at_ 0x82a1;
+ 340          xdata unsigned char LSDAT2    _at_ 0x82a2;  //6552  
+ 341          xdata unsigned char LSDAT3    _at_ 0x82a3;  //6652  
+ 342          
+ 343          xdata unsigned char MECON     _at_ 0x8300;
+ 344          xdata unsigned char FSCMD     _at_ 0x8301;
+ 345          xdata unsigned char BTMSK     _at_ 0x8302;
+ 346          xdata unsigned char FSDAT     _at_ 0x8303;
+ 347          xdata unsigned char FSFLG     _at_ 0x8304;
+ 348          xdata unsigned char FSMSK     _at_ 0x8305;
+ 349          xdata unsigned char FSADRL    _at_ 0x8306;
+ 350          xdata unsigned char FSADRH    _at_ 0x8307;
+ 351                                        
+ 352          xdata unsigned char CKSUML    _at_ 0x8308;
+ 353          xdata unsigned char CKSUMH    _at_ 0x8309;
+ 354          xdata unsigned char IDCODE0   _at_ 0x830a;
+ 355          xdata unsigned char IDCODE1   _at_ 0x830b;
+ 356          xdata unsigned char IDCODE2   _at_ 0x830c;
+ 357          
+ 358          xdata unsigned char CHIPIDL   _at_ 0x8400;
+ 359          xdata unsigned char CHIPIDH   _at_ 0x8401;
+ 360          
+ 361          
+ 362          xdata unsigned char SPMAX   _at_ 0x8407;  //6232
+ 363          
+ 364          
+C51 COMPILER V9.59.0.0   WS51F7030                                                         05/20/2020 11:59:02 PAGE 7   
+
+ 365          
+ 366          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

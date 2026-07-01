@@ -1,0 +1,1 @@
+"eeprom.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\eeprom.lst) PREPRINT(.\Listings\eeprom.i) OBJECT(.\Objects\eeprom.obj)

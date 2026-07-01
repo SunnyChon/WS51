@@ -1,0 +1,1 @@
+"InnerFlashCase.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\InnerFlashCase.lst) PREPRINT(.\Listings\InnerFlashCase.i) OBJECT(.\Objects\InnerFlashCase.obj)

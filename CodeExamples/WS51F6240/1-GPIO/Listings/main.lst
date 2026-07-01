@@ -1,0 +1,95 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:42:53 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND P
+                    -RINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:        gpio.c
+   4          *作  者:        
+   5          *版  本:        
+   6          *日  期:        
+   7          *描  述:        
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"  
+  11          static void delay(int i)
+  12          {
+  13   1              long j;
+  14   1              for(j=0;j<10*i;++j);
+  15   1      }
+  16          
+  17          /******************************************************************
+  18          说明：所有gpio口翻转,注：P13/P14为下载口
+  19          *******************************************************************/
+  20          void main()
+  21          {
+  22   1           int i;
+  23   1                //系统时钟配置
+  24   1           SCCON  = 0x00;//HRC
+  25   1                 HRCON |= 0x80;
+  26   1              
+  27   1           /****************** 管脚配置 ********************/
+  28   1                 P00F = 0X02;
+  29   1                 P01F = 0X02;
+  30   1                 P02F = 0X02;
+  31   1                 P03F = 0X02;
+  32   1                 P04F = 0X02;
+  33   1                 P05F = 0X02;
+  34   1                 P06F = 0X02;
+  35   1                 P07F = 0X02;
+  36   1                 P10F = 0X02; 
+  37   1                 P11F = 0X02;
+  38   1                 P12F = 0X02;
+  39   1                 P13F = 0X02;
+  40   1                 P14F = 0X02;
+  41   1                 P15F = 0X02;
+  42   1                 P16F = 0X02;
+  43   1                 P17F = 0X02;
+  44   1                       P20F = 0X02;
+  45   1                 P21F = 0X02;
+  46   1                      
+  47   1              while(1)
+  48   1              {
+  49   2                                 P00 = ~P00;
+  50   2                                 P01 = ~P01;
+  51   2                                 P02 = ~P02;
+  52   2                                 P03 = ~P03;
+  53   2                                 P04 = ~P04;
+  54   2                                 P05 = ~P05;
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:42:53 PAGE 2   
+
+  55   2                                 P06 = ~P06;
+  56   2                                 P07 = ~P07;
+  57   2                                 P10 = ~P10; 
+  58   2                                 P11 = ~P11;
+  59   2                                 P12 = ~P12;
+  60   2                                 P13 = ~P13;
+  61   2                                 P14 = ~P14;
+  62   2                                 P15 = ~P15;
+  63   2                                 P16 = ~P16;
+  64   2                                 P17 = ~P17;
+  65   2                           P20 = ~P20;
+  66   2                                 P21 = ~P21;          
+  67   2               i= 5;while(i--)delay(100);
+  68   2              }
+  69   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    182    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,83 @@
+C51 COMPILER V9.59.0.0   MDU                                                               11/26/2020 10:01:38 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MDU
+OBJECT MODULE PLACED IN .\Objects\MDU.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Include\MDU.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\头文件) DEBUG OBJECT
+                    -EXTEND PRINT(.\Listings\MDU.lst) TABS(2) OBJECT(.\Objects\MDU.obj)
+
+line level    source
+
+   1          #include "MDU.h"
+   2          
+   3          
+   4          void Multiplier_Init(void)
+   5          {
+   6   1        MDUCON &= 0x00;   //MODE :00 乘法运算
+*** ERROR C202 IN LINE 6 OF Include\MDU.c: 'MDUCON': undefined identifier
+   7   1      //  MDUIDX = 0x87;    //IDXINC：1 读写MDUDAT不递增  MDCIDX：7 MDUDAT索引位第8字节
+   8   1      }
+   9          
+  10          void Divider_Init(void)
+  11          {
+  12   1        MDUCON = 0x40;   //MODE :01 除法运算
+*** ERROR C202 IN LINE 12 OF Include\MDU.c: 'MDUCON': undefined identifier
+  13   1      }
+  14          
+  15          void LShift_Init(u8 Num)
+  16          {
+  17   1        MDUCON = 0x80 + Num;   //MODE :10 左移位操作+移位次数
+*** ERROR C202 IN LINE 17 OF Include\MDU.c: 'MDUCON': undefined identifier
+  18   1      }
+  19          
+  20          void RShift_Init(u8 Num)
+  21          {
+  22   1        MDUCON = 0xC0 + Num;   //MODE :11 右移位操作+移位次数
+*** ERROR C202 IN LINE 22 OF Include\MDU.c: 'MDUCON': undefined identifier
+  23   1      }
+  24          
+  25          void Write_Mul_Div(int8_t * dat,u8 len)
+  26          {
+  27   1        u8 i;
+  28   1        for(i = 0;i < len;i++)
+  29   1        {
+  30   2          MDUIDX = 0x87 - i;
+*** ERROR C202 IN LINE 30 OF Include\MDU.c: 'MDUIDX': undefined identifier
+  31   2          MDUDAT = *dat;
+*** ERROR C202 IN LINE 31 OF Include\MDU.c: 'MDUDAT': undefined identifier
+  32   2          dat++;
+  33   2        }
+  34   1      }
+  35          
+  36          //void Write_Mul_Div(int8_t * dat,u8 len)
+  37          //{
+  38          //  u8 i;
+  39          //  MDUIDX = 0x00;
+  40          //  for(i = 0;i < len;i++)
+  41          //  {
+  42          //    MDUDAT = *dat;
+  43          //    dat++;
+  44          //  }
+  45          //}
+  46          
+  47          void Read_Result(int8_t * dat,u8 len)
+  48          {
+C51 COMPILER V9.59.0.0   MDU                                                               11/26/2020 10:01:38 PAGE 2   
+
+  49   1        u8 i;
+  50   1        for(i = 0;i < len;i++)
+  51   1        {
+  52   2          MDUIDX = 0x87-i;
+*** ERROR C202 IN LINE 52 OF Include\MDU.c: 'MDUIDX': undefined identifier
+  53   2          *dat = MDUDAT;
+*** ERROR C202 IN LINE 53 OF Include\MDU.c: 'MDUDAT': undefined identifier
+  54   2          dat++;
+  55   2        }
+  56   1      }
+  57          
+  58          
+  59          
+  60          
+  61          
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  8 ERROR(S)

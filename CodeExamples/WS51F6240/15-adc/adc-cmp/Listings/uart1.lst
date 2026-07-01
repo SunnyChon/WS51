@@ -1,0 +1,103 @@
+C51 COMPILER V9.59.0.0   UART1                                                             07/26/2021 15:56:59 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE UART1
+OBJECT MODULE PLACED IN .\Objects\uart1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\hareware\uart1.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\hareware;..
+                    -\..\headfile) DEBUG OBJECTEXTEND PRINT(.\Listings\uart1.lst) OBJECT(.\Objects\uart1.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:        uart1.c
+   4          *作  者:        
+   5          *版  本:
+   6          *日  期:        
+   7          *描  述:        
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"  
+  11          #include <stdio.h>
+  12          #include "uart1.h"
+  13          
+  14          //=========================================================
+  15          /* S1CON串口1控制寄存器 */
+  16          #define SM11    0x80            /* 工作模式选择 */
+  17          #define IE1     0x40            /* 中断使能， 1 有效 */
+  18          #define SM21    0x20            /* 多机通信使能位， 1 有效 */
+  19          #define REN1    0x10            /* 串行接收使能位， 1 有效 */
+  20          #define TB81    0x08            /* 发送的第 9 位数据 */
+  21          #define RB81    0x04            /* 接收的第 9 位数据 */
+  22          #define TI1     0x02            /* 发送中断标志， 1 有效，写 0 清除 */
+  23          #define RI1     0x01            /* 接收中断标志， 1 有效，写 0 清除 */
+  24          
+  25          unsigned char dat0;
+  26          unsigned char Rx_flag=0,Tx_flag=0;
+  27          
+  28          void Uart1_Isr() interrupt 7
+  29          {
+  30   1          if(RI1 == (S1CON&RI1))     //如果接收到计算机发的数据
+  31   1          {
+  32   2              S1CON &= ~RI1;     //清除标志位
+  33   2                      dat0 = S1BUF;
+  34   2                      Rx_flag = 1;
+  35   2          }
+  36   1          if(TI1 == (S1CON&TI1))     
+  37   1          {
+  38   2              S1CON &= ~TI1;     //清除标志位      
+  39   2              Tx_flag = 1;
+  40   2          }
+  41   1      }
+  42          
+  43          void UART1_write(signed char dat)
+  44          {
+  45   1          Tx_flag=0;
+  46   1          S1BUF = dat;            //Send data to UART buffer
+  47   1          while(!Tx_flag);
+  48   1      }
+  49          
+  50          ///重定向c库函数printf到串口，重定向后可使用printf函数
+  51          char putchar(char ch)
+  52          {
+  53   1          /* 发送一个字节数据到串口 */
+  54   1          UART1_write((signed char) ch);
+C51 COMPILER V9.59.0.0   UART1                                                             07/26/2021 15:56:59 PAGE 2   
+
+  55   1              
+  56   1          return ch;
+  57   1      }
+  58          
+  59          //-----------------------------------------------
+  60          void Uart1Mode1(void)
+  61          { 
+  62   1              S1CON = SM11+IE1+REN1;  
+  63   1              ///8位异步模式(1), /中断使能, +SM21/多机通信使能位, /串行接收使能位, +TB81/第9位数据, +RB81/
+  64   1      
+  65   1              S1RELL = 972;
+  66   1              S1RELH = 972>>8;        //9600
+  67   1      }
+  68          
+  69              
+  70           
+  71              
+  72             
+  73              
+  74          
+  75          
+  76          
+  77          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     61    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

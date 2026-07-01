@@ -1,0 +1,166 @@
+C51 COMPILER V9.59.0.0   PWM                                                               07/28/2021 14:10:57 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE PWM
+OBJECT MODULE PLACED IN .\Objects\PWM.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Include\PWM.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\headfile;.\Include) 
+                    -DEBUG OBJECTEXTEND PRINT(.\Listings\PWM.lst) OBJECT(.\Objects\PWM.obj)
+
+line level    source
+
+   1          #include "PWM.h"
+   2          
+   3          
+   4          
+   5          void PWM_LED_Init(void)
+   6          {
+   7   1      //      P02F = 0x04;//IO口复用为PWM模式
+   8   1              P01F = 0x04;//IO口复用为PWM模式
+   9   1              
+  10   1              PWMCLR = 0x00;//写1清零PWM计数器,写0无动作
+  11   1              PWMUPD = 0x00;//写1载入PWM新的周期和占空比配置值,写0无动作
+  12   1              PWMFLG0 = 0x00;//PWM计数器计数到0或最大值中断标志
+  13   1              PWMFLG1 = 0x00;//PWM计数器计数到0或最大值中断标志
+  14   1              /*PWMnCFG(n=0,2,4)  
+  15   1              7:PWMnZIE PWMn计数器计数到0中断使能
+  16   1              6:PWMnPIE 中心对齐模式下，PWMn计数器计数到最大值中断使能。
+  17   1              5:PWMnMOD PWMn计数模式选择。0:边沿对齐 1:中心对齐
+  18   1              4:PWMnTOG PWMn输出极性选择，为1时输出反向
+  19   1              3:PWMnOM  互补PWM模式选择，为1时PWMn与PWM(n+1)的波形互换后输出。
+  20   1              2-0:PWMn/PWM(n+1)时钟选择
+  21   1                  000:系统时钟
+  22   1                  001:LRC时钟32KHz
+  23   1              010:HRC时钟16MHz
+  24   1                              011:LOSC时钟32.768KHz
+  25   1                              100:HOSC时钟2-16MHz
+  26   1                              101:MRC时钟1-4MHz
+  27   1        */
+  28   1      //      PWM0CFG = 0x01;
+  29   1              /*PWMnCFG(n=1,3,5)
+  30   1              7:PWMnZIE PWMn计数器计数到0中断使能
+  31   1              4:PWMnTOG PWMn输出极性选择，为1时输出反向
+  32   1              0:PWMnSN PWM独立输出使能
+  33   1                      0:PWM(n-1)和PWMn组成互补PWM输出
+  34   1                      1:PWM(n 1)和PWMn独立输出
+  35   1              */
+  36   1      //      PWM1CFG = 0x00;
+  37   1              /*PWMnCFG(n=6,7)
+  38   1              7:PWMnZIE PWM计数器计数到0中断使能
+  39   1              6:PWMnLEN LED输出功能使能
+  40   1              5:PWMnMOD LED输出模式选择 0:：写数据触发模式 1：持续发送模式
+  41   1              4:PWMnTOG PWM输出极性选择，为1时输出取反
+  42   1              3:PWMnPOL
+  43   1                      LED输出时有效电平选择
+  44   1                      0：高电平有效
+  45   1                      1：低电平有效
+  46   1              2-0:PWMnCKS PWM6/7时钟选择
+  47   1                              0/5/6/7:系统时钟
+  48   1                  001:LRC时钟32KHz
+  49   1              010:HRC时钟16MHz
+  50   1                              011:MRC时钟1-4MHz
+  51   1                              100:LOSC时钟32.768KHz
+  52   1              */
+  53   1              PWM6CFG = 0xc0;//计数到0中断使能，LED输出功能使能，0写数据触发模式
+  54   1      //      PWM7CFG = 0xc0;//计数到0中断使能，LED输出功能使能，1持续发送模式
+C51 COMPILER V9.59.0.0   PWM                                                               07/28/2021 14:10:57 PAGE 2   
+
+  55   1              
+  56   1              PWM6PS = 0x01;//PWM6输出IO口选择P01
+  57   1      //      PWM7PS = 0x02;//PWM7输出IO口选择P02
+  58   1              
+  59   1              PWM6DIVL = 19%256;//PWM周期设置
+  60   1              PWM6DIVH = 19/256;
+  61   1              PWM6DUTL = 5%256;//PWM占空比设置
+  62   1              PWM6DUTH = 5/256;
+  63   1              
+  64   1      //      PWM7DIVL = 19%256;//PWM周期设置
+  65   1      //      PWM7DIVH = 19/256;
+  66   1      //      PWM7DUTL = 5%256;//PWM占空比设置
+  67   1      //      PWM7DUTH = 5/256;
+  68   1              
+  69   1      //      LEDAT00 = 0x01;//PWM6对应的LED0输出数据
+  70   1      //      LEDAT01 = 0x02;
+  71   1      //      LEDAT02 = 0x03;
+  72   1      //              
+  73   1      //      LEDAT10= 0x01;//PWM7对应的LED1输出数据
+  74   1      //      LEDAT11 = 0x02;
+  75   1      //      LEDAT12 = 0x03;
+  76   1              
+  77   1              LEDCFG = 0xdc;//LED每次输出3字节数，输出数据无等待时间
+  78   1      
+  79   1              PWMRUN = 0x40;//PWM6,PWM7运行使能
+  80   1              
+  81   1              EINT2 = 1;//INT2 使能控制位,用于I2C/Timer2/PWM/LED/EP0中断
+  82   1      }
+  83          
+  84          
+  85          
+  86          
+  87          
+  88          
+  89          
+  90          
+  91          
+  92          
+  93          
+  94          
+  95          
+  96          
+  97          
+  98          
+  99          
+ 100          
+ 101          
+ 102          
+ 103          
+ 104          
+ 105          
+ 106          
+ 107          
+ 108          
+ 109          
+ 110          
+ 111          
+ 112          
+ 113          
+ 114          
+ 115          
+ 116          
+C51 COMPILER V9.59.0.0   PWM                                                               07/28/2021 14:10:57 PAGE 3   
+
+ 117          
+ 118          
+ 119          
+ 120          
+ 121          
+ 122          
+ 123          
+ 124          
+ 125          
+ 126          
+ 127          
+ 128          
+ 129          
+ 130          
+ 131          
+ 132          
+ 133          
+ 134          
+ 135          
+ 136          
+ 137          
+ 138          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     62    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

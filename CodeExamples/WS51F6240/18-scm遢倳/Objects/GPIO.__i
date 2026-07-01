@@ -1,0 +1,1 @@
+"hareware\GPIO.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\GPIO.lst) OBJECT(.\Objects\GPIO.obj)

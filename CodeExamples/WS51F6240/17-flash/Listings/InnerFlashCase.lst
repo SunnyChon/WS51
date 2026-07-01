@@ -1,0 +1,1604 @@
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE INNERFLASHCASE
+OBJECT MODULE PLACED IN .\Objects\InnerFlashCase.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE InnerFlashCase.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\hareware) DEBUG
+                    - OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\InnerFlashCase.lst) PREPRINT(.\Listings\InnerFlashCase.i) OBJECT
+                    -(.\Objects\InnerFlashCase.obj)
+
+line level    source
+
+   1          #include "WS51F7030.h"
+   1      =1  #ifndef __WS51F7030_H
+   2      =1  #define __WS51F7030_H
+   3      =1  sfr OKER        = 0xff;
+   4      =1  
+   5      =1  sfr P0          = 0x80;
+   6      =1  sfr SP          = 0x81;
+   7      =1  sfr DP0L        = 0x82;
+   8      =1  sfr DP0H        = 0x83;
+   9      =1  sfr DP1L        = 0x84;
+  10      =1  sfr DP1H        = 0x85;
+  11      =1  sfr SCCON       = 0x86;
+  12      =1  sfr PCON        = 0x87;
+  13      =1  sfr TCON        = 0x88;
+  14      =1  sfr TMOD        = 0x89;
+  15      =1  sfr TL0         = 0x8a;
+  16      =1  sfr TL1         = 0x8b;
+  17      =1  sfr TH0         = 0x8c;
+  18      =1  sfr TH1         = 0x8d;
+  19      =1  sfr MRCON       = 0x8e;
+  20      =1  sfr MRCFG       = 0x8f;
+  21      =1  sfr P1          = 0x90;
+  22      =1  sfr XSCON       = 0x95;
+  23      =1  sfr HRCON       = 0x96;
+  24      =1  sfr LRCON       = 0x97;
+  25      =1  sfr S0CON       = 0x98;
+  26      =1  sfr S0BUF       = 0x99;
+  27      =1  sfr S0CFG       = 0x9a;
+  28      =1  sfr S1CON       = 0x9b;
+  29      =1  sfr S1BUF       = 0x9c;
+  30      =1  sfr S1RELL      = 0x9d;
+  31      =1  sfr S1RELH      = 0x9e;
+  32      =1  sfr RSTFLG      = 0x9f;
+  33      =1  sfr P2          = 0xa0;
+  34      =1  sfr I2CCON      = 0xa1;
+  35      =1  sfr I2CADR      = 0xa2;
+  36      =1  sfr I2CFG0      = 0xa3;
+  37      =1  sfr I2CFG1      = 0xa4;
+  38      =1  sfr I2CTXD      = 0xa5;
+  39      =1  sfr I2CRXD      = 0xa6;
+  40      =1  sfr I2CFLG      = 0xa7;
+  41      =1  sfr IE          = 0xa8;
+  42      =1  sfr WDTCON      = 0xa9;
+  43      =1  sfr WDTFLG      = 0xaa;
+  44      =1  sfr TL3         = 0xae;
+  45      =1  sfr TH3         = 0xaf;
+  46      =1  sfr P3          = 0xb0;
+  47      =1  sfr DACON       = 0xb1;
+  48      =1  sfr T3CON       = 0xb2;
+  49      =1  sfr T3MOD       = 0xb3;
+  50      =1  sfr T3RL        = 0xb4;
+  51      =1  sfr T3RH        = 0xb5;
+  52      =1  sfr T3CL        = 0xb6;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 2   
+
+  53      =1  sfr T3CH        = 0xb7;
+  54      =1  sfr IP          = 0xb8;
+  55      =1  sfr LVDCON      = 0xb9;
+  56      =1  sfr CPCON       = 0xba;
+  57      =1  sfr CPCFG       = 0xbb;
+  58      =1  sfr CPFLG       = 0xbc;
+  59      =1  sfr ADCBGP      = 0xbf;
+  60      =1  sfr ADCON       = 0xc0;
+  61      =1  sfr ADCFG       = 0xc1;
+  62      =1  sfr ADCHS       = 0xc2;
+  63      =1  sfr ADCDL       = 0xc3;
+  64      =1  sfr ADCDH       = 0xc4;
+  65      =1  sfr ADCPC       = 0xc5;
+  66      =1  sfr ADCPDL      = 0xc6;
+  67      =1  sfr ADCPDH      = 0xc7;
+  68      =1  sfr T2CON       = 0xc8;
+  69      =1  sfr T2MOD       = 0xc9;
+  70      =1  sfr T2CL        = 0xca;
+  71      =1  sfr T2CH        = 0xcb;
+  72      =1  sfr TL2         = 0xcc;
+  73      =1  sfr TH2         = 0xcd;
+  74      =1  sfr SCMCON      = 0xce;
+  75      =1  sfr SCMFLG      = 0xcf;
+  76      =1  sfr PSW         = 0xd0;
+  77      =1  sfr WKTCON      = 0xd1;
+  78      =1  sfr WKTSS       = 0xd2;
+  79      =1  sfr OPCON       = 0xd3;
+  80      =1  sfr OPCFG       = 0xd4;
+  81      =1  sfr EPIE        = 0xd8;
+  82      =1  sfr EPIF        = 0xd9;
+  83      =1  sfr EP0CON      = 0xda;
+  84      =1  sfr EP1CON      = 0xdb;
+  85      =1  sfr EP2CON      = 0xdc;
+  86      =1  sfr EP3CON      = 0xdd;
+  87      =1  sfr ACC         = 0xe0;
+  88      =1  sfr SPCON       = 0xe1;
+  89      =1  sfr SPDAT       = 0xe2;
+  90      =1  sfr SPFLG       = 0xe3;
+  91      =1  sfr LXCON       = 0xe4;
+  92      =1  sfr LXCFG       = 0xe5;
+  93      =1  sfr LXDIVL      = 0xe6;
+  94      =1  sfr LXDIVH      = 0xe7;
+  95      =1  sfr EXIE        = 0xe8;
+  96      =1  sfr TKMXF0      = 0xe9;
+  97      =1  sfr TKMXF1      = 0xea;
+  98      =1  sfr TKMXF2      = 0xeb;
+  99      =1  sfr TKMNF0      = 0xec;
+ 100      =1  sfr TKMNF1      = 0xed;
+ 101      =1  sfr TKMNF2      = 0xee;
+ 102      =1  sfr B           = 0xf0;
+ 103      =1  sfr TKCON       = 0xf1;
+ 104      =1  sfr TKCFG0      = 0xf2;
+ 105      =1  sfr TKCFG1      = 0xf3;
+ 106      =1  sfr TKNUM       = 0xf4;
+ 107      =1  sfr TKFLG0      = 0xf5;
+ 108      =1  sfr TKFLG1      = 0xf6;
+ 109      =1  sfr TKFLG2      = 0xf7;
+ 110      =1  sfr EXIP        = 0xf8;
+ 111      =1  sfr PWCON       = 0xf9;
+ 112      =1  sfr IT0CON      = 0xfa;
+ 113      =1  sfr IT1CON      = 0xfb;
+ 114      =1  sfr IDLFL       = 0xfc;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 3   
+
+ 115      =1  sfr IDLFH       = 0xfd;
+ 116      =1  sfr STPF        = 0xfe;
+ 117      =1  
+ 118      =1  extern xdata unsigned char P00F    ;
+ 119      =1  extern xdata unsigned char P01F    ;
+ 120      =1  extern xdata unsigned char P02F    ;     //6552
+ 121      =1  extern xdata unsigned char P03F    ;     //6552
+ 122      =1  extern xdata unsigned char P04F    ;     //6552
+ 123      =1  extern xdata unsigned char P05F    ;     //6552
+ 124      =1  extern xdata unsigned char P06F    ;     //6552
+ 125      =1  extern xdata unsigned char P07F    ;     //6552
+ 126      =1  
+ 127      =1  extern xdata unsigned char P10F    ;
+ 128      =1  extern xdata unsigned char P11F    ;
+ 129      =1  extern xdata unsigned char P12F    ;
+ 130      =1  extern xdata unsigned char P13F    ;
+ 131      =1  extern xdata unsigned char P14F    ;
+ 132      =1  extern xdata unsigned char P15F    ;
+ 133      =1  extern xdata unsigned char P16F    ;
+ 134      =1  extern xdata unsigned char P17F    ;
+ 135      =1  extern xdata unsigned char P20F    ;     //6552
+ 136      =1  extern xdata unsigned char P21F    ;     //6552
+ 137      =1  extern xdata unsigned char P30F    ;
+ 138      =1  extern xdata unsigned char P31F    ;
+ 139      =1  extern xdata unsigned char P32F    ;
+ 140      =1  extern xdata unsigned char P33F    ;
+ 141      =1  extern xdata unsigned char P34F    ;
+ 142      =1  extern xdata unsigned char P35F    ;
+ 143      =1  extern xdata unsigned char P36F    ;    //6232
+ 144      =1  extern xdata unsigned char P37F    ;    //6232
+ 145      =1  
+ 146      =1  extern xdata unsigned char PWMEN    ;
+ 147      =1  extern xdata unsigned char PWMIE         ;
+ 148      =1  extern xdata unsigned char PWMFLG        ;
+ 149      =1  
+ 150      =1  extern xdata unsigned char PWM0CFG      ;
+ 151      =1  extern xdata unsigned char PWM0PS       ;       //6232
+ 152      =1  extern xdata unsigned char PWM0DUTL     ;
+ 153      =1  extern xdata unsigned char PWM0DUTH     ;
+ 154      =1  extern xdata unsigned char PWM0DIVL     ;
+ 155      =1  extern xdata unsigned char PWM0DIVH     ;
+ 156      =1  extern xdata unsigned char PWM1PS       ;       //6232
+ 157      =1  extern xdata unsigned char PWM1DUTL     ;
+ 158      =1  extern xdata unsigned char PWM1DUTH     ;
+ 159      =1  extern xdata unsigned char PWM1DIVL     ;
+ 160      =1  extern xdata unsigned char PWM1DIVH     ;
+ 161      =1  
+ 162      =1  extern xdata unsigned char PWM2CFG      ;
+ 163      =1  extern xdata unsigned char PWM2PS       ;       //6232
+ 164      =1  extern xdata unsigned char PWM2DUTL     ;
+ 165      =1  extern xdata unsigned char PWM2DUTH     ;
+ 166      =1  extern xdata unsigned char PWM2DIVL     ;
+ 167      =1  extern xdata unsigned char PWM2DIVH     ;
+ 168      =1  extern xdata unsigned char PWM3PS       ;       //6232
+ 169      =1  extern xdata unsigned char PWM3DUTL     ;
+ 170      =1  extern xdata unsigned char PWM3DUTH     ;
+ 171      =1  extern xdata unsigned char PWM3DIVL     ;
+ 172      =1  extern xdata unsigned char PWM3DIVH     ;
+ 173      =1  
+ 174      =1  extern xdata unsigned char PWM4CFG      ;
+ 175      =1  extern xdata unsigned char PWM4PS       ;       //6232
+ 176      =1  extern xdata unsigned char PWM4DUTL     ;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 4   
+
+ 177      =1  extern xdata unsigned char PWM4DUTH     ;
+ 178      =1  extern xdata unsigned char PWM4DIVL     ;
+ 179      =1  extern xdata unsigned char PWM4DIVH     ;
+ 180      =1  extern xdata unsigned char PWM5PS       ;       //6232
+ 181      =1  extern xdata unsigned char PWM5DUTL     ;
+ 182      =1  extern xdata unsigned char PWM5DUTH     ;
+ 183      =1  extern xdata unsigned char PWM5DIVL     ;
+ 184      =1  extern xdata unsigned char PWM5DIVH     ;
+ 185      =1  
+ 186      =1  
+ 187      =1  extern xdata unsigned char PWM6CFG      ;       //6232  
+ 188      =1  extern xdata unsigned char PWM6PS       ;       //6232  
+ 189      =1  extern xdata unsigned char PWM6DUTL     ;       //6232
+ 190      =1  extern xdata unsigned char PWM6DUTH     ;       //6232
+ 191      =1  extern xdata unsigned char PWM6DIVL     ;       //6232
+ 192      =1  extern xdata unsigned char PWM6DIVH     ;       //6232
+ 193      =1  extern xdata unsigned char PWM7PS       ;       //6232
+ 194      =1  extern xdata unsigned char PWM7DUTL     ;       //6232
+ 195      =1  extern xdata unsigned char PWM7DUTH ;   //6232
+ 196      =1  extern xdata unsigned char PWM7DIVL ;   //6232
+ 197      =1  extern xdata unsigned char PWM7DIVH ;   //6232
+ 198      =1  
+ 199      =1  extern xdata unsigned char PIMOD        ;       //6232
+ 200      =1  extern xdata unsigned char P0IMSK       ;       //6232
+ 201      =1  extern xdata unsigned char P1IMSK       ;       //6232
+ 202      =1  extern xdata unsigned char P2IMSK       ;       //6552
+ 203      =1  extern xdata unsigned char P3IMSK       ;       //6232
+ 204      =1  
+ 205      =1  extern xdata unsigned char BZ0CON       ;       //6232
+ 206      =1  extern xdata unsigned char BZ0PSC       ;       //6232
+ 207      =1  extern xdata unsigned char BZ0DUT       ;       //6232
+ 208      =1  extern xdata unsigned char BZ0DIV       ;       //6232
+ 209      =1  
+ 210      =1  
+ 211      =1  extern xdata unsigned char BZ1CON       ;       //6552
+ 212      =1  extern xdata unsigned char BZ1PSC       ;       //6552
+ 213      =1  extern xdata unsigned char BZ1DUT       ;       //6552
+ 214      =1  extern xdata unsigned char BZ1DIV       ;       //6552
+ 215      =1  
+ 216      =1  
+ 217      =1  extern xdata unsigned char TKPCS0        ;
+ 218      =1  extern xdata unsigned char TKPCS1        ;
+ 219      =1  extern xdata unsigned char TKPCS2        ;
+ 220      =1  extern xdata unsigned char TKPCS3        ;      //6232
+ 221      =1  extern xdata unsigned char TKPCS4        ;      //6552
+ 222      =1  extern xdata unsigned char TKPCS5        ;      //6552
+ 223      =1  
+ 224      =1  extern xdata unsigned char TK0MXL   ;
+ 225      =1  extern xdata unsigned char TK0MXH   ;
+ 226      =1  extern xdata unsigned char TK1MXL   ;
+ 227      =1  extern xdata unsigned char TK1MXH   ;
+ 228      =1  extern xdata unsigned char TK2MXL   ;
+ 229      =1  extern xdata unsigned char TK2MXH   ;
+ 230      =1  extern xdata unsigned char TK3MXL   ;
+ 231      =1  extern xdata unsigned char TK3MXH   ;
+ 232      =1  extern xdata unsigned char TK4MXL   ;
+ 233      =1  extern xdata unsigned char TK4MXH   ;
+ 234      =1  extern xdata unsigned char TK5MXL   ;
+ 235      =1  extern xdata unsigned char TK5MXH   ;
+ 236      =1  extern xdata unsigned char TK6MXL   ;
+ 237      =1  extern xdata unsigned char TK6MXH   ;
+ 238      =1  extern xdata unsigned char TK7MXL   ;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 5   
+
+ 239      =1  extern xdata unsigned char TK7MXH   ;
+ 240      =1  extern xdata unsigned char TK8MXL   ;
+ 241      =1  extern xdata unsigned char TK8MXH   ;
+ 242      =1  extern xdata unsigned char TK9MXL   ;
+ 243      =1  extern xdata unsigned char TK9MXH   ;
+ 244      =1  extern xdata unsigned char TK10MXL  ;
+ 245      =1  extern xdata unsigned char TK10MXH  ;
+ 246      =1  extern xdata unsigned char TK11MXL  ;
+ 247      =1  extern xdata unsigned char TK11MXH  ;
+ 248      =1  
+ 249      =1  extern xdata unsigned char TK0MNL       ;
+ 250      =1  extern xdata unsigned char TK0MNH       ;
+ 251      =1  extern xdata unsigned char TK1MNL       ;
+ 252      =1  extern xdata unsigned char TK1MNH       ;
+ 253      =1  extern xdata unsigned char TK2MNL       ;
+ 254      =1  extern xdata unsigned char TK2MNH       ;
+ 255      =1  extern xdata unsigned char TK3MNL       ;
+ 256      =1  extern xdata unsigned char TK3MNH       ;
+ 257      =1  extern xdata unsigned char TK4MNL       ;
+ 258      =1  extern xdata unsigned char TK4MNH       ;
+ 259      =1  extern xdata unsigned char TK5MNL       ;
+ 260      =1  extern xdata unsigned char TK5MNH       ;
+ 261      =1  extern xdata unsigned char TK6MNL       ;
+ 262      =1  extern xdata unsigned char TK6MNH       ;
+ 263      =1  extern xdata unsigned char TK7MNL       ;
+ 264      =1  extern xdata unsigned char TK7MNH       ;
+ 265      =1  extern xdata unsigned char TK8MNL       ;
+ 266      =1  extern xdata unsigned char TK8MNH       ;
+ 267      =1  extern xdata unsigned char TK9MNL       ;
+ 268      =1  extern xdata unsigned char TK9MNH       ;
+ 269      =1  extern xdata unsigned char TK10MNL      ;
+ 270      =1  extern xdata unsigned char TK10MNH      ;
+ 271      =1  extern xdata unsigned char TK11MNL      ;
+ 272      =1  extern xdata unsigned char TK11MNH      ;
+ 273      =1  
+ 274      =1  extern xdata unsigned char TK0MSL  ;
+ 275      =1  extern xdata unsigned char TK0MSH  ;
+ 276      =1  extern xdata unsigned char TK1MSL  ;
+ 277      =1  extern xdata unsigned char TK1MSH  ;
+ 278      =1  extern xdata unsigned char TK2MSL  ;
+ 279      =1  extern xdata unsigned char TK2MSH  ;
+ 280      =1  extern xdata unsigned char TK3MSL  ;
+ 281      =1  extern xdata unsigned char TK3MSH  ;
+ 282      =1  extern xdata unsigned char TK4MSL  ;
+ 283      =1  extern xdata unsigned char TK4MSH  ;
+ 284      =1  extern xdata unsigned char TK5MSL  ;
+ 285      =1  extern xdata unsigned char TK5MSH  ;
+ 286      =1  extern xdata unsigned char TK6MSL  ;
+ 287      =1  extern xdata unsigned char TK6MSH  ;
+ 288      =1  extern xdata unsigned char TK7MSL  ;
+ 289      =1  extern xdata unsigned char TK7MSH  ;
+ 290      =1  extern xdata unsigned char TK8MSL  ;
+ 291      =1  extern xdata unsigned char TK8MSH  ;
+ 292      =1  extern xdata unsigned char TK9MSL  ;
+ 293      =1  extern xdata unsigned char TK9MSH  ;
+ 294      =1  extern xdata unsigned char TK10MSL ;
+ 295      =1  extern xdata unsigned char TK10MSH ;
+ 296      =1  extern xdata unsigned char TK11MSL ;
+ 297      =1  extern xdata unsigned char TK11MSH ;
+ 298      =1  
+ 299      =1  
+ 300      =1  
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 6   
+
+ 301      =1  extern xdata unsigned char TK0PS        ;       //6232
+ 302      =1  extern xdata unsigned char TK1PS        ;       //6232
+ 303      =1  extern xdata unsigned char TK2PS        ;       //6232
+ 304      =1  extern xdata unsigned char TK3PS        ;       //6232
+ 305      =1  extern xdata unsigned char TK4PS        ;       //6232
+ 306      =1  extern xdata unsigned char TK5PS        ;       //6232
+ 307      =1  extern xdata unsigned char TK6PS        ;       //6232
+ 308      =1  extern xdata unsigned char TK7PS        ;       //6232
+ 309      =1  extern xdata unsigned char TK8PS        ;       //6232
+ 310      =1  extern xdata unsigned char TK9PS        ;       //6232
+ 311      =1  extern xdata unsigned char TK10PS       ;       //6232
+ 312      =1  extern xdata unsigned char TK11PS       ;       //6232
+ 313      =1  
+ 314      =1  extern xdata unsigned char LXDAT00      ;       //6552
+ 315      =1  extern xdata unsigned char LXDAT01      ;       //6552
+ 316      =1  extern xdata unsigned char LXDAT02      ;       //6552
+ 317      =1  extern xdata unsigned char LXDAT03      ;       //6552
+ 318      =1  extern xdata unsigned char LXDAT04      ;       //6552
+ 319      =1  extern xdata unsigned char LXDAT05      ;       //6552
+ 320      =1  extern xdata unsigned char LXDAT06      ;       //6552
+ 321      =1  extern xdata unsigned char LXDAT07      ;       //6552
+ 322      =1  extern xdata unsigned char LXDAT08      ;       //6552
+ 323      =1  extern xdata unsigned char LXDAT09      ;       //6552
+ 324      =1  extern xdata unsigned char LXDAT10      ;       //6552
+ 325      =1  extern xdata unsigned char LXDAT11      ;       //6552
+ 326      =1  extern xdata unsigned char LXDAT12      ;       //6552
+ 327      =1  extern xdata unsigned char LXDAT13      ;       //6552
+ 328      =1  extern xdata unsigned char LXDAT14      ;       //6552
+ 329      =1  extern xdata unsigned char LXDAT15      ;       //6552
+ 330      =1  extern xdata unsigned char LXDAT16      ;       //6552
+ 331      =1  extern xdata unsigned char LXDAT17      ;       //6552
+ 332      =1  extern xdata unsigned char LXDAT18      ;       //6552
+ 333      =1  
+ 334      =1  extern xdata unsigned char LSCON        ;
+ 335      =1  extern xdata unsigned char LSCFG        ;
+ 336      =1  extern xdata unsigned char LSDTM0       ;
+ 337      =1  extern xdata unsigned char LSDTM1       ;
+ 338      =1  extern xdata unsigned char LSPTM0       ;
+ 339      =1  extern xdata unsigned char LSPTM1       ;
+ 340      =1  extern xdata unsigned char LSCOM        ;
+ 341      =1  
+ 342      =1  extern xdata unsigned char LSPE0        ;
+ 343      =1  extern xdata unsigned char LSPE1        ;
+ 344      =1  extern xdata unsigned char LSPE2        ;       //6552
+ 345      =1  extern xdata unsigned char LSDAT0       ;
+ 346      =1  extern xdata unsigned char LSDAT1       ;
+ 347      =1  extern xdata unsigned char LSDAT2   ;   //6552  
+ 348      =1  
+ 349      =1  extern xdata unsigned char MECON        ;
+ 350      =1  extern xdata unsigned char FSCMD        ;
+ 351      =1  extern xdata unsigned char BTMSK        ;
+ 352      =1  extern xdata unsigned char FSDAT        ;
+ 353      =1  extern xdata unsigned char FSFLG        ;
+ 354      =1  extern xdata unsigned char PADR         ;
+ 355      =1  extern xdata unsigned char FSADRL       ;
+ 356      =1  extern xdata unsigned char FSADRH       ;
+ 357      =1  
+ 358      =1  extern xdata unsigned char CKSUML       ;
+ 359      =1  extern xdata unsigned char CKSUMH       ;
+ 360      =1  extern xdata unsigned char IDCODE0      ;
+ 361      =1  extern xdata unsigned char IDCODE1      ;
+ 362      =1  extern xdata unsigned char IDCODE2      ;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 7   
+
+ 363      =1  
+ 364      =1  extern xdata unsigned char CHIPIDL      ;
+ 365      =1  extern xdata unsigned char CHIPIDH      ;
+ 366      =1  
+ 367      =1  
+ 368      =1  extern xdata unsigned char SPMAX          ;     //6232
+ 369      =1  
+ 370      =1  sbit P00 = P0^0;        //6232
+ 371      =1  sbit P01 = P0^1;        //6232
+ 372      =1  sbit P02 = P0^2;        //6552
+ 373      =1  sbit P03 = P0^3;        //6552
+ 374      =1  sbit P04 = P0^4;        //6552
+ 375      =1  sbit P05 = P0^5;        //6552
+ 376      =1  sbit P06 = P0^6;        //6552
+ 377      =1  sbit P07 = P0^7;        //6552
+ 378      =1    
+ 379      =1  sbit P20 = P2^0;        //6552
+ 380      =1  sbit P21 = P2^1;        //6552
+ 381      =1  
+ 382      =1  sbit P10 = P1^0;
+ 383      =1  sbit P11 = P1^1;
+ 384      =1  sbit P12 = P1^2;
+ 385      =1  sbit P13 = P1^3;
+ 386      =1  sbit P14 = P1^4;
+ 387      =1  sbit P15 = P1^5;
+ 388      =1  sbit P16 = P1^6;
+ 389      =1  sbit P17 = P1^7;
+ 390      =1  
+ 391      =1  sbit P30 = P3^0;
+ 392      =1  sbit P31 = P3^1;
+ 393      =1  sbit P32 = P3^2;
+ 394      =1  sbit P33 = P3^3;
+ 395      =1  sbit P34 = P3^4;
+ 396      =1  sbit P35 = P3^5;
+ 397      =1  sbit P36 = P3^6;        //6232
+ 398      =1  sbit P37 = P3^7;        //6232
+ 399      =1  
+ 400      =1  /* 中断优先级寄存器 IP (B8H) */
+ 401      =1  sbit PX3 = IP^6;                /* INT4 优先级控制位，用于 Touch Key/WDT/LVD/WKT/EP1 中断 */
+ 402      =1  sbit PX2 = IP^5;                /* INT3 优先级控制位， 用于 IIC/Timer2/PWM/EP0 中断 */
+ 403      =1  sbit PS0 = IP^4;                /* INT2 优先级控制位，用于 UART0 中断 */
+ 404      =1  sbit PT1 = IP^3;                /* Timer 1 优先级控制位 */
+ 405      =1  sbit PX1 = IP^2;                /* INT1 优先级控制位 */
+ 406      =1  sbit PT0 = IP^1;                /* Timer 0 优先级控制位 */
+ 407      =1  sbit PX0 = IP^0;                /* INT0 优先级控制位 */
+ 408      =1  
+ 409      =1  /* 中断优先级寄存器 EXIP (F8H) */
+ 410      =1  sbit PX5 = EXIP^1;              /* INT5 优先级控制位，用于 ADC/SPI/Timer 4/SCM/EP3 中断 */
+ 411      =1  sbit PX4 = EXIP^0;              /* INT4 优先级控制位，用于 CMP/UART1/Timer 3/EP2 中断 */
+ 412      =1  
+ 413      =1  /* 中断使能寄存器 IE (A8H) */
+ 414      =1  sbit EA =        IE^7;          /* 全局中断使能控制位 */
+ 415      =1  sbit EINT3 = IE^6;              /* 用于 Touch Key/WDT/LVD/WKT/EP1 中断 */
+ 416      =1  sbit EINT2 = IE^5;              /* 用于 IIC/Timer2/PWM/EP0 中断 */
+ 417      =1  sbit ES0 = IE^4;                /* UART0 中断 */
+ 418      =1  sbit ET1 =       IE^3;          /* 定时器 1 中断使能控制位 */
+ 419      =1  sbit EINT1 = IE^2;              /* 中断 1 使能控制位（中断 1 用于外部中断 1） */
+ 420      =1  sbit ET0 =       IE^1;          /* 定时器 0 中断使能控制位 */
+ 421      =1  sbit EINT0 = IE^0;              /* 0 使能控制位（中断 0 用于外部中断 0） */
+ 422      =1  
+ 423      =1  /* 中断使能寄存器 EXIE (E8H) */
+ 424      =1  sbit EINT5 = EXIE^1;            /* INT5 中断使能控制位，用于 ADC/SPI/SCM/EP3 中断 */
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 8   
+
+ 425      =1  sbit EINT4 = EXIE^0;            /* INT4 使能控制位，用于 UART1/Timer3/EP2 中断 */
+ 426      =1  
+ 427      =1  /* 外部中断使能寄存器 EPIE (D8H) */
+ 428      =1  sbit EP3IE = EPIE^3;            /* EP3 中断使能信号 */
+ 429      =1  sbit EP2IE = EPIE^2;            /* EP2 中断使能信号 */
+ 430      =1  sbit EP1IE = EPIE^1;            /* EP1 中断使能信号 */
+ 431      =1  sbit EP0IE = EPIE^0;            /* EP0 中断使能信号 */
+ 432      =1  
+ 433      =1  /* 串口UART0寄存器 S0CON (98H) */
+ 434      =1  sbit SM00 = S0CON^7;    /* 串口 0 模式选择位， */
+ 435      =1  sbit SM10 = S0CON^6;    /* 串口 0 模式选择位， */
+ 436      =1  sbit SM20 = S0CON^5;    /* 多机通信使能位， 1 有效 */
+ 437      =1  sbit REN0 = S0CON^4;    /* 串行接收使能位， 1 有效 */
+ 438      =1  sbit TB80 = S0CON^3;    /* 发送的第 9 位数据 */
+ 439      =1  sbit RB80 = S0CON^2;    /* 接收的第 9 位数据 */
+ 440      =1  sbit TI0 =      S0CON^1;        /* 发送中断标志， 1 有效，写 0 清除 */
+ 441      =1  sbit RI0 =  S0CON^0;    /* 接收中断标志， 1 有效，写 0 清除 */
+ 442      =1  
+ 443      =1  /* 定时器0/1 TCON (88H) */
+ 444      =1  sbit TF1 = TCON^7;              /* 定时器 0 模式 3 的 TH0 溢出/定时器 1 溢出标志位，中断被响应后自动清 0. */
+ 445      =1  sbit TR1 = TCON^6;              /* 定时器 1 运行控制位， 1 有效 */
+ 446      =1  sbit TF0 = TCON^5;              /* 定时器 0 溢出标志位，中断被响应后自动清 0 */
+ 447      =1  sbit TR0 = TCON^4;              /* 定时器 0 运行控制位， 1 有效 */
+ 448      =1  sbit IE1 = TCON^3;              /* 外部中断 1 使能位， 1 有效 */
+ 449      =1  sbit IT1 = TCON^2;              /* 外部中断 1 触发类型控制位 */
+ 450      =1  sbit IE0 = TCON^1;              /* 外部中断 0 使能位， 1 有效 */
+ 451      =1  sbit IT0 = TCON^0;              /* 外部中断 0 触发类型控制位 */
+ 452      =1  
+ 453      =1  /* 定时器2 T2CON (C8H) */
+ 454      =1  sbit TF2 =   T2CON^7;           /* 定时器 2 溢出标志位。 当 RCLK 或 TCLK 为 1， TF2 不会被置 1 */
+ 455      =1  sbit EXF2 =  T2CON^6;           /* T2EX 触发标志。 */
+ 456      =1  sbit RCLK =  T2CON^5;           /* UART0 在模式 1 和 3 时使用定时器 1/2 作为接收波特率时钟 */
+ 457      =1  sbit TCLK =  T2CON^4;           /* UART0 在模式 1 和 3 时使用定时器 1/2 作为发送波特率时钟 */
+ 458      =1  sbit EXEN2 = T2CON^3;           /* T2EX 使能信号，在定时器没有作为 UART0 时钟时 T2EX 有效 */
+ 459      =1  sbit TR2 =   T2CON^2;           /* 定时器 2 启动信号， 1 有效 */
+ 460      =1  sbit CT2 =   T2CON^1;           /* 定时功能或计数功能选择信号 */
+ 461      =1  sbit CPRL2 = T2CON^0;           /* 抓取或重载功能选择信号。当 RCLK 或 TCLK 为 1 时，定时器强制进入 Timer 2 重载模式
+             - */
+ 462      =1  
+ 463      =1  /* 模数转换器 ADCON (C0H) */
+ 464      =1  sbit ADST =  ADCON^7;           /* ADC 转换开始控制位，写 1 启动转换，转换后硬件自动清 0 */
+ 465      =1  sbit ADIE =  ADCON^6;           /* ADC 中断使能位 */
+ 466      =1  sbit ADCF =  ADCON^0;           /* ADC 采样完成标志 */
+ 467      =1  
+ 468      =1  
+ 469      =1  /* 串口UART1 寄存器S1CON (9BH) 不可位寻址 */
+ 470      =1  #define SM11    0x80            /* 工作模式选择 */
+ 471      =1  #define IE1     0x40            /* 中断使能， 1 有效 */
+ 472      =1  #define SM21    0x20            /* 多机通信使能位， 1 有效 */
+ 473      =1  #define REN1    0x10            /* 串行接收使能位， 1 有效 */
+ 474      =1  #define TB81    0x08            /* 发送的第 9 位数据 */
+ 475      =1  #define RB81    0x04            /* 接收的第 9 位数据 */
+ 476      =1  #define TI1     0x02            /* 发送中断标志， 1 有效，写 0 清除 */
+ 477      =1  #define RI1     0x01            /* 接收中断标志， 1 有效，写 0 清除 */
+ 478      =1  
+ 479      =1  #define ROR_8BIT(X,Y) ((X<<(8-Y))|(X>>Y))
+ 480      =1  #define ROL_8BIT(X,Y) ((X>>(8-Y))|(X<<Y)) 
+ 481      =1  
+ 482      =1  typedef         unsigned char   u8;
+ 483      =1  typedef         unsigned int    u16;
+ 484      =1  typedef         unsigned long   u32;
+ 485      =1  typedef     unsigned char   uint8_t;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 9   
+
+ 486      =1  typedef     unsigned int    uint16_t;
+ 487      =1  typedef     unsigned long   uint32_t;
+ 488      =1  
+ 489      =1  typedef     signed char     int8_t;
+ 490      =1  typedef     signed int      int16_t;
+ 491      =1  typedef     signed long     int32_t;
+ 492      =1  #endif
+   2          #include "InnerFlashCase.h"
+   1      =1  
+   2      =1  #ifndef __INNERFLASHCASE_H
+   3      =1  #define __INNERFLASHCASE_H
+   4      =1  
+   5      =1  #define SECTOR_SIZE 128         //扇区大小为 128 字节
+   6      =1  #define FlASH_SIZE (32*1024)
+   7      =1  
+   8      =1  #define INNER_FLASH_UNLOCK 0X12
+   9      =1  #define INNER_FLASH_ERASE_UNMASK 0X04
+  10      =1  #define INNER_FLASH_CODE_UNLOCK 0X34
+  11      =1  #define INNER_FLASH_DATA_UNLOCK 0X56
+  12      =1  
+  13      =1  #define INNER_FLASH_WRITE_DATA 0X02
+  14      =1  #define INNER_FLASH_WRITE_CODE 0X06
+  15      =1  
+  16      =1  #define INNER_FLASH_READ_CODE 0X05
+  17      =1  #define INNER_FLASH_READ_DATA 0X01
+  18      =1  
+  19      =1  #define INNER_FLASH_ERASE_CODE 0X07
+  20      =1  #define INNER_FLASH_ERASE_DATA 0X03
+  21      =1  #define INNER_FLASH_ERASE_WHOLE 0X04
+  22      =1  
+  23      =1  #define INNER_FLASH_LOCK 0XFF
+  24      =1  #define INNER_FLASH_CODE_LOCK 0X43
+  25      =1  #define INNER_FLASH_DATA_LOCK 0X65
+  26      =1  
+  27      =1  #define INNER_FLASH_CHECK_SUM_CODE 0x0c
+  28      =1  #define INNER_FLASH_CHECK_SUM_DATA 0x08
+  29      =1  /*----------------------------------------------------------------*/
+  30      =1  
+  31      =1  void InnerFlashCodeErase(unsigned short SectorNum,unsigned short len);
+  32      =1  void InnerFlashDataErase(unsigned short SectorNum,unsigned short len);
+  33      =1  void InnerFLASHCodeByteWrite(unsigned char dByte, unsigned short WriteAddr);
+  34      =1  void InnerFLASHCodeBufferWrite(unsigned char* pBuffer, unsigned short WriteAddr, unsigned short NumByteToW
+             -rite);
+  35      =1  void InnerFLASHCodeBufferRead(unsigned char* pBuffer, unsigned short ReadAddr, unsigned short NumByteToRea
+             -d);
+  36      =1  void InnerFLASHDataBufferWrite(unsigned char* pBuffer, unsigned short WriteAddr, unsigned short NumByteToW
+             -rite);
+  37      =1  void InnerFLASHDataBufferRead(unsigned char* pBuffer, unsigned short ReadAddr, unsigned short NumByteToRea
+             -d);
+  38      =1  
+  39      =1  #endif
+   3          /**
+   4          * @brief  erase innner code area
+   5          * @param  SectorNum: the nume of sector , value is 0 to 8*1024/128
+   6          * @param  len: how many sector need to erase
+   7          * @retval no
+   8          */
+   9          void InnerFlashCodeErase(unsigned short SectorNum,unsigned short len)
+  10          {//扇区是进行擦除操作的最小单位，每个扇区大小为 128 字节；默认情况下64扇区都为code
+  11   1              unsigned int i=0;
+  12   1              unsigned short StartAddr;
+  13   1              //1  Flash unlock
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 10  
+
+  14   1              FSFLG=INNER_FLASH_UNLOCK;
+  15   1              //2  Flash CODE unlock
+  16   1              FSFLG=INNER_FLASH_CODE_UNLOCK;
+  17   1              //3  write address
+  18   1              StartAddr=SECTOR_SIZE*SectorNum;
+  19   1              for(i=0;i<len;++i)
+  20   1              {
+  21   2                      FSADRL=((StartAddr+i*SECTOR_SIZE)&0xff);
+  22   2                      FSADRH=(((StartAddr+i*SECTOR_SIZE)>>8)&0xff);
+  23   2                      //4 Write CMD
+  24   2                      FSCMD=INNER_FLASH_ERASE_CODE;
+  25   2              }
+  26   1              //5 CODE lock
+  27   1              FSFLG=INNER_FLASH_CODE_LOCK;
+  28   1              //6 Flash lock
+  29   1              FSFLG=INNER_FLASH_LOCK;
+  30   1      }
+  31          
+  32          /**
+  33            * @brief  erase innner code area
+  34                  * @param  SectorNum: the nume of sector , value is 0 to 8*1024/128
+  35                  * @param  len: how many sector need to erase
+  36            * @retval no
+  37            */
+  38          void InnerFlashDataErase(unsigned short SectorNum,unsigned short len)
+  39          {
+  40   1              unsigned int i=0;
+  41   1              unsigned short StartAddr;
+  42   1              //1  Flash unlock
+  43   1              FSFLG=INNER_FLASH_UNLOCK;
+  44   1              //2  Flash DATA unlock
+  45   1              FSFLG=INNER_FLASH_DATA_UNLOCK;
+  46   1              //3  write address
+  47   1              StartAddr=SECTOR_SIZE*SectorNum;
+  48   1              for(i=0;i<len;++i)
+  49   1              {
+  50   2                      FSADRL=((StartAddr+i*SECTOR_SIZE)&0xff);
+  51   2                      FSADRH=(((StartAddr+i*SECTOR_SIZE)>>8)&0xff);
+  52   2                      //4 Write CMD
+  53   2                      FSCMD=INNER_FLASH_ERASE_DATA;
+  54   2              }
+  55   1              //5 DATA lock
+  56   1              FSFLG=INNER_FLASH_DATA_LOCK;
+  57   1              //6 Flash lock
+  58   1              FSFLG=INNER_FLASH_LOCK;
+  59   1      }
+  60          
+  61           /**
+  62            * @brief  对FLASH写入数据，调用本函数写入数据前需要先擦除扇区
+  63            * @param      pBuffer，要写入数据的指针
+  64            * @param  WriteAddr，写入地址
+  65            * @param  NumByteToWrite，写入数据长度
+  66            * @retval 无
+  67            */
+  68          void InnerFLASHCodeBufferWrite(unsigned char* pBuffer, unsigned short WriteAddr, unsigned short NumByteToW
+             -rite)
+  69          {
+  70   1              unsigned int i=0;
+  71   1              //1  Flash unlock
+  72   1              FSFLG=INNER_FLASH_UNLOCK;
+  73   1              //2  Flash CODE unlock
+  74   1              FSFLG=INNER_FLASH_CODE_UNLOCK;
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 11  
+
+  75   1              
+  76   1              FSCMD=INNER_FLASH_WRITE_CODE;
+  77   1              for(i=0;i<NumByteToWrite;++i)
+  78   1              {
+  79   2                      FSADRL=((WriteAddr+i)&0xff);
+  80   2                      FSADRH=(((WriteAddr+i)>>8)&0xff);
+  81   2                      //4 Write data
+  82   2                      FSDAT=pBuffer[i];
+  83   2              }
+  84   1              //5 CODE lock
+  85   1              FSFLG=INNER_FLASH_CODE_LOCK;
+  86   1              //6 Flash lock
+  87   1              FSFLG=INNER_FLASH_LOCK;
+  88   1      }
+  89          
+  90           /**
+  91            * @brief  对FLASH写入数据，调用本函数写入数据前需要先擦除扇区
+  92            * @param      dByte，要写入数据
+  93            * @param  WriteAddr，写入地址
+  94            * @param  
+  95            * @retval 无
+  96            */
+  97          void InnerFLASHCodeByteWrite(unsigned char dByte, unsigned short WriteAddr)
+  98          {
+  99   1              unsigned int i=0;
+ 100   1              //1  Flash unlock
+ 101   1              FSFLG=INNER_FLASH_UNLOCK;
+ 102   1              //2  Flash CODE unlock
+ 103   1              FSFLG=INNER_FLASH_CODE_UNLOCK;
+ 104   1              
+ 105   1              FSCMD=INNER_FLASH_WRITE_CODE;
+ 106   1      
+ 107   1              FSADRL=(WriteAddr&0xff);
+ 108   1              FSADRH=((WriteAddr>>8)&0xff);
+ 109   1              //4 Write data
+ 110   1              FSDAT=dByte;
+ 111   1              
+ 112   1              //5 CODE lock
+ 113   1              FSFLG=INNER_FLASH_CODE_LOCK;
+ 114   1              //6 Flash lock
+ 115   1              FSFLG=INNER_FLASH_LOCK;
+ 116   1      }
+ 117          
+ 118          /**
+ 119          * @brief  读取FLASH数据
+ 120          * @param        pBuffer，存储读出数据的指针
+ 121          * @param   ReadAddr，读取地址
+ 122          * @param   NumByteToRead，读取数据长度
+ 123          * @retval 无
+ 124          */
+ 125          void InnerFLASHCodeBufferRead(unsigned char* pBuffer, unsigned short ReadAddr, unsigned short NumByteToRea
+             -d)
+ 126          {
+ 127   1              unsigned int i=0;
+ 128   1      
+ 129   1              
+ 130   1      //      //1  Flash unlock
+ 131   1      //      FSFLG=INNER_FLASH_UNLOCK;
+ 132   1      //      //2  Flash CODE unlock
+ 133   1      //      FSFLG=INNER_FLASH_CODE_UNLOCK;
+ 134   1              
+ 135   1        //1  Flash code read
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 12  
+
+ 136   1              FSCMD=INNER_FLASH_READ_CODE;
+ 137   1              for(i=0;i<NumByteToRead;++i)
+ 138   1              {
+ 139   2                      FSADRL=((ReadAddr+i)&0xff);
+ 140   2                      FSADRH=(((ReadAddr+i)>>8)&0xff);
+ 141   2                      //2 read data
+ 142   2                      pBuffer[i]=FSDAT;
+ 143   2              }
+ 144   1      //      //5 CODE lock
+ 145   1      //      FSFLG=INNER_FLASH_CODE_LOCK;
+ 146   1      //      //6 Flash lock
+ 147   1      //      FSFLG=INNER_FLASH_LOCK;
+ 148   1      }
+ 149          
+ 150          /**
+ 151            * @brief  对FLASH写入数据，调用本函数写入数据前需要先擦除扇区
+ 152            * @param      pBuffer，要写入数据的指针
+ 153            * @param  WriteAddr，写入地址
+ 154            * @param  NumByteToWrite，写入数据长度
+ 155            * @retval 无
+ 156            */
+ 157          void InnerFLASHDataBufferWrite(unsigned char* pBuffer, unsigned short WriteAddr, unsigned short NumByteToW
+             -rite)
+ 158          {
+ 159   1              unsigned int i=0;
+ 160   1        //1  Flash unlock
+ 161   1              FSFLG=INNER_FLASH_UNLOCK;
+ 162   1              //2  Flash CODE unlock
+ 163   1              FSFLG=INNER_FLASH_DATA_UNLOCK;
+ 164   1              
+ 165   1              FSCMD=INNER_FLASH_WRITE_DATA;
+ 166   1              for(i=0;i<NumByteToWrite;++i)
+ 167   1              {
+ 168   2                      FSADRL=((WriteAddr+i)&0xff);
+ 169   2                      FSADRH=(((WriteAddr+i)>>8)&0xff);
+ 170   2                      //4 Write data
+ 171   2                      FSDAT=pBuffer[i];
+ 172   2              }
+ 173   1              //5 CODE lock
+ 174   1              FSFLG=INNER_FLASH_DATA_LOCK;
+ 175   1              //6 Flash lock
+ 176   1              FSFLG=INNER_FLASH_LOCK;
+ 177   1      }
+ 178          
+ 179           /**
+ 180            * @brief  读取FLASH数据
+ 181            * @param      pBuffer，存储读出数据的指针
+ 182            * @param   ReadAddr，读取地址
+ 183            * @param   NumByteToRead，读取数据长度
+ 184            * @retval 无
+ 185            */
+ 186          void InnerFLASHDataBufferRead(unsigned char* pBuffer, unsigned short ReadAddr, unsigned short NumByteToRea
+             -d)
+ 187          {
+ 188   1              unsigned int i=0;
+ 189   1        //1  Flash code read
+ 190   1              FSCMD=INNER_FLASH_READ_DATA;
+ 191   1              for(i=0;i<NumByteToRead;++i)
+ 192   1              {
+ 193   2                      FSADRL=((ReadAddr+i)&0xff);
+ 194   2                      FSADRH=(((ReadAddr+i)>>8)&0xff);
+ 195   2                      //2 read data
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 13  
+
+ 196   2                      pBuffer[i]=FSDAT;
+ 197   2              }
+ 198   1              
+ 199   1      }
+ 200          
+ 201          
+ 202             
+ 203          /*********************************************END OF FILE**********************/
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 14  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _InnerFlashCodeErase (BEGIN)
+                                           ; SOURCE LINE # 9
+0000 900000      R     MOV     DPTR,#len
+0003 EC                MOV     A,R4
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 ED                MOV     A,R5
+0007 F0                MOVX    @DPTR,A
+;---- Variable 'SectorNum' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 10
+                                           ; SOURCE LINE # 11
+;---- Variable 'i' assigned to Register 'R4/R5' ----
+0008 E4                CLR     A
+0009 FD                MOV     R5,A
+000A FC                MOV     R4,A
+                                           ; SOURCE LINE # 14
+000B 900000      E     MOV     DPTR,#FSFLG
+000E 7412              MOV     A,#012H
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 16
+0011 7434              MOV     A,#034H
+0013 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 18
+0014 EF                MOV     A,R7
+0015 7807              MOV     R0,#07H
+0017         ?C0026:
+0017 C3                CLR     C
+0018 33                RLC     A
+0019 CE                XCH     A,R6
+001A 33                RLC     A
+001B CE                XCH     A,R6
+001C D8F9              DJNZ    R0,?C0026
+001E FF                MOV     R7,A
+001F 900000      R     MOV     DPTR,#StartAddr
+0022 EE                MOV     A,R6
+0023 F0                MOVX    @DPTR,A
+0024 A3                INC     DPTR
+0025 EF                MOV     A,R7
+0026 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 19
+0027 E4                CLR     A
+0028 FC                MOV     R4,A
+0029 FD                MOV     R5,A
+002A         ?C0001:
+002A D3                SETB    C
+002B 900000      R     MOV     DPTR,#len+01H
+002E E0                MOVX    A,@DPTR
+002F 9D                SUBB    A,R5
+0030 900000      R     MOV     DPTR,#len
+0033 E0                MOVX    A,@DPTR
+0034 9C                SUBB    A,R4
+0035 4033              JC      ?C0002
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 21
+0037 ED                MOV     A,R5
+0038 75F080            MOV     B,#080H
+003B A4                MUL     AB
+003C FF                MOV     R7,A
+003D 900000      R     MOV     DPTR,#StartAddr
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 15  
+
+0040 E0                MOVX    A,@DPTR
+0041 FA                MOV     R2,A
+0042 A3                INC     DPTR
+0043 E0                MOVX    A,@DPTR
+0044 FB                MOV     R3,A
+0045 2F                ADD     A,R7
+0046 900000      E     MOV     DPTR,#FSADRL
+0049 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 22
+004A AE04              MOV     R6,AR4
+004C ED                MOV     A,R5
+004D 7807              MOV     R0,#07H
+004F         ?C0027:
+004F C3                CLR     C
+0050 33                RLC     A
+0051 CE                XCH     A,R6
+0052 33                RLC     A
+0053 CE                XCH     A,R6
+0054 D8F9              DJNZ    R0,?C0027
+0056 2B                ADD     A,R3
+0057 EA                MOV     A,R2
+0058 3E                ADDC    A,R6
+0059 900000      E     MOV     DPTR,#FSADRH
+005C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 24
+005D 900000      E     MOV     DPTR,#FSCMD
+0060 7407              MOV     A,#07H
+0062 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 25
+0063 0D                INC     R5
+0064 BD0001            CJNE    R5,#00H,?C0028
+0067 0C                INC     R4
+0068         ?C0028:
+0068 80C0              SJMP    ?C0001
+006A         ?C0002:
+                                           ; SOURCE LINE # 27
+006A 900000      E     MOV     DPTR,#FSFLG
+006D 7443              MOV     A,#043H
+006F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 29
+0070 74FF              MOV     A,#0FFH
+0072 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 30
+0073 22                RET     
+             ; FUNCTION _InnerFlashCodeErase (END)
+
+             ; FUNCTION _InnerFlashDataErase (BEGIN)
+                                           ; SOURCE LINE # 38
+0000 900000      R     MOV     DPTR,#len
+0003 EC                MOV     A,R4
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 ED                MOV     A,R5
+0007 F0                MOVX    @DPTR,A
+;---- Variable 'SectorNum' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 39
+                                           ; SOURCE LINE # 40
+;---- Variable 'i' assigned to Register 'R4/R5' ----
+0008 E4                CLR     A
+0009 FD                MOV     R5,A
+000A FC                MOV     R4,A
+                                           ; SOURCE LINE # 43
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 16  
+
+000B 900000      E     MOV     DPTR,#FSFLG
+000E 7412              MOV     A,#012H
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 45
+0011 7456              MOV     A,#056H
+0013 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 47
+0014 EF                MOV     A,R7
+0015 7807              MOV     R0,#07H
+0017         ?C0029:
+0017 C3                CLR     C
+0018 33                RLC     A
+0019 CE                XCH     A,R6
+001A 33                RLC     A
+001B CE                XCH     A,R6
+001C D8F9              DJNZ    R0,?C0029
+001E FF                MOV     R7,A
+001F 900000      R     MOV     DPTR,#StartAddr
+0022 EE                MOV     A,R6
+0023 F0                MOVX    @DPTR,A
+0024 A3                INC     DPTR
+0025 EF                MOV     A,R7
+0026 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 48
+0027 E4                CLR     A
+0028 FC                MOV     R4,A
+0029 FD                MOV     R5,A
+002A         ?C0005:
+002A D3                SETB    C
+002B 900000      R     MOV     DPTR,#len+01H
+002E E0                MOVX    A,@DPTR
+002F 9D                SUBB    A,R5
+0030 900000      R     MOV     DPTR,#len
+0033 E0                MOVX    A,@DPTR
+0034 9C                SUBB    A,R4
+0035 4033              JC      ?C0006
+                                           ; SOURCE LINE # 49
+                                           ; SOURCE LINE # 50
+0037 ED                MOV     A,R5
+0038 75F080            MOV     B,#080H
+003B A4                MUL     AB
+003C FF                MOV     R7,A
+003D 900000      R     MOV     DPTR,#StartAddr
+0040 E0                MOVX    A,@DPTR
+0041 FA                MOV     R2,A
+0042 A3                INC     DPTR
+0043 E0                MOVX    A,@DPTR
+0044 FB                MOV     R3,A
+0045 2F                ADD     A,R7
+0046 900000      E     MOV     DPTR,#FSADRL
+0049 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 51
+004A AE04              MOV     R6,AR4
+004C ED                MOV     A,R5
+004D 7807              MOV     R0,#07H
+004F         ?C0030:
+004F C3                CLR     C
+0050 33                RLC     A
+0051 CE                XCH     A,R6
+0052 33                RLC     A
+0053 CE                XCH     A,R6
+0054 D8F9              DJNZ    R0,?C0030
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 17  
+
+0056 2B                ADD     A,R3
+0057 EA                MOV     A,R2
+0058 3E                ADDC    A,R6
+0059 900000      E     MOV     DPTR,#FSADRH
+005C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 53
+005D 900000      E     MOV     DPTR,#FSCMD
+0060 7403              MOV     A,#03H
+0062 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 54
+0063 0D                INC     R5
+0064 BD0001            CJNE    R5,#00H,?C0031
+0067 0C                INC     R4
+0068         ?C0031:
+0068 80C0              SJMP    ?C0005
+006A         ?C0006:
+                                           ; SOURCE LINE # 56
+006A 900000      E     MOV     DPTR,#FSFLG
+006D 7465              MOV     A,#065H
+006F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 58
+0070 74FF              MOV     A,#0FFH
+0072 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 59
+0073 22                RET     
+             ; FUNCTION _InnerFlashDataErase (END)
+
+             ; FUNCTION _InnerFLASHCodeBufferWrite (BEGIN)
+                                           ; SOURCE LINE # 68
+0000 900000      R     MOV     DPTR,#pBuffer
+0003 EB                MOV     A,R3
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EA                MOV     A,R2
+0007 F0                MOVX    @DPTR,A
+0008 A3                INC     DPTR
+0009 E9                MOV     A,R1
+000A F0                MOVX    @DPTR,A
+000B A3                INC     DPTR
+000C EC                MOV     A,R4
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F ED                MOV     A,R5
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 69
+                                           ; SOURCE LINE # 70
+0011 E4                CLR     A
+0012 900000      R     MOV     DPTR,#i
+0015 F0                MOVX    @DPTR,A
+0016 A3                INC     DPTR
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 72
+0018 900000      E     MOV     DPTR,#FSFLG
+001B 7412              MOV     A,#012H
+001D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 74
+001E 7434              MOV     A,#034H
+0020 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 76
+0021 900000      E     MOV     DPTR,#FSCMD
+0024 7406              MOV     A,#06H
+0026 F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 18  
+
+                                           ; SOURCE LINE # 77
+0027 E4                CLR     A
+0028 900000      R     MOV     DPTR,#i
+002B F0                MOVX    @DPTR,A
+002C A3                INC     DPTR
+002D F0                MOVX    @DPTR,A
+002E         ?C0009:
+002E 900000      R     MOV     DPTR,#NumByteToWrite
+0031 E0                MOVX    A,@DPTR
+0032 FE                MOV     R6,A
+0033 A3                INC     DPTR
+0034 E0                MOVX    A,@DPTR
+0035 FF                MOV     R7,A
+0036 A3                INC     DPTR
+0037 E0                MOVX    A,@DPTR
+0038 FC                MOV     R4,A
+0039 A3                INC     DPTR
+003A E0                MOVX    A,@DPTR
+003B FD                MOV     R5,A
+003C C3                CLR     C
+003D 9F                SUBB    A,R7
+003E EC                MOV     A,R4
+003F 9E                SUBB    A,R6
+0040 5042              JNC     ?C0010
+                                           ; SOURCE LINE # 78
+                                           ; SOURCE LINE # 79
+0042 900000      R     MOV     DPTR,#WriteAddr
+0045 E0                MOVX    A,@DPTR
+0046 FA                MOV     R2,A
+0047 A3                INC     DPTR
+0048 E0                MOVX    A,@DPTR
+0049 FB                MOV     R3,A
+004A 2D                ADD     A,R5
+004B 900000      E     MOV     DPTR,#FSADRL
+004E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 80
+004F EB                MOV     A,R3
+0050 2D                ADD     A,R5
+0051 EA                MOV     A,R2
+0052 3C                ADDC    A,R4
+0053 900000      E     MOV     DPTR,#FSADRH
+0056 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 82
+0057 900000      R     MOV     DPTR,#pBuffer
+005A E0                MOVX    A,@DPTR
+005B FB                MOV     R3,A
+005C A3                INC     DPTR
+005D E0                MOVX    A,@DPTR
+005E FA                MOV     R2,A
+005F A3                INC     DPTR
+0060 E0                MOVX    A,@DPTR
+0061 F9                MOV     R1,A
+0062 900000      R     MOV     DPTR,#i
+0065 E0                MOVX    A,@DPTR
+0066 FE                MOV     R6,A
+0067 A3                INC     DPTR
+0068 E0                MOVX    A,@DPTR
+0069 F582              MOV     DPL,A
+006B 8E83              MOV     DPH,R6
+006D 120000      E     LCALL   ?C?CLDOPTR
+0070 900000      E     MOV     DPTR,#FSDAT
+0073 F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 19  
+
+                                           ; SOURCE LINE # 83
+0074 900000      R     MOV     DPTR,#i+01H
+0077 E0                MOVX    A,@DPTR
+0078 04                INC     A
+0079 F0                MOVX    @DPTR,A
+007A 70B2              JNZ     ?C0009
+007C 900000      R     MOV     DPTR,#i
+007F E0                MOVX    A,@DPTR
+0080 04                INC     A
+0081 F0                MOVX    @DPTR,A
+0082         ?C0032:
+0082 80AA              SJMP    ?C0009
+0084         ?C0010:
+                                           ; SOURCE LINE # 85
+0084 900000      E     MOV     DPTR,#FSFLG
+0087 7443              MOV     A,#043H
+0089 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 87
+008A 74FF              MOV     A,#0FFH
+008C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 88
+008D 22                RET     
+             ; FUNCTION _InnerFLASHCodeBufferWrite (END)
+
+             ; FUNCTION _InnerFLASHCodeByteWrite (BEGIN)
+                                           ; SOURCE LINE # 97
+;---- Variable 'WriteAddr' assigned to Register 'R4/R5' ----
+;---- Variable 'dByte' assigned to Register 'R3' ----
+0000 AB07              MOV     R3,AR7
+                                           ; SOURCE LINE # 98
+                                           ; SOURCE LINE # 99
+0002 E4                CLR     A
+0003 900000      R     MOV     DPTR,#i
+0006 F0                MOVX    @DPTR,A
+0007 A3                INC     DPTR
+0008 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 101
+0009 900000      E     MOV     DPTR,#FSFLG
+000C 7412              MOV     A,#012H
+000E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 103
+000F 7434              MOV     A,#034H
+0011 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 105
+0012 900000      E     MOV     DPTR,#FSCMD
+0015 7406              MOV     A,#06H
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 107
+0018 ED                MOV     A,R5
+0019 900000      E     MOV     DPTR,#FSADRL
+001C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 108
+001D EC                MOV     A,R4
+001E 900000      E     MOV     DPTR,#FSADRH
+0021 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 110
+0022 900000      E     MOV     DPTR,#FSDAT
+0025 EB                MOV     A,R3
+0026 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 113
+0027 900000      E     MOV     DPTR,#FSFLG
+002A 7443              MOV     A,#043H
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 20  
+
+002C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 115
+002D 74FF              MOV     A,#0FFH
+002F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 116
+0030 22                RET     
+             ; FUNCTION _InnerFLASHCodeByteWrite (END)
+
+             ; FUNCTION _InnerFLASHCodeBufferRead (BEGIN)
+                                           ; SOURCE LINE # 125
+0000 900000      R     MOV     DPTR,#pBuffer
+0003 EB                MOV     A,R3
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EA                MOV     A,R2
+0007 F0                MOVX    @DPTR,A
+0008 A3                INC     DPTR
+0009 E9                MOV     A,R1
+000A F0                MOVX    @DPTR,A
+000B A3                INC     DPTR
+000C EC                MOV     A,R4
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F ED                MOV     A,R5
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 126
+                                           ; SOURCE LINE # 127
+0011 E4                CLR     A
+0012 900000      R     MOV     DPTR,#i
+0015 F0                MOVX    @DPTR,A
+0016 A3                INC     DPTR
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 136
+0018 900000      E     MOV     DPTR,#FSCMD
+001B 7405              MOV     A,#05H
+001D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 137
+001E E4                CLR     A
+001F 900000      R     MOV     DPTR,#i
+0022 F0                MOVX    @DPTR,A
+0023 A3                INC     DPTR
+0024 F0                MOVX    @DPTR,A
+0025         ?C0014:
+0025 900000      R     MOV     DPTR,#NumByteToRead
+0028 E0                MOVX    A,@DPTR
+0029 FE                MOV     R6,A
+002A A3                INC     DPTR
+002B E0                MOVX    A,@DPTR
+002C FF                MOV     R7,A
+002D A3                INC     DPTR
+002E E0                MOVX    A,@DPTR
+002F FC                MOV     R4,A
+0030 A3                INC     DPTR
+0031 E0                MOVX    A,@DPTR
+0032 FD                MOV     R5,A
+0033 C3                CLR     C
+0034 9F                SUBB    A,R7
+0035 EC                MOV     A,R4
+0036 9E                SUBB    A,R6
+0037 5042              JNC     ?C0017
+                                           ; SOURCE LINE # 138
+                                           ; SOURCE LINE # 139
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 21  
+
+0039 900000      R     MOV     DPTR,#ReadAddr
+003C E0                MOVX    A,@DPTR
+003D FA                MOV     R2,A
+003E A3                INC     DPTR
+003F E0                MOVX    A,@DPTR
+0040 FB                MOV     R3,A
+0041 2D                ADD     A,R5
+0042 900000      E     MOV     DPTR,#FSADRL
+0045 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 140
+0046 EB                MOV     A,R3
+0047 2D                ADD     A,R5
+0048 EA                MOV     A,R2
+0049 3C                ADDC    A,R4
+004A 900000      E     MOV     DPTR,#FSADRH
+004D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 142
+004E 900000      E     MOV     DPTR,#FSDAT
+0051 E0                MOVX    A,@DPTR
+0052 FF                MOV     R7,A
+0053 900000      R     MOV     DPTR,#pBuffer
+0056 E0                MOVX    A,@DPTR
+0057 FB                MOV     R3,A
+0058 A3                INC     DPTR
+0059 E0                MOVX    A,@DPTR
+005A FA                MOV     R2,A
+005B A3                INC     DPTR
+005C E0                MOVX    A,@DPTR
+005D F9                MOV     R1,A
+005E 900000      R     MOV     DPTR,#i
+0061 A3                INC     DPTR
+0062 E0                MOVX    A,@DPTR
+0063 F582              MOV     DPL,A
+0065 8C83              MOV     DPH,R4
+0067 EF                MOV     A,R7
+0068 120000      E     LCALL   ?C?CSTOPTR
+                                           ; SOURCE LINE # 143
+006B 900000      R     MOV     DPTR,#i+01H
+006E E0                MOVX    A,@DPTR
+006F 04                INC     A
+0070 F0                MOVX    @DPTR,A
+0071 70B2              JNZ     ?C0014
+0073 900000      R     MOV     DPTR,#i
+0076 E0                MOVX    A,@DPTR
+0077 04                INC     A
+0078 F0                MOVX    @DPTR,A
+0079         ?C0033:
+0079 80AA              SJMP    ?C0014
+                                           ; SOURCE LINE # 148
+007B         ?C0017:
+007B 22                RET     
+             ; FUNCTION _InnerFLASHCodeBufferRead (END)
+
+             ; FUNCTION _InnerFLASHDataBufferWrite (BEGIN)
+                                           ; SOURCE LINE # 157
+0000 900000      R     MOV     DPTR,#pBuffer
+0003 EB                MOV     A,R3
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EA                MOV     A,R2
+0007 F0                MOVX    @DPTR,A
+0008 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 22  
+
+0009 E9                MOV     A,R1
+000A F0                MOVX    @DPTR,A
+000B A3                INC     DPTR
+000C EC                MOV     A,R4
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F ED                MOV     A,R5
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 158
+                                           ; SOURCE LINE # 159
+0011 E4                CLR     A
+0012 900000      R     MOV     DPTR,#i
+0015 F0                MOVX    @DPTR,A
+0016 A3                INC     DPTR
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 161
+0018 900000      E     MOV     DPTR,#FSFLG
+001B 7412              MOV     A,#012H
+001D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 163
+001E 7456              MOV     A,#056H
+0020 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 165
+0021 900000      E     MOV     DPTR,#FSCMD
+0024 7402              MOV     A,#02H
+0026 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 166
+0027 E4                CLR     A
+0028 900000      R     MOV     DPTR,#i
+002B F0                MOVX    @DPTR,A
+002C A3                INC     DPTR
+002D F0                MOVX    @DPTR,A
+002E         ?C0018:
+002E 900000      R     MOV     DPTR,#NumByteToWrite
+0031 E0                MOVX    A,@DPTR
+0032 FE                MOV     R6,A
+0033 A3                INC     DPTR
+0034 E0                MOVX    A,@DPTR
+0035 FF                MOV     R7,A
+0036 A3                INC     DPTR
+0037 E0                MOVX    A,@DPTR
+0038 FC                MOV     R4,A
+0039 A3                INC     DPTR
+003A E0                MOVX    A,@DPTR
+003B FD                MOV     R5,A
+003C C3                CLR     C
+003D 9F                SUBB    A,R7
+003E EC                MOV     A,R4
+003F 9E                SUBB    A,R6
+0040 5042              JNC     ?C0019
+                                           ; SOURCE LINE # 167
+                                           ; SOURCE LINE # 168
+0042 900000      R     MOV     DPTR,#WriteAddr
+0045 E0                MOVX    A,@DPTR
+0046 FA                MOV     R2,A
+0047 A3                INC     DPTR
+0048 E0                MOVX    A,@DPTR
+0049 FB                MOV     R3,A
+004A 2D                ADD     A,R5
+004B 900000      E     MOV     DPTR,#FSADRL
+004E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 169
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 23  
+
+004F EB                MOV     A,R3
+0050 2D                ADD     A,R5
+0051 EA                MOV     A,R2
+0052 3C                ADDC    A,R4
+0053 900000      E     MOV     DPTR,#FSADRH
+0056 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 171
+0057 900000      R     MOV     DPTR,#pBuffer
+005A E0                MOVX    A,@DPTR
+005B FB                MOV     R3,A
+005C A3                INC     DPTR
+005D E0                MOVX    A,@DPTR
+005E FA                MOV     R2,A
+005F A3                INC     DPTR
+0060 E0                MOVX    A,@DPTR
+0061 F9                MOV     R1,A
+0062 900000      R     MOV     DPTR,#i
+0065 E0                MOVX    A,@DPTR
+0066 FE                MOV     R6,A
+0067 A3                INC     DPTR
+0068 E0                MOVX    A,@DPTR
+0069 F582              MOV     DPL,A
+006B 8E83              MOV     DPH,R6
+006D 120000      E     LCALL   ?C?CLDOPTR
+0070 900000      E     MOV     DPTR,#FSDAT
+0073 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 172
+0074 900000      R     MOV     DPTR,#i+01H
+0077 E0                MOVX    A,@DPTR
+0078 04                INC     A
+0079 F0                MOVX    @DPTR,A
+007A 70B2              JNZ     ?C0018
+007C 900000      R     MOV     DPTR,#i
+007F E0                MOVX    A,@DPTR
+0080 04                INC     A
+0081 F0                MOVX    @DPTR,A
+0082         ?C0034:
+0082 80AA              SJMP    ?C0018
+0084         ?C0019:
+                                           ; SOURCE LINE # 174
+0084 900000      E     MOV     DPTR,#FSFLG
+0087 7465              MOV     A,#065H
+0089 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 176
+008A 74FF              MOV     A,#0FFH
+008C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 177
+008D 22                RET     
+             ; FUNCTION _InnerFLASHDataBufferWrite (END)
+
+             ; FUNCTION _InnerFLASHDataBufferRead (BEGIN)
+                                           ; SOURCE LINE # 186
+0000 900000      R     MOV     DPTR,#pBuffer
+0003 EB                MOV     A,R3
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EA                MOV     A,R2
+0007 F0                MOVX    @DPTR,A
+0008 A3                INC     DPTR
+0009 E9                MOV     A,R1
+000A F0                MOVX    @DPTR,A
+000B A3                INC     DPTR
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 24  
+
+000C EC                MOV     A,R4
+000D F0                MOVX    @DPTR,A
+000E A3                INC     DPTR
+000F ED                MOV     A,R5
+0010 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 187
+                                           ; SOURCE LINE # 188
+0011 E4                CLR     A
+0012 900000      R     MOV     DPTR,#i
+0015 F0                MOVX    @DPTR,A
+0016 A3                INC     DPTR
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 190
+0018 900000      E     MOV     DPTR,#FSCMD
+001B 04                INC     A
+001C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 191
+001D E4                CLR     A
+001E 900000      R     MOV     DPTR,#i
+0021 F0                MOVX    @DPTR,A
+0022 A3                INC     DPTR
+0023 F0                MOVX    @DPTR,A
+0024         ?C0022:
+0024 900000      R     MOV     DPTR,#NumByteToRead
+0027 E0                MOVX    A,@DPTR
+0028 FE                MOV     R6,A
+0029 A3                INC     DPTR
+002A E0                MOVX    A,@DPTR
+002B FF                MOV     R7,A
+002C A3                INC     DPTR
+002D E0                MOVX    A,@DPTR
+002E FC                MOV     R4,A
+002F A3                INC     DPTR
+0030 E0                MOVX    A,@DPTR
+0031 FD                MOV     R5,A
+0032 C3                CLR     C
+0033 9F                SUBB    A,R7
+0034 EC                MOV     A,R4
+0035 9E                SUBB    A,R6
+0036 5042              JNC     ?C0025
+                                           ; SOURCE LINE # 192
+                                           ; SOURCE LINE # 193
+0038 900000      R     MOV     DPTR,#ReadAddr
+003B E0                MOVX    A,@DPTR
+003C FA                MOV     R2,A
+003D A3                INC     DPTR
+003E E0                MOVX    A,@DPTR
+003F FB                MOV     R3,A
+0040 2D                ADD     A,R5
+0041 900000      E     MOV     DPTR,#FSADRL
+0044 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 194
+0045 EB                MOV     A,R3
+0046 2D                ADD     A,R5
+0047 EA                MOV     A,R2
+0048 3C                ADDC    A,R4
+0049 900000      E     MOV     DPTR,#FSADRH
+004C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 196
+004D 900000      E     MOV     DPTR,#FSDAT
+0050 E0                MOVX    A,@DPTR
+0051 FF                MOV     R7,A
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 25  
+
+0052 900000      R     MOV     DPTR,#pBuffer
+0055 E0                MOVX    A,@DPTR
+0056 FB                MOV     R3,A
+0057 A3                INC     DPTR
+0058 E0                MOVX    A,@DPTR
+0059 FA                MOV     R2,A
+005A A3                INC     DPTR
+005B E0                MOVX    A,@DPTR
+005C F9                MOV     R1,A
+005D 900000      R     MOV     DPTR,#i
+0060 A3                INC     DPTR
+0061 E0                MOVX    A,@DPTR
+0062 F582              MOV     DPL,A
+0064 8C83              MOV     DPH,R4
+0066 EF                MOV     A,R7
+0067 120000      E     LCALL   ?C?CSTOPTR
+                                           ; SOURCE LINE # 197
+006A 900000      R     MOV     DPTR,#i+01H
+006D E0                MOVX    A,@DPTR
+006E 04                INC     A
+006F F0                MOVX    @DPTR,A
+0070 70B2              JNZ     ?C0022
+0072 900000      R     MOV     DPTR,#i
+0075 E0                MOVX    A,@DPTR
+0076 04                INC     A
+0077 F0                MOVX    @DPTR,A
+0078         ?C0035:
+0078 80AA              SJMP    ?C0022
+                                           ; SOURCE LINE # 199
+007A         ?C0025:
+007A 22                RET     
+             ; FUNCTION _InnerFLASHDataBufferRead (END)
+
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 26  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+_InnerFLASHCodeByteWrite . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  dByte. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0003H  1
+  WriteAddr. . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+EPIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
+EXIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E8H  1
+u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+EXIP . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F8H  1
+FSADRH . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+FSADRL . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+_InnerFLASHDataBufferRead. . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  pBuffer. . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
+  ReadAddr . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0003H  2
+  NumByteToRead. . . . . . . . . . . .  AUTO     XDATA  U_INT    0005H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0007H  2
+_InnerFLASHCodeBufferRead. . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  pBuffer. . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
+  ReadAddr . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0003H  2
+  NumByteToRead. . . . . . . . . . . .  AUTO     XDATA  U_INT    0005H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0007H  2
+uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+_InnerFLASHDataBufferWrite . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  pBuffer. . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
+  WriteAddr. . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0003H  2
+  NumByteToWrite . . . . . . . . . . .  AUTO     XDATA  U_INT    0005H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0007H  2
+u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+_InnerFLASHCodeBufferWrite . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  pBuffer. . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
+  WriteAddr. . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0003H  2
+  NumByteToWrite . . . . . . . . . . .  AUTO     XDATA  U_INT    0005H  2
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0007H  2
+u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+_InnerFlashDataErase . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  SectorNum. . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  len. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+  StartAddr. . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0002H  2
+_InnerFlashCodeErase . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  SectorNum. . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  len. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+  StartAddr. . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0002H  2
+S0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+ADCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+C51 COMPILER V9.59.0.0   INNERFLASHCASE                                                    10/28/2020 14:38:07 PAGE 27  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+FSCMD. . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+FSFLG. . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+FSDAT. . . . . . . . . . . . . . . . .  EXTERN   XDATA  U_CHAR   -----  1
+uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    812    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      46
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

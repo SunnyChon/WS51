@@ -1,0 +1,1 @@
+"hareware\timer.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\timer.lst) OBJECT(.\Objects\timer.obj)

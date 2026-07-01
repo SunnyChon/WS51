@@ -1,0 +1,2229 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEX
+                    -TEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\main.lst) PREPRINT(.\Listings\main.i) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, …Ó€⁄«∞∫£Œ¨Í…÷«ƒ‹ºº ı”–œﬁπ´Àæ
+   3          *Œƒº˛√˚:        flash.c
+   4          *◊˜  ’ﬂ:        
+   5          *∞Ê  ±æ:
+   6          *»’  ∆⁄:
+   7          *√Ë   ˆ:        
+   8          *±∏  ◊¢:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"  
+   1      =1  #ifndef __WS51F6240_H
+   2      =1  #define __WS51F6240_H
+   3      =1  sfr OKER        = 0xff;
+   4      =1  
+   5      =1  sfr P0          = 0x80;
+   6      =1  sfr SP          = 0x81;
+   7      =1  sfr DP0L        = 0x82;
+   8      =1  sfr DP0H        = 0x83;
+   9      =1  sfr DP1L        = 0x84;
+  10      =1  sfr DP1H        = 0x85;
+  11      =1  sfr SCCON       = 0x86;
+  12      =1  sfr PCON        = 0x87;
+  13      =1  sfr TCON        = 0x88;
+  14      =1  sfr TMOD        = 0x89;
+  15      =1  sfr TL0         = 0x8a;
+  16      =1  sfr TL1         = 0x8b;
+  17      =1  sfr TH0         = 0x8c;
+  18      =1  sfr TH1         = 0x8d;
+  19      =1  sfr P1          = 0x90;
+  20      =1  sfr XSCON       = 0x95;
+  21      =1  sfr HRCON       = 0x96;
+  22      =1  sfr LRCON       = 0x97;
+  23      =1  sfr S0CON       = 0x98;
+  24      =1  sfr S0BUF       = 0x99;
+  25      =1  sfr S0CFG       = 0x9a;
+  26      =1  sfr S1CON       = 0x9b;
+  27      =1  sfr S1BUF       = 0x9c;
+  28      =1  sfr S1RELL      = 0x9d;
+  29      =1  sfr S1RELH      = 0x9e;
+  30      =1  sfr RSTFLG      = 0x9f;
+  31      =1  sfr P2          = 0xa0;
+  32      =1  sfr I2CCON      = 0xa1;
+  33      =1  sfr I2CADR      = 0xa2;
+  34      =1  sfr I2CFG0      = 0xa3;
+  35      =1  sfr I2CFG1      = 0xa4;
+  36      =1  sfr I2CTXD      = 0xa5;
+  37      =1  sfr I2CRXD      = 0xa6;
+  38      =1  sfr I2CFLG      = 0xa7;
+  39      =1  sfr IE          = 0xa8;
+  40      =1  sfr WDTCON      = 0xa9;
+  41      =1  sfr WDTFLG      = 0xaa;
+  42      =1  sfr TL3         = 0xae;
+  43      =1  sfr TH3         = 0xaf;
+  44      =1  sfr T3CON       = 0xb2;
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 2   
+
+  45      =1  sfr T3MOD       = 0xb3;
+  46      =1  sfr T3RL        = 0xb4;
+  47      =1  sfr T3RH        = 0xb5;
+  48      =1  sfr T3CL        = 0xb6;
+  49      =1  sfr T3CH        = 0xb7;
+  50      =1  sfr IP          = 0xb8;
+  51      =1  sfr LVDCON      = 0xb9;
+  52      =1  sfr ADCBGP      = 0xbf;
+  53      =1  sfr ADCON       = 0xc0;
+  54      =1  sfr ADCFG       = 0xc1;
+  55      =1  sfr ADCHS       = 0xc2;
+  56      =1  sfr ADCDL       = 0xc3;
+  57      =1  sfr ADCDH       = 0xc4;
+  58      =1  sfr ADCPC       = 0xc5;
+  59      =1  sfr ADCPDL      = 0xc6;
+  60      =1  sfr ADCPDH      = 0xc7;
+  61      =1  sfr T2CON       = 0xc8;
+  62      =1  sfr T2MOD       = 0xc9;
+  63      =1  sfr T2CL        = 0xca;
+  64      =1  sfr T2CH        = 0xcb;
+  65      =1  sfr TL2         = 0xcc;
+  66      =1  sfr TH2         = 0xcd;
+  67      =1  sfr SCMCON      = 0xce;
+  68      =1  sfr SCMFLG      = 0xcf;
+  69      =1  sfr PSW         = 0xd0;
+  70      =1  sfr WKTCON      = 0xd1;
+  71      =1  sfr WKTSS       = 0xd2;
+  72      =1  sfr OPCON       = 0xd3;
+  73      =1  sfr OPCFG       = 0xd4;
+  74      =1  sfr EPIE        = 0xd8;
+  75      =1  sfr EPIF        = 0xd9;
+  76      =1  sfr EP0CON      = 0xda;
+  77      =1  sfr EP1CON      = 0xdb;
+  78      =1  sfr EP2CON      = 0xdc;
+  79      =1  sfr EP3CON      = 0xdd;
+  80      =1  sfr ACC         = 0xe0;
+  81      =1  sfr SPCON       = 0xe1;
+  82      =1  sfr SPDAT       = 0xe2;
+  83      =1  sfr SPFLG       = 0xe3;
+  84      =1  sfr PCOMS       = 0xe4;
+  85      =1  sfr PDRVS       = 0xe5;
+  86      =1  sfr EXIE        = 0xe8;
+  87      =1  sfr B           = 0xf0;
+  88      =1  sfr TKCON       = 0xf1;
+  89      =1  sfr EXIP        = 0xf8;
+  90      =1  sfr PWCON       = 0xf9;
+  91      =1  sfr IT0CON      = 0xfa;
+  92      =1  sfr IT1CON      = 0xfb;
+  93      =1  sfr IDLFL       = 0xfc;
+  94      =1  sfr IDLFH       = 0xfd;
+  95      =1  sfr STPF        = 0xfe;
+  96      =1  #define P00F       (*(unsigned char volatile xdata *)0x8000)
+  97      =1  #define P01F       (*(unsigned char volatile xdata *)0x8001)
+  98      =1  #define P02F       (*(unsigned char volatile xdata *)0x8002)
+  99      =1  #define P03F       (*(unsigned char volatile xdata *)0x8003)
+ 100      =1  #define P04F       (*(unsigned char volatile xdata *)0x8004)
+ 101      =1  #define P05F       (*(unsigned char volatile xdata *)0x8005)
+ 102      =1  #define P06F       (*(unsigned char volatile xdata *)0x8006)
+ 103      =1  #define P07F       (*(unsigned char volatile xdata *)0x8007)
+ 104      =1  #define P10F       (*(unsigned char volatile xdata *)0x8008)
+ 105      =1  #define P11F       (*(unsigned char volatile xdata *)0x8009)
+ 106      =1  #define P12F       (*(unsigned char volatile xdata *)0x800a)
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 3   
+
+ 107      =1  #define P13F       (*(unsigned char volatile xdata *)0x800b)
+ 108      =1  #define P14F       (*(unsigned char volatile xdata *)0x800c)
+ 109      =1  #define P15F       (*(unsigned char volatile xdata *)0x800d)
+ 110      =1  #define P16F       (*(unsigned char volatile xdata *)0x800e)
+ 111      =1  #define P17F       (*(unsigned char volatile xdata *)0x800f)
+ 112      =1  #define P20F       (*(unsigned char volatile xdata *)0x8010)
+ 113      =1  #define P21F       (*(unsigned char volatile xdata *)0x8011)
+ 114      =1  #define PWMRUN     (*(unsigned char volatile xdata *)0x8040)
+ 115      =1  #define PWMCLR     (*(unsigned char volatile xdata *)0x8041)
+ 116      =1  #define PWMUPD     (*(unsigned char volatile xdata *)0x8043)
+ 117      =1  #define PWMFLG0    (*(unsigned char volatile xdata *)0x8044)
+ 118      =1  #define PWMFLG1    (*(unsigned char volatile xdata *)0x8045)
+ 119      =1  #define PMEN      (*(unsigned char volatile xdata *)0x8048)
+ 120      =1  #define PMDAT      (*(unsigned char volatile xdata *)0x8049)
+ 121      =1  #define PMSCON     (*(unsigned char volatile xdata *)0x804a)
+ 122      =1  #define PMSDL     (*(unsigned char volatile xdata *)0x804b)
+ 123      =1  #define PMSDH     (*(unsigned char volatile xdata *)0x804c)
+ 124      =1  #define PMSML     (*(unsigned char volatile xdata *)0x804d)
+ 125      =1  #define PMSMH     (*(unsigned char volatile xdata *)0x804e)
+ 126      =1  #define PWM0CFG    (*(unsigned char volatile xdata *)0x8050)
+ 127      =1  #define PWM0PS     (*(unsigned char volatile xdata *)0x8051)
+ 128      =1  #define PWM0DUTL   (*(unsigned char volatile xdata *)0x8054)
+ 129      =1  #define PWM0DUTH   (*(unsigned char volatile xdata *)0x8055)
+ 130      =1  #define PWM0DIVL   (*(unsigned char volatile xdata *)0x8056)
+ 131      =1  #define PWM0DIVH   (*(unsigned char volatile xdata *)0x8057)
+ 132      =1  #define PWM1CFG    (*(unsigned char volatile xdata *)0x8058)
+ 133      =1  #define PWM1PS     (*(unsigned char volatile xdata *)0x8059)
+ 134      =1  #define PWM1DUTL   (*(unsigned char volatile xdata *)0x805c)
+ 135      =1  #define PWM1DUTH   (*(unsigned char volatile xdata *)0x805d)
+ 136      =1  #define PWM1DIVL   (*(unsigned char volatile xdata *)0x805e)
+ 137      =1  #define PWM1DIVH   (*(unsigned char volatile xdata *)0x805f)
+ 138      =1  #define PWM2CFG    (*(unsigned char volatile xdata *)0x8060)
+ 139      =1  #define PWM2PS     (*(unsigned char volatile xdata *)0x8061)
+ 140      =1  #define PWM2DUTL   (*(unsigned char volatile xdata *)0x8064)
+ 141      =1  #define PWM2DUTH   (*(unsigned char volatile xdata *)0x8065)
+ 142      =1  #define PWM2DIVL   (*(unsigned char volatile xdata *)0x8066)
+ 143      =1  #define PWM2DIVH   (*(unsigned char volatile xdata *)0x8067)
+ 144      =1  #define PWM3CFG    (*(unsigned char volatile xdata *)0x8068)
+ 145      =1  #define PWM3PS     (*(unsigned char volatile xdata *)0x8069)
+ 146      =1  #define PWM3DUTL   (*(unsigned char volatile xdata *)0x806c)
+ 147      =1  #define PWM3DUTH   (*(unsigned char volatile xdata *)0x806d)
+ 148      =1  #define PWM3DIVL   (*(unsigned char volatile xdata *)0x806e)
+ 149      =1  #define PWM3DIVH   (*(unsigned char volatile xdata *)0x806f)
+ 150      =1  #define PWM4CFG    (*(unsigned char volatile xdata *)0x8070)
+ 151      =1  #define PWM4PS     (*(unsigned char volatile xdata *)0x8071)
+ 152      =1  #define PWM4DUTL   (*(unsigned char volatile xdata *)0x8074)
+ 153      =1  #define PWM4DUTH   (*(unsigned char volatile xdata *)0x8075)
+ 154      =1  #define PWM4DIVL   (*(unsigned char volatile xdata *)0x8076)
+ 155      =1  #define PWM4DIVH   (*(unsigned char volatile xdata *)0x8077)
+ 156      =1  #define PWM5CFG    (*(unsigned char volatile xdata *)0x8078)
+ 157      =1  #define PWM5PS     (*(unsigned char volatile xdata *)0x8079)
+ 158      =1  #define PWM5DUTL   (*(unsigned char volatile xdata *)0x807c)
+ 159      =1  #define PWM5DUTH   (*(unsigned char volatile xdata *)0x807d)
+ 160      =1  #define PWM5DIVL   (*(unsigned char volatile xdata *)0x807e)
+ 161      =1  #define PWM5DIVH   (*(unsigned char volatile xdata *)0x807f)
+ 162      =1  #define PWM6CFG    (*(unsigned char volatile xdata *)0x8080)
+ 163      =1  #define PWM6PS     (*(unsigned char volatile xdata *)0x8081)
+ 164      =1  #define PWM6DUTL   (*(unsigned char volatile xdata *)0x8084)
+ 165      =1  #define PWM6DUTH   (*(unsigned char volatile xdata *)0x8085)
+ 166      =1  #define PWM6DIVL   (*(unsigned char volatile xdata *)0x8086)
+ 167      =1  #define PWM6DIVH   (*(unsigned char volatile xdata *)0x8087)
+ 168      =1  #define PWM7CFG    (*(unsigned char volatile xdata *)0x8088)
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 4   
+
+ 169      =1  #define PWM7PS     (*(unsigned char volatile xdata *)0x8089)
+ 170      =1  #define PWM7DUTL   (*(unsigned char volatile xdata *)0x808c)
+ 171      =1  #define PWM7DUTH   (*(unsigned char volatile xdata *)0x808d)
+ 172      =1  #define PWM7DIVL   (*(unsigned char volatile xdata *)0x808e)
+ 173      =1  #define PWM7DIVH   (*(unsigned char volatile xdata *)0x808f)
+ 174      =1  #define LEDCFG     (*(unsigned char volatile xdata *)0x80d0)
+ 175      =1  #define LED0D0    (*(unsigned char volatile xdata *)0x80d2)
+ 176      =1  #define LED0D1    (*(unsigned char volatile xdata *)0x80d3)
+ 177      =1  #define LED0D2    (*(unsigned char volatile xdata *)0x80d4)
+ 178      =1  #define LED1D0    (*(unsigned char volatile xdata *)0x80da)
+ 179      =1  #define LED1D1    (*(unsigned char volatile xdata *)0x80db)
+ 180      =1  #define LED1D2    (*(unsigned char volatile xdata *)0x80dc)
+ 181      =1  #define FBCON      (*(unsigned char volatile xdata *)0x80e0)
+ 182      =1  #define FBDAT      (*(unsigned char volatile xdata *)0x80e1)
+ 183      =1  #define FBFLG      (*(unsigned char volatile xdata *)0x80e2)
+ 184      =1  #define PIMOD      (*(unsigned char volatile xdata *)0x80e8)
+ 185      =1  #define P0IMSK     (*(unsigned char volatile xdata *)0x80e9)
+ 186      =1  #define P1IMSK     (*(unsigned char volatile xdata *)0x80ea)
+ 187      =1  #define P2IMSK     (*(unsigned char volatile xdata *)0x80eb)
+ 188      =1  #define BZCON      (*(unsigned char volatile xdata *)0x80f0)
+ 189      =1  #define BZPSC      (*(unsigned char volatile xdata *)0x80f1)
+ 190      =1  #define BZDUT      (*(unsigned char volatile xdata *)0x80f2)
+ 191      =1  #define BZDIV      (*(unsigned char volatile xdata *)0x80f3)
+ 192      =1                  
+ 193      =1  #define ACBCON    (*(unsigned char volatile xdata *)0x82b0)
+ 194      =1  #define AKDAT     (*(unsigned char volatile xdata *)0x82b2)
+ 195      =1  #define AMDAT     (*(unsigned char volatile xdata *)0x82b4)
+ 196      =1  
+ 197      =1  #define MECON      (*(unsigned char volatile xdata *)0x8300)
+ 198      =1  #define FSCMD      (*(unsigned char volatile xdata *)0x8301)
+ 199      =1  #define BTMSK      (*(unsigned char volatile xdata *)0x8302)
+ 200      =1  #define FSDAT      (*(unsigned char volatile xdata *)0x8303)
+ 201      =1  #define FSFLG       (*(unsigned char volatile xdata *)0x8304)
+ 202      =1  #define PADR        (*(unsigned char volatile xdata *)0x8305)
+ 203      =1  #define FSDARL       (*(unsigned char volatile xdata *)0x8306)
+ 204      =1  #define FSDARH       (*(unsigned char volatile xdata *)0x8307)
+ 205      =1  #define CKSUML     (*(unsigned char volatile xdata *)0x8308)
+ 206      =1  #define CKSUMH     (*(unsigned char volatile xdata *)0x8309)
+ 207      =1  #define IDCODE0    (*(unsigned char volatile xdata *)0x830a)
+ 208      =1  #define IDCODE1    (*(unsigned char volatile xdata *)0x830b)
+ 209      =1  #define IDCODE2    (*(unsigned char volatile xdata *)0x830c)
+ 210      =1  #define SPMAX      (*(unsigned char volatile xdata *)0x8407)
+ 211      =1  
+ 212      =1  
+ 213      =1  
+ 214      =1  #define idata01     (*(unsigned char volatile idata *)0x01) 
+ 215      =1  #define idata55     (*(unsigned char volatile idata *)0x55) 
+ 216      =1  #define idata7f     (*(unsigned char volatile idata *)0x7f) 
+ 217      =1  #define idata80     (*(unsigned char volatile idata *)0x80) 
+ 218      =1  #define idatad5     (*(unsigned char volatile idata *)0xd5) 
+ 219      =1  #define idataff     (*(unsigned char volatile idata *)0xff) 
+ 220      =1  #define data80      (*(unsigned char volatile data *)0x80)  
+ 221      =1  #define datad5      (*(unsigned char volatile data *)0xd5)  
+ 222      =1  #define dataff      (*(unsigned char volatile data *)0xff)  
+ 223      =1  #define pdata00     (*(unsigned char volatile pdata *)0x00) 
+ 224      =1  #define pdata55     (*(unsigned char volatile pdata *)0x55) 
+ 225      =1  #define pdataff     (*(unsigned char volatile pdata *)0xff) 
+ 226      =1  #define xdata100    (*(unsigned char volatile xdata *)0x100)
+ 227      =1  #define xdata155    (*(unsigned char volatile xdata *)0x155)
+ 228      =1  #define xdata1ff    (*(unsigned char volatile xdata *)0x1ff)
+ 229      =1  
+ 230      =1  sbit P00 = P0^0;        //6232
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 5   
+
+ 231      =1  sbit P01 = P0^1;        //6232
+ 232      =1  sbit P02 = P0^2;        //6552
+ 233      =1  sbit P03 = P0^3;        //6552
+ 234      =1  sbit P04 = P0^4;        //6552
+ 235      =1  sbit P05 = P0^5;        //6552
+ 236      =1  sbit P06 = P0^6;        //6552
+ 237      =1  sbit P07 = P0^7;        //6552
+ 238      =1    
+ 239      =1  sbit P20 = P2^0;        //6552
+ 240      =1  sbit P21 = P2^1;        //6552
+ 241      =1  sbit P22 = P2^2;        //6652
+ 242      =1  sbit P23 = P2^3;        //6652
+ 243      =1  sbit P24 = P2^4;        //6652
+ 244      =1  sbit P25 = P2^5;        //6652
+ 245      =1  sbit P26 = P2^6;        //6652
+ 246      =1  sbit P27 = P2^7;        //6652
+ 247      =1  
+ 248      =1  sbit P10 = P1^0;
+ 249      =1  sbit P11 = P1^1;
+ 250      =1  sbit P12 = P1^2;
+ 251      =1  sbit P13 = P1^3;
+ 252      =1  sbit P14 = P1^4;
+ 253      =1  sbit P15 = P1^5;
+ 254      =1  sbit P16 = P1^6;
+ 255      =1  sbit P17 = P1^7;
+ 256      =1  
+ 257      =1  //sbit P30 = P3^0;
+ 258      =1  //sbit P31 = P3^1;
+ 259      =1  //sbit P32 = P3^2;
+ 260      =1  //sbit P33 = P3^3;
+ 261      =1  //sbit P34 = P3^4;
+ 262      =1  //sbit P35 = P3^5;
+ 263      =1  //sbit P36 = P3^6;      //6232
+ 264      =1  //sbit P37 = P3^7;      //6232
+ 265      =1  
+ 266      =1  /* ‰∏≠Êñ≠‰ºòÂÖàÁ∫ßÂØÑÂ≠òÂô® IP (B8H) */
+ 267      =1  sbit PX3 = IP^6;                /* INT4 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é Touch Key/WDT/LVD/WKT/EP1 ‰∏≠Êñ≠ */
+ 268      =1  sbit PX2 = IP^5;                /* INT3 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºå Áî®‰∫é IIC/Timer2/PWM/EP0 ‰∏≠Êñ≠ */
+ 269      =1  sbit PS0 = IP^4;                /* INT2 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é UART0 ‰∏≠Êñ≠ */
+ 270      =1  sbit PT1 = IP^3;                /* Timer 1 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 271      =1  sbit PX1 = IP^2;                /* INT1 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 272      =1  sbit PT0 = IP^1;                /* Timer 0 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 273      =1  sbit PX0 = IP^0;                /* INT0 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰Ωç */
+ 274      =1  
+ 275      =1  /* ‰∏≠Êñ≠‰ºòÂÖàÁ∫ßÂØÑÂ≠òÂô® EXIP (F8H) */
+ 276      =1  sbit PX6 = EXIP^2;              /* INT6 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é RTC/UART2/Timer 4/EP4 ‰∏≠Êñ≠ */
+ 277      =1  sbit PX5 = EXIP^1;              /* INT5 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é ADC/SPI/Timer 4/SCM/EP3 ‰∏≠Êñ≠ */
+ 278      =1  sbit PX4 = EXIP^0;              /* INT4 ‰ºòÂÖàÁ∫ßÊéßÂà∂‰ΩçÔºåÁî®‰∫é CMP/UART1/Timer 3/EP2 ‰∏≠Êñ≠ */
+ 279      =1  
+ 280      =1  /* ‰∏≠Êñ≠‰ΩøËÉΩÂØÑÂ≠òÂô® IE (A8H) */
+ 281      =1  sbit EA =        IE^7;          /* ÂÖ®Â±Ä‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰Ωç */
+ 282      =1  sbit EINT3 = IE^6;              /* Áî®‰∫é Touch Key/WDT/LVD/WKT/EP1 ‰∏≠Êñ≠ */
+ 283      =1  sbit EINT2 = IE^5;              /* Áî®‰∫é IIC/Timer2/PWM/EP0 ‰∏≠Êñ≠ */
+ 284      =1  sbit ES0 = IE^4;                /* UART0 ‰∏≠Êñ≠ */
+ 285      =1  sbit ET1 =       IE^3;          /* ÂÆöÊó∂Âô® 1 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰Ωç */
+ 286      =1  sbit EINT1 = IE^2;              /* ‰∏≠Êñ≠ 1 ‰ΩøËÉΩÊéßÂà∂‰ΩçÔºà‰∏≠Êñ≠ 1 Áî®‰∫éÂ§ñÈÉ®‰∏≠Êñ≠ 1Ôºâ */
+ 287      =1  sbit ET0 =       IE^1;          /* ÂÆöÊó∂Âô® 0 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰Ωç */
+ 288      =1  sbit EINT0 = IE^0;              /* 0 ‰ΩøËÉΩÊéßÂà∂‰ΩçÔºà‰∏≠Êñ≠ 0 Áî®‰∫éÂ§ñÈÉ®‰∏≠Êñ≠ 0Ôºâ */
+ 289      =1  
+ 290      =1  /* ‰∏≠Êñ≠‰ΩøËÉΩÂØÑÂ≠òÂô® EXIE (E8H) */
+ 291      =1  sbit EINT6 = EXIE^2;            /* INT7 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰ΩçÔºåÁî®‰∫é RTC/UART2/Timer 4/EP4 ‰∏≠Êñ≠ */  //6652
+ 292      =1  sbit EINT5 = EXIE^1;            /* INT5 ‰∏≠Êñ≠‰ΩøËÉΩÊéßÂà∂‰ΩçÔºåÁî®‰∫é ADC/SPI/SCM/EP3 ‰∏≠Êñ≠ */
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 6   
+
+ 293      =1  sbit EINT4 = EXIE^0;            /* INT4 ‰ΩøËÉΩÊéßÂà∂‰ΩçÔºåÁî®‰∫é UART1/Timer3/EP2 ‰∏≠Êñ≠ */
+ 294      =1  
+ 295      =1  /* Â§ñÈÉ®‰∏≠Êñ≠‰ΩøËÉΩÂØÑÂ≠òÂô® EPIE (D8H) */
+ 296      =1  sbit EP3IE = EPIE^3;            /* EP3 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 297      =1  sbit EP2IE = EPIE^2;            /* EP2 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 298      =1  sbit EP1IE = EPIE^1;            /* EP1 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 299      =1  sbit EP0IE = EPIE^0;            /* EP0 ‰∏≠Êñ≠‰ΩøËÉΩ‰ø°Âè∑ */
+ 300      =1  
+ 301      =1  /* ‰∏≤Âè£UART0ÂØÑÂ≠òÂô® S0CON (98H) */
+ 302      =1  sbit SM00 = S0CON^7;    /* ‰∏≤Âè£ 0 Ê®°ÂºèÈÄâÊã©‰ΩçÔºå */
+ 303      =1  sbit SM10 = S0CON^6;    /* ‰∏≤Âè£ 0 Ê®°ÂºèÈÄâÊã©‰ΩçÔºå */
+ 304      =1  sbit SM20 = S0CON^5;    /* Â§öÊú∫ÈÄö‰ø°‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 305      =1  sbit REN0 = S0CON^4;    /* ‰∏≤Ë°åÊé•Êî∂‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 306      =1  sbit TB80 = S0CON^3;    /* ÂèëÈÄÅÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 307      =1  sbit RB80 = S0CON^2;    /* Êé•Êî∂ÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 308      =1  sbit TI0 =      S0CON^1;        /* ÂèëÈÄÅ‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 309      =1  sbit RI0 =  S0CON^0;    /* Êé•Êî∂‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 310      =1  
+ 311      =1  /* ÂÆöÊó∂Âô®0/1 TCON (88H) */
+ 312      =1  sbit TF1 = TCON^7;              /* ÂÆöÊó∂Âô® 0 Ê®°Âºè 3 ÁöÑ TH0 Ê∫¢Âá∫/ÂÆöÊó∂Âô® 1 Ê∫¢Âá∫Ê†áÂøó‰ΩçÔºå‰∏≠Êñ≠Ë¢´ÂìçÂ∫îÂê
+             -éËá™Âä®Ê∏Ö 0. */
+ 313      =1  sbit TR1 = TCON^6;              /* ÂÆöÊó∂Âô® 1 ËøêË°åÊéßÂà∂‰ΩçÔºå 1 ÊúâÊïà */
+ 314      =1  sbit TF0 = TCON^5;              /* ÂÆöÊó∂Âô® 0 Ê∫¢Âá∫Ê†áÂøó‰ΩçÔºå‰∏≠Êñ≠Ë¢´ÂìçÂ∫îÂêéËá™Âä®Ê∏Ö 0 */
+ 315      =1  sbit TR0 = TCON^4;              /* ÂÆöÊó∂Âô® 0 ËøêË°åÊéßÂà∂‰ΩçÔºå 1 ÊúâÊïà */
+ 316      =1  sbit IE1 = TCON^3;              /* Â§ñÈÉ®‰∏≠Êñ≠ 1 ‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 317      =1  sbit IT1 = TCON^2;              /* Â§ñÈÉ®‰∏≠Êñ≠ 1 Ëß¶ÂèëÁ±ªÂûãÊéßÂà∂‰Ωç */
+ 318      =1  sbit IE0 = TCON^1;              /* Â§ñÈÉ®‰∏≠Êñ≠ 0 ‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 319      =1  sbit IT0 = TCON^0;              /* Â§ñÈÉ®‰∏≠Êñ≠ 0 Ëß¶ÂèëÁ±ªÂûãÊéßÂà∂‰Ωç */
+ 320      =1  
+ 321      =1  /* ÂÆöÊó∂Âô®2 T2CON (C8H) */
+ 322      =1  sbit TF2 =   T2CON^7;           /* ÂÆöÊó∂Âô® 2 Ê∫¢Âá∫Ê†áÂøó‰Ωç„ÄÇ ÂΩì RCLK Êàñ TCLK ‰∏∫ 1Ôºå TF2 ‰∏ç‰ºöË¢´ÁΩÆ 1 */
+ 323      =1  sbit EXF2 =  T2CON^6;           /* T2EX Ëß¶ÂèëÊ†áÂøó„ÄÇ */
+ 324      =1  sbit RCLK =  T2CON^5;           /* UART0 Âú®Ê®°Âºè 1 Âíå 3 Êó∂‰ΩøÁî®ÂÆöÊó∂Âô® 1/2 ‰Ωú‰∏∫Êé•Êî∂Ê≥¢ÁâπÁéáÊó∂Èíü */
+ 325      =1  sbit TCLK =  T2CON^4;           /* UART0 Âú®Ê®°Âºè 1 Âíå 3 Êó∂‰ΩøÁî®ÂÆöÊó∂Âô® 1/2 ‰Ωú‰∏∫ÂèëÈÄÅÊ≥¢ÁâπÁéáÊó∂Èíü */
+ 326      =1  sbit EXEN2 = T2CON^3;           /* T2EX ‰ΩøËÉΩ‰ø°Âè∑ÔºåÂú®ÂÆöÊó∂Âô®Ê≤°Êúâ‰Ωú‰∏∫ UART0 Êó∂ÈíüÊó∂ T2EX ÊúâÊïà */
+ 327      =1  sbit TR2 =   T2CON^2;           /* ÂÆöÊó∂Âô® 2 ÂêØÂä®‰ø°Âè∑Ôºå 1 ÊúâÊïà */
+ 328      =1  sbit CT2 =   T2CON^1;           /* ÂÆöÊó∂ÂäüËÉΩÊàñËÆ°Êï∞ÂäüËÉΩÈÄâÊã©‰ø°Âè∑ */
+ 329      =1  sbit CPRL2 = T2CON^0;           /* ÊäìÂèñÊàñÈáçËΩΩÂäüËÉΩÈÄâÊã©‰ø°Âè∑„ÄÇÂΩì RCLK Êàñ TCLK ‰∏∫ 1 Êó∂ÔºåÂÆöÊó∂Âô®Âº∫Âà
+             -∂ËøõÂÖ• Timer 2 ÈáçËΩΩÊ®°Âºè */
+ 330      =1  
+ 331      =1  /* Ê®°Êï∞ËΩ¨Êç¢Âô® ADCON (C0H) */
+ 332      =1  sbit ADST =  ADCON^7;           /* ADC ËΩ¨Êç¢ÂºÄÂßãÊéßÂà∂‰ΩçÔºåÂÜô 1 ÂêØÂä®ËΩ¨Êç¢ÔºåËΩ¨Êç¢ÂêéÁ°¨‰ª∂Ëá™Âä®Ê∏Ö 0 */
+ 333      =1  sbit ADIE =  ADCON^6;           /* ADC ‰∏≠Êñ≠‰ΩøËÉΩ‰Ωç */
+ 334      =1  sbit ADCF =  ADCON^0;           /* ADC ÈááÊ†∑ÂÆåÊàêÊ†áÂøó */
+ 335      =1  
+ 336      =1  
+ 337      =1  /* ‰∏≤Âè£UART1 ÂØÑÂ≠òÂô®S1CON (9BH) ‰∏çÂèØ‰ΩçÂØªÂùÄ */
+ 338      =1  #define SM11    0x80            /* Â∑•‰ΩúÊ®°ÂºèÈÄâÊã© */
+ 339      =1  #define IE1     0x40            /* ‰∏≠Êñ≠‰ΩøËÉΩÔºå 1 ÊúâÊïà */
+ 340      =1  #define SM21    0x20            /* Â§öÊú∫ÈÄö‰ø°‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 341      =1  #define REN1    0x10            /* ‰∏≤Ë°åÊé•Êî∂‰ΩøËÉΩ‰ΩçÔºå 1 ÊúâÊïà */
+ 342      =1  #define TB81    0x08            /* ÂèëÈÄÅÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 343      =1  #define RB81    0x04            /* Êé•Êî∂ÁöÑÁ¨¨ 9 ‰ΩçÊï∞ÊçÆ */
+ 344      =1  #define TI1     0x02            /* ÂèëÈÄÅ‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 345      =1  #define RI1     0x01            /* Êé•Êî∂‰∏≠Êñ≠Ê†áÂøóÔºå 1 ÊúâÊïàÔºåÂÜô 0 Ê∏ÖÈô§ */
+ 346      =1  
+ 347      =1  #define ROR_8BIT(X,Y) ((X<<(8-Y))|(X>>Y))
+ 348      =1  #define ROL_8BIT(X,Y) ((X>>(8-Y))|(X<<Y)) 
+ 349      =1  
+ 350      =1  typedef         unsigned char   u8;
+ 351      =1  typedef         unsigned int    u16;
+ 352      =1  typedef         unsigned long   u32;
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 7   
+
+ 353      =1  typedef     unsigned char   uint8_t;
+ 354      =1  typedef     unsigned int    uint16_t;
+ 355      =1  typedef     unsigned long   uint32_t;
+ 356      =1  
+ 357      =1  typedef     signed char     int8_t;
+ 358      =1  typedef     signed int      int16_t;
+ 359      =1  typedef     signed long     int32_t;
+ 360      =1  #endif
+ 361      =1  
+  11          #include <stdio.h>
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  STDIO.H
+   3      =1  
+   4      =1  Prototypes for standard I/O functions.
+   5      =1  Copyright (c) 1988-2002 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =1  All rights reserved.
+   7      =1  --------------------------------------------------------------------------*/
+   8      =1  
+   9      =1  #ifndef __STDIO_H__
+  10      =1  #define __STDIO_H__
+  11      =1  
+  12      =1  #ifndef EOF
+  13      =1   #define EOF -1
+  14      =1  #endif
+  15      =1  
+  16      =1  #ifndef NULL
+  17      =1   #define NULL ((void *) 0)
+  18      =1  #endif
+  19      =1  
+  20      =1  #ifndef _SIZE_T
+  21      =1   #define _SIZE_T
+  22      =1   typedef unsigned int size_t;
+  23      =1  #endif
+  24      =1  
+  25      =1  #pragma SAVE
+  26      =1  #pragma REGPARMS
+  27      =1  extern char _getkey (void);
+  28      =1  extern char getchar (void);
+  29      =1  extern char ungetchar (char);
+  30      =1  extern char putchar (char);
+  31      =1  extern int printf   (const char *, ...);
+  32      =1  extern int sprintf  (char *, const char *, ...);
+  33      =1  extern int vprintf  (const char *, char *);
+  34      =1  extern int vsprintf (char *, const char *, char *);
+  35      =1  extern char *gets (char *, int n);
+  36      =1  extern int scanf (const char *, ...);
+  37      =1  extern int sscanf (char *, const char *, ...);
+  38      =1  extern int puts (const char *);
+  39      =1  
+  40      =1  #pragma RESTORE
+  41      =1  
+  42      =1  #endif
+  43      =1  
+  12          #include "flash.h"
+   1      =1  
+   2      =1  #ifndef __flash_H
+   3      =1  #define __flash_H
+   4      =1  
+   5      =1  #define SECTOR_SIZE 128         //…»«¯¥Û–°Œ™ 128 ◊÷Ω⁄
+   6      =1  #define FlASH_SIZE (32*1024)
+   7      =1  
+   8      =1  #define FLASH_UNLOCK 0X12
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 8   
+
+   9      =1  #define FLASH_ERASE_UNMASK 0X04
+  10      =1  #define FLASH_CODE_UNLOCK 0X34
+  11      =1  #define FLASH_DATA_UNLOCK 0X56
+  12      =1  
+  13      =1  #define FLASH_WRITE_DATA 0X02
+  14      =1  #define FLASH_WRITE_CODE 0X06
+  15      =1  
+  16      =1  #define FLASH_READ_CODE 0X05
+  17      =1  #define FLASH_READ_DATA 0X01
+  18      =1  
+  19      =1  #define FLASH_ERASE_CODE 0X07
+  20      =1  #define FLASH_ERASE_DATA 0X03
+  21      =1  #define FLASH_ERASE_WHOLE       0X04
+  22      =1  
+  23      =1  #define FLASH_LOCK 0XFF
+  24      =1  #define FLASH_CODE_LOCK 0X43
+  25      =1  #define FLASH_DATA_LOCK 0X65
+  26      =1  
+  27      =1  #define FLASH_CHECK_SUM_CODE 0x0c
+  28      =1  #define FLASH_CHECK_SUM_DATA 0x08
+  29      =1  /*----------------------------------------------------------------*/
+  30      =1  
+  31      =1  void FlashCodeErase(unsigned short SectorNum,unsigned short len);
+  32      =1  void FlashDataErase(unsigned short SectorNum,unsigned short len);
+  33      =1  void FLASHCodeByteWrite(unsigned char dByte, unsigned short WriteAddr);
+  34      =1  void FLASHCodeBufferWrite(unsigned char* pBuffer, unsigned short WriteAddr, unsigned short NumByteToWrite)
+             -;
+  35      =1  void FLASHCodeBufferRead(unsigned char* pBuffer, unsigned short ReadAddr, unsigned short NumByteToRead);
+  36      =1  void FLASHDataBufferWrite(unsigned char* pBuffer, unsigned short WriteAddr, unsigned short NumByteToWrite)
+             -;
+  37      =1  void FLASHDataBufferRead(unsigned char* pBuffer, unsigned short ReadAddr, unsigned short NumByteToRead);
+  38      =1  
+  39      =1  #endif
+  13          
+  14          static void delay_1ms(void)
+  15          {
+  16   1              int j;
+  17   1              for(j=0;j<1700;++j);
+  18   1      }
+  19          
+  20          static void delay(int i)
+  21          {
+  22   1              long j;
+  23   1              for(j=0;j<10*i;++j);
+  24   1      }
+  25          
+  26          //=========================================================
+  27          /*****************************************************
+  28          *∫Ø ˝√˚≥∆£∫void UART0_write(signed char dat)
+  29          *∫Ø ˝π¶ƒ‹£∫UART0_write
+  30          *»Îø⁄≤Œ ˝£∫void
+  31          *≥ˆø⁄≤Œ ˝£∫void
+  32          *****************************************************/
+  33          void UART0_write(signed char dat)
+  34          {
+  35   1          S0BUF = dat;            //Send data to UART buffer
+  36   1          while(!TI0);
+  37   1          TI0 = 0;
+  38   1      }
+  39          
+  40          /*****************************************************
+  41          *∫Ø ˝π¶ƒ‹£∫÷ÿ∂®œÚcø‚∫Ø ˝printfµΩ¥Æø⁄£¨÷ÿ∂®œÚ∫Ûø… π”√printf∫Ø ˝
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 9   
+
+  42          *****************************************************/
+  43          char putchar(char ch)
+  44          {
+  45   1          /* ∑¢ÀÕ“ª∏ˆ◊÷Ω⁄ ˝æ›µΩ¥Æø⁄ */
+  46   1          UART0_write((signed char) ch);
+  47   1              
+  48   1          return ch;
+  49   1      }
+  50          
+  51          /*****************************************************
+  52          *∫Ø ˝√˚≥∆£∫void writeHex(unsigned char num)
+  53          *∫Ø ˝π¶ƒ‹£∫writeHex¥Ú”°16Ω¯÷∆num
+  54          *»Îø⁄≤Œ ˝£∫num
+  55          *≥ˆø⁄≤Œ ˝£∫void
+  56          *****************************************************/
+  57          void writeHex(unsigned char num)
+  58          {
+  59   1              unsigned char i=0;
+  60   1              i=num/16;
+  61   1              if(i>9)UART0_write(i-10+'A');
+  62   1              else UART0_write(i+'0');
+  63   1              i=num%16;
+  64   1              if(i>9)UART0_write(i-10+'A');
+  65   1              else UART0_write(i+'0');
+  66   1              UART0_write(' ');
+  67   1      }
+  68          
+  69          unsigned char rbuf[SECTOR_SIZE]={0};
+  70          unsigned char buf[SECTOR_SIZE]={0};
+  71          /*****************************************************
+  72          *∫Ø ˝√˚≥∆£∫void FlashCodeEraseTest(void)
+  73          *∫Ø ˝π¶ƒ‹£∫ Flash∂¡–¥≤¡≤Ÿ◊˜≤‚ ‘
+  74          *»Îø⁄≤Œ ˝£∫void
+  75          *≥ˆø⁄≤Œ ˝£∫void
+  76          *****************************************************/
+  77          #define SECTOR_TEST 0x30
+  78          void FlashCodeEraseTest(void)
+  79          {
+  80   1              int i,j,k;      
+  81   1        printf("MECON=0X%BX, PADR=0X%BX \r\n", MECON, PADR);
+  82   1              for(k=0x30;k<0x40;k++)
+  83   1              {
+  84   2                      PADR = k;
+  85   2      //              PADR = 0X80;
+  86   2                      printf("MECON=0X%BX, PADR=0X%BX \r\n", MECON, PADR);
+  87   2                      printf("code:\r\n");
+  88   2                      /* code«¯≤¡–¥∂¡-…»«¯ */
+  89   2                      for(j=0x30;j<PADR;j++)
+  90   2                      {
+  91   3                              FlashCodeErase(j,1);            //√ø∏ˆ…»«¯¥Û–°Œ™ 128 ◊÷Ω⁄
+  92   3                  writeHex(j);
+  93   3                  printf("\r\n");
+  94   3                              for(i=0;i<SECTOR_SIZE;i++)buf[i]=j;
+  95   3                      FLASHCodeBufferWrite(buf,j*128,SECTOR_SIZE);
+  96   3                              for(i=0;i<SECTOR_SIZE;++i)rbuf[i]=0;
+  97   3                      FLASHCodeBufferRead(rbuf,j*128,SECTOR_SIZE);
+  98   3                              for(i=0;i<SECTOR_SIZE;++i)
+  99   3                                      printf("%BX ",rbuf[i]);
+ 100   3                  printf("\r\n");
+ 101   3                      }
+ 102   2                              
+ 103   2                      printf("data:\r\n");
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 10  
+
+ 104   2                      /* data«¯≤¡–¥∂¡-…»«¯ */         
+ 105   2                      for(j=0;j<(0x40-PADR);j++)      //∆ ºµÿ÷∑¥” PADR*128 ø™ º, 
+ 106   2                      {
+ 107   3                              FlashDataErase(j,1);
+ 108   3                  writeHex(j);
+ 109   3                  printf("\r\n");
+ 110   3                              for(i=0;i<SECTOR_SIZE;i++)buf[i]=j;
+ 111   3                      FLASHDataBufferWrite(buf,128*j,SECTOR_SIZE);
+ 112   3                              for(i=0;i<SECTOR_SIZE;i++)rbuf[i]=0;
+ 113   3                      FLASHDataBufferRead(rbuf,128*j,SECTOR_SIZE);
+ 114   3                              for(i=0;i<SECTOR_SIZE;++i)
+ 115   3                                      printf("%BX ",rbuf[i]);
+ 116   3                  printf("\r\n");
+ 117   3                      }
+ 118   2              }       
+ 119   1      }
+ 120          
+ 121          /*****************************************************
+ 122          *∫Ø ˝√˚≥∆£∫void FlashCkSumTest(void)
+ 123          *∫Ø ˝π¶ƒ‹£∫flash µƒ¿€º”∫Õºƒ¥Ê∆˜≤‚ ‘ 
+ 124          *»Îø⁄≤Œ ˝£∫void
+ 125          *≥ˆø⁄≤Œ ˝£∫void
+ 126          *****************************************************/
+ 127          void FlashCkSumTestCode(void)
+ 128          {
+ 129   1              unsigned int i,k;
+ 130   1              unsigned char j;        
+ 131   1        PADR=0x80;
+ 132   1        printf("MECON=0X%BX, PADR=0X%BX \r\n", MECON, PADR);
+ 133   1              printf("code –£—È∫Õ\r\n");      
+ 134   1              for(i=0;i<PADR;++i)
+ 135   1              {
+ 136   2                      FSDARL=((i*SECTOR_SIZE)&0xff);
+ 137   2                      FSDARH=(((i*SECTOR_SIZE)>>8)&0xff);
+ 138   2                      FSCMD=FLASH_CHECK_SUM_CODE;
+ 139   2                      printf("i=%x, %bx%bx", i,CKSUMH,CKSUML);
+ 140   2                      
+ 141   2      //              FSADRL=((i*SECTOR_SIZE)&0xff);
+ 142   2      //              FSADRH=(((i*SECTOR_SIZE)>>8)&0xff);
+ 143   2      //              FSCMD=INNER_FLASH_CHECK_SUM_DATA;
+ 144   2      //              printf(" %bx%bx", CKSUMH,CKSUML);
+ 145   2      
+ 146   2                      
+ 147   2                      //∂¡≥ˆ ˝æ›
+ 148   2                      for(k=0;k<SECTOR_SIZE;++k)rbuf[k]=0;
+ 149   2                  FLASHCodeBufferRead(rbuf,(i*SECTOR_SIZE),SECTOR_SIZE);
+ 150   2                      k=0;
+ 151   2                      for(j=0;j<SECTOR_SIZE;++j)
+ 152   2                      {
+ 153   3                              k += rbuf[j];
+ 154   3                      }
+ 155   2                      
+ 156   2                      j=k>>8;
+ 157   2                      printf(" %bx",j);
+ 158   2                      j=k&0xff;
+ 159   2                      printf("%bx",j);
+ 160   2                      UART0_write('\r');
+ 161   2                      UART0_write('\n');
+ 162   2              }
+ 163   1      }    
+ 164          
+ 165          
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 11  
+
+ 166          /*****************************************************
+ 167          *∫Ø ˝√˚≥∆£∫void FlashCkSumTest(void)
+ 168          *∫Ø ˝π¶ƒ‹£∫flash µƒ¿€º”∫Õºƒ¥Ê∆˜≤‚ ‘ 
+ 169          *»Îø⁄≤Œ ˝£∫void
+ 170          *≥ˆø⁄≤Œ ˝£∫void
+ 171          *****************************************************/
+ 172          void FlashCkSumTestData(void)
+ 173          {
+ 174   1              unsigned int i,k;
+ 175   1              unsigned char j;        
+ 176   1          printf("MECON=0X%BX, PADR=0X%BX \r\n", MECON, PADR);
+ 177   1          PADR=0x30;
+ 178   1          printf("MECON=0X%BX, PADR=0X%BX \r\n", MECON, PADR);
+ 179   1              printf("data –£—È∫Õ");          
+ 180   1      //      for(i=0;i<((FlASH_SIZE/SECTOR_SIZE)-PADRD);++i)
+ 181   1              for(i=0;i<((0x80)-PADR);++i)
+ 182   1              {       
+ 183   2                      FSDARL=(((i)*SECTOR_SIZE)&0xff);//+0x30
+ 184   2                      FSDARH=((((i)*SECTOR_SIZE)>>8)&0xff);//+0x30
+ 185   2                      FSCMD=FLASH_CHECK_SUM_DATA;
+ 186   2                      printf("i=%x, %bx%bx", i, CKSUMH,CKSUML);
+ 187   2      
+ 188   2                      
+ 189   2                      //∂¡≥ˆ ˝æ›
+ 190   2                      for(k=0;k<SECTOR_SIZE;++k)rbuf[k]=0;
+ 191   2              FLASHDataBufferRead(rbuf,(i*SECTOR_SIZE),SECTOR_SIZE);
+ 192   2                      k=0;
+ 193   2                      for(j=0;j<SECTOR_SIZE;++j)
+ 194   2                      {
+ 195   3                              k += rbuf[j];
+ 196   3                      }
+ 197   2                      
+ 198   2                      j=k>>8;
+ 199   2                      printf(" %bx",j);
+ 200   2                      j=k&0xff;
+ 201   2                      printf("%bx",j);
+ 202   2                      UART0_write('\r');
+ 203   2                      UART0_write('\n');
+ 204   2              }
+ 205   1      }  
+ 206          /*****************************************************
+ 207          *∫Ø ˝√˚≥∆£∫void Uart0Mode1(void)
+ 208          *∫Ø ˝π¶ƒ‹£∫8 Œª“Ï≤Ωƒ£ Ω£¨≤®Ãÿ¬ £∫ø…µ˜(T1/T2)
+ 209          *»Îø⁄≤Œ ˝£∫
+ 210          *≥ˆø⁄≤Œ ˝£∫
+ 211          *****************************************************/
+ 212          void Uart0Mode1(void)
+ 213          {
+ 214   1          SM00 = 0;
+ 215   1          SM10 = 1;   //ƒ£ Ω—°‘Ò: ƒ£ Ω1
+ 216   1          REN0 = 1;   //¥Æ––Ω” ’ πƒ‹Œª
+ 217   1          RI0  = 0;   //Ω” ’÷–∂œ±Í÷æ
+ 218   1          TI0  = 0;   //∑¢ÀÕ÷–∂œ±Í÷æ
+ 219   1                      
+ 220   1          
+ 221   1              //TIMER2 ◊˜Œ™uart0µƒ≤®Ãÿ¬  ±÷”‘¥ ≈‰÷√≤®Ãÿ¬ Œ™9600
+ 222   1          TR2  = 0;
+ 223   1          T2MOD= 0x00;/* ∂® ±2÷–∂œ≤ª πƒ‹£¨≤ª∑÷∆µ */
+ 224   1          T2CL = 65536 - 2;
+ 225   1          T2CH = 65536 - 2 >> 8;//≤®Ãÿ¬ £∫9600
+ 226   1          TL2  = T2CL;
+ 227   1          TH2  = T2CH;
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 12  
+
+ 228   1          TR2  = 1;    //∆Ù∂Ø∂® ±∆˜2
+ 229   1          RCLK = 1;   //UART0‘⁄ƒ£ Ω1∫Õ3 ± π”√∂® ±∆˜1/2◊˜Œ™Ω” ’≤®Ãÿ¬  ±÷”
+ 230   1          TCLK = 1;           //UART0‘⁄ƒ£ Ω1∫Õ3 ± π”√∂® ±∆˜1/2◊˜Œ™Ω” ’≤®Ãÿ¬  ±÷”
+ 231   1      }
+ 232          
+ 233          
+ 234          void main(void)
+ 235          {   
+ 236   1          SCCON = 0x00;//HRC
+ 237   1          HRCON |= 0x80; 
+ 238   1              
+ 239   1          delay_1ms();
+ 240   1              
+ 241   1                      /*************************π‹Ω≈≈‰÷√**********************/ 
+ 242   1                P10F = 2;
+ 243   1                P07F = 7;//RX
+ 244   1          P06F = 7;//TX
+ 245   1              
+ 246   1                      /****** UART0 ƒ£ Ω1£®≤®Ãÿ¬ £∫9600 ø…µ˜£©**************/
+ 247   1          Uart0Mode1();
+ 248   1                printf("run====\r\n");
+ 249   1      
+ 250   1              
+ 251   1                      //flash µƒª˘±æ∂¡–¥≤‚ ‘
+ 252   1                      FlashCodeEraseTest();
+ 253   1      
+ 254   1                      //flash µƒ¿€º”∫Õºƒ¥Ê∆˜≤‚ ‘
+ 255   1                      FlashCkSumTestCode();
+ 256   1                      FlashCkSumTestData();
+ 257   1                      
+ 258   1              while(1)
+ 259   1              {
+ 260   2                      P10=~P10;
+ 261   2                      delay(1000);
+ 262   2              }
+ 263   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 13  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION delay_1ms (BEGIN)
+                                           ; SOURCE LINE # 14
+                                           ; SOURCE LINE # 15
+                                           ; SOURCE LINE # 17
+;---- Variable 'j' assigned to Register 'R6/R7' ----
+0000 E4                CLR     A
+0001 FF                MOV     R7,A
+0002 FE                MOV     R6,A
+0003         ?C0001:
+0003 0F                INC     R7
+0004 BF0001            CJNE    R7,#00H,?C0070
+0007 0E                INC     R6
+0008         ?C0070:
+0008 BE06F8            CJNE    R6,#06H,?C0001
+000B BFA4F5            CJNE    R7,#0A4H,?C0001
+                                           ; SOURCE LINE # 18
+000E         ?C0004:
+000E 22                RET     
+             ; FUNCTION delay_1ms (END)
+
+             ; FUNCTION _delay (BEGIN)
+                                           ; SOURCE LINE # 20
+0000 900000      R     MOV     DPTR,#i
+0003 EE                MOV     A,R6
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EF                MOV     A,R7
+0007 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 23
+0008 A3                INC     DPTR
+0009 120000      E     LCALL   ?C?LSTKXDATA
+000C 00                DB      00H
+000D 00                DB      00H
+000E 00                DB      00H
+000F 00                DB      00H
+0010         ?C0005:
+0010 900000      R     MOV     DPTR,#i
+0013 E0                MOVX    A,@DPTR
+0014 FE                MOV     R6,A
+0015 A3                INC     DPTR
+0016 E0                MOVX    A,@DPTR
+0017 FF                MOV     R7,A
+0018 7C00              MOV     R4,#00H
+001A 7D0A              MOV     R5,#0AH
+001C 120000      E     LCALL   ?C?IMUL
+001F EE                MOV     A,R6
+0020 33                RLC     A
+0021 95E0              SUBB    A,ACC
+0023 FD                MOV     R5,A
+0024 FC                MOV     R4,A
+0025 A3                INC     DPTR
+0026 E0                MOVX    A,@DPTR
+0027 F8                MOV     R0,A
+0028 A3                INC     DPTR
+0029 E0                MOVX    A,@DPTR
+002A F9                MOV     R1,A
+002B A3                INC     DPTR
+002C E0                MOVX    A,@DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 14  
+
+002D FA                MOV     R2,A
+002E A3                INC     DPTR
+002F E0                MOVX    A,@DPTR
+0030 FB                MOV     R3,A
+0031 C3                CLR     C
+0032 120000      E     LCALL   ?C?SLCMP
+0035 5027              JNC     ?C0008
+0037 900000      R     MOV     DPTR,#j
+003A E0                MOVX    A,@DPTR
+003B FC                MOV     R4,A
+003C A3                INC     DPTR
+003D E0                MOVX    A,@DPTR
+003E FD                MOV     R5,A
+003F A3                INC     DPTR
+0040 E0                MOVX    A,@DPTR
+0041 FE                MOV     R6,A
+0042 A3                INC     DPTR
+0043 E0                MOVX    A,@DPTR
+0044 FF                MOV     R7,A
+0045 E4                CLR     A
+0046 FA                MOV     R2,A
+0047 F9                MOV     R1,A
+0048 F8                MOV     R0,A
+0049 EF                MOV     A,R7
+004A 2401              ADD     A,#01H
+004C FF                MOV     R7,A
+004D EA                MOV     A,R2
+004E 3E                ADDC    A,R6
+004F FE                MOV     R6,A
+0050 E9                MOV     A,R1
+0051 3D                ADDC    A,R5
+0052 FD                MOV     R5,A
+0053 E8                MOV     A,R0
+0054 3C                ADDC    A,R4
+0055 FC                MOV     R4,A
+0056 900000      R     MOV     DPTR,#j
+0059 120000      E     LCALL   ?C?LSTXDATA
+005C 80B2              SJMP    ?C0005
+                                           ; SOURCE LINE # 24
+005E         ?C0008:
+005E 22                RET     
+             ; FUNCTION _delay (END)
+
+             ; FUNCTION L?0094 (BEGIN)
+0000 7F0D              MOV     R7,#0DH
+0002 120000      R     LCALL   _UART0_write
+0005 7F0A              MOV     R7,#0AH
+             ; FUNCTION _UART0_write (BEGIN)
+                                           ; SOURCE LINE # 33
+;---- Variable 'dat' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 34
+                                           ; SOURCE LINE # 35
+0007 8F99              MOV     S0BUF,R7
+0009         ?C0009:
+                                           ; SOURCE LINE # 36
+0009 3099FD            JNB     TI0,?C0009
+                                           ; SOURCE LINE # 37
+000C C299              CLR     TI0
+                                           ; SOURCE LINE # 38
+000E 22                RET     
+             ; FUNCTION _UART0_write (END)
+
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 15  
+
+             ; FUNCTION _putchar (BEGIN)
+                                           ; SOURCE LINE # 43
+;---- Variable 'ch' assigned to Register 'R6' ----
+0000 AE07              MOV     R6,AR7
+                                           ; SOURCE LINE # 44
+                                           ; SOURCE LINE # 46
+0002 020000      R     LJMP    _UART0_write
+             ; FUNCTION _putchar (END)
+
+             ; FUNCTION L?0095 (BEGIN)
+0000 900000      R     MOV     DPTR,#j
+0003 A3                INC     DPTR
+0004 E0                MOVX    A,@DPTR
+0005 FF                MOV     R7,A
+             ; FUNCTION _writeHex (BEGIN)
+                                           ; SOURCE LINE # 57
+;---- Variable 'num' assigned to Register 'R6' ----
+0006 AE07              MOV     R6,AR7
+                                           ; SOURCE LINE # 58
+                                           ; SOURCE LINE # 59
+;---- Variable 'i' assigned to Register 'R5' ----
+                                           ; SOURCE LINE # 60
+0008 EE                MOV     A,R6
+0009 C4                SWAP    A
+000A 540F              ANL     A,#0FH
+000C FD                MOV     R5,A
+                                           ; SOURCE LINE # 61
+000D D3                SETB    C
+000E 9409              SUBB    A,#09H
+0010 7480              MOV     A,#080H
+0012 9480              SUBB    A,#080H
+0014 ED                MOV     A,R5
+0015 4004              JC      ?C0013
+0017 2437              ADD     A,#037H
+0019 8002              SJMP    ?C0092
+001B         ?C0013:
+                                           ; SOURCE LINE # 62
+001B 2430              ADD     A,#030H
+001D         ?C0092:
+001D FF                MOV     R7,A
+001E 120000      R     LCALL   _UART0_write
+0021         ?C0014:
+                                           ; SOURCE LINE # 63
+0021 EE                MOV     A,R6
+0022 540F              ANL     A,#0FH
+0024 FD                MOV     R5,A
+                                           ; SOURCE LINE # 64
+0025 D3                SETB    C
+0026 9409              SUBB    A,#09H
+0028 7480              MOV     A,#080H
+002A 9480              SUBB    A,#080H
+002C ED                MOV     A,R5
+002D 4004              JC      ?C0015
+002F 2437              ADD     A,#037H
+0031 8002              SJMP    ?C0093
+0033         ?C0015:
+                                           ; SOURCE LINE # 65
+0033 2430              ADD     A,#030H
+0035         ?C0093:
+0035 FF                MOV     R7,A
+0036 120000      R     LCALL   _UART0_write
+0039         ?C0016:
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 16  
+
+                                           ; SOURCE LINE # 66
+0039 7F20              MOV     R7,#020H
+003B 020000      R     LJMP    _UART0_write
+             ; FUNCTION _writeHex (END)
+
+             ; FUNCTION FlashCodeEraseTest (BEGIN)
+                                           ; SOURCE LINE # 78
+                                           ; SOURCE LINE # 79
+                                           ; SOURCE LINE # 81
+0000 7BFF              MOV     R3,#0FFH
+0002 7A00        R     MOV     R2,#HIGH ?SC_0
+0004 7900        R     MOV     R1,#LOW ?SC_0
+0006 908300            MOV     DPTR,#08300H
+0009 E0                MOVX    A,@DPTR
+000A 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+000D F0                MOVX    @DPTR,A
+000E 908305            MOV     DPTR,#08305H
+0011 E0                MOVX    A,@DPTR
+0012 900000      E     MOV     DPTR,#?_printf?BYTE+04H
+0015 F0                MOVX    @DPTR,A
+0016 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 82
+0019 900000      R     MOV     DPTR,#k
+001C E4                CLR     A
+001D F0                MOVX    @DPTR,A
+001E A3                INC     DPTR
+001F 7430              MOV     A,#030H
+0021 F0                MOVX    @DPTR,A
+0022         ?C0018:
+0022 900000      R     MOV     DPTR,#k
+0025 E0                MOVX    A,@DPTR
+0026 FE                MOV     R6,A
+0027 A3                INC     DPTR
+0028 E0                MOVX    A,@DPTR
+0029 FF                MOV     R7,A
+002A C3                CLR     C
+002B 9440              SUBB    A,#040H
+002D EE                MOV     A,R6
+002E 6480              XRL     A,#080H
+0030 9480              SUBB    A,#080H
+0032 4003              JC      $ + 5H
+0034 020000      R     LJMP    ?C0045
+                                           ; SOURCE LINE # 83
+                                           ; SOURCE LINE # 84
+0037 908305            MOV     DPTR,#08305H
+003A EF                MOV     A,R7
+003B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 86
+003C 7BFF              MOV     R3,#0FFH
+003E 7A00        R     MOV     R2,#HIGH ?SC_0
+0040 7900        R     MOV     R1,#LOW ?SC_0
+0042 908300            MOV     DPTR,#08300H
+0045 E0                MOVX    A,@DPTR
+0046 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0049 F0                MOVX    @DPTR,A
+004A 908305            MOV     DPTR,#08305H
+004D E0                MOVX    A,@DPTR
+004E 900000      E     MOV     DPTR,#?_printf?BYTE+04H
+0051 F0                MOVX    @DPTR,A
+0052 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 87
+0055 7BFF              MOV     R3,#0FFH
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 17  
+
+0057 7A00        R     MOV     R2,#HIGH ?SC_27
+0059 7900        R     MOV     R1,#LOW ?SC_27
+005B 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 89
+005E 900000      R     MOV     DPTR,#j
+0061 E4                CLR     A
+0062 F0                MOVX    @DPTR,A
+0063 A3                INC     DPTR
+0064 7430              MOV     A,#030H
+0066 F0                MOVX    @DPTR,A
+0067         ?C0021:
+0067 908305            MOV     DPTR,#08305H
+006A E0                MOVX    A,@DPTR
+006B FD                MOV     R5,A
+006C 900000      R     MOV     DPTR,#j
+006F E0                MOVX    A,@DPTR
+0070 FE                MOV     R6,A
+0071 A3                INC     DPTR
+0072 E0                MOVX    A,@DPTR
+0073 FF                MOV     R7,A
+0074 C3                CLR     C
+0075 9D                SUBB    A,R5
+0076 7480              MOV     A,#080H
+0078 F8                MOV     R0,A
+0079 EE                MOV     A,R6
+007A 6480              XRL     A,#080H
+007C 98                SUBB    A,R0
+007D 4003              JC      $ + 5H
+007F 020000      R     LJMP    ?C0022
+                                           ; SOURCE LINE # 90
+                                           ; SOURCE LINE # 91
+0082 7D01              MOV     R5,#01H
+0084 7C00              MOV     R4,#00H
+0086 120000      E     LCALL   _FlashCodeErase
+                                           ; SOURCE LINE # 92
+0089 120000      R     LCALL   L?0095
+                                           ; SOURCE LINE # 93
+008C 7BFF              MOV     R3,#0FFH
+008E 7A00        R     MOV     R2,#HIGH ?SC_35
+0090 7900        R     MOV     R1,#LOW ?SC_35
+0092 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 94
+0095 E4                CLR     A
+0096 900000      R     MOV     DPTR,#i
+0099 F0                MOVX    @DPTR,A
+009A A3                INC     DPTR
+009B F0                MOVX    @DPTR,A
+009C         ?C0024:
+009C 900000      R     MOV     DPTR,#i
+009F E0                MOVX    A,@DPTR
+00A0 FE                MOV     R6,A
+00A1 A3                INC     DPTR
+00A2 E0                MOVX    A,@DPTR
+00A3 FF                MOV     R7,A
+00A4 C3                CLR     C
+00A5 9480              SUBB    A,#080H
+00A7 EE                MOV     A,R6
+00A8 6480              XRL     A,#080H
+00AA 9480              SUBB    A,#080H
+00AC 5020              JNC     ?C0025
+00AE A3                INC     DPTR
+00AF A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 18  
+
+00B0 E0                MOVX    A,@DPTR
+00B1 FD                MOV     R5,A
+00B2 7400        R     MOV     A,#LOW buf
+00B4 2F                ADD     A,R7
+00B5 F582              MOV     DPL,A
+00B7 7400        R     MOV     A,#HIGH buf
+00B9 3E                ADDC    A,R6
+00BA F583              MOV     DPH,A
+00BC ED                MOV     A,R5
+00BD F0                MOVX    @DPTR,A
+00BE 900000      R     MOV     DPTR,#i+01H
+00C1 E0                MOVX    A,@DPTR
+00C2 04                INC     A
+00C3 F0                MOVX    @DPTR,A
+00C4 70D6              JNZ     ?C0024
+00C6 900000      R     MOV     DPTR,#i
+00C9 E0                MOVX    A,@DPTR
+00CA 04                INC     A
+00CB F0                MOVX    @DPTR,A
+00CC         ?C0071:
+00CC 80CE              SJMP    ?C0024
+00CE         ?C0025:
+                                           ; SOURCE LINE # 95
+00CE 7B01              MOV     R3,#01H
+00D0 7A00        R     MOV     R2,#HIGH buf
+00D2 7900        R     MOV     R1,#LOW buf
+00D4 900000      R     MOV     DPTR,#j
+00D7 E0                MOVX    A,@DPTR
+00D8 FE                MOV     R6,A
+00D9 A3                INC     DPTR
+00DA E0                MOVX    A,@DPTR
+00DB 7807              MOV     R0,#07H
+00DD         ?C0072:
+00DD C3                CLR     C
+00DE 33                RLC     A
+00DF CE                XCH     A,R6
+00E0 33                RLC     A
+00E1 CE                XCH     A,R6
+00E2 D8F9              DJNZ    R0,?C0072
+00E4 FD                MOV     R5,A
+00E5 AC06              MOV     R4,AR6
+00E7 900000      E     MOV     DPTR,#?_FLASHCodeBufferWrite?BYTE+05H
+00EA E4                CLR     A
+00EB F0                MOVX    @DPTR,A
+00EC A3                INC     DPTR
+00ED 7480              MOV     A,#080H
+00EF F0                MOVX    @DPTR,A
+00F0 120000      E     LCALL   _FLASHCodeBufferWrite
+                                           ; SOURCE LINE # 96
+00F3 E4                CLR     A
+00F4 900000      R     MOV     DPTR,#i
+00F7 F0                MOVX    @DPTR,A
+00F8 A3                INC     DPTR
+00F9 F0                MOVX    @DPTR,A
+00FA         ?C0027:
+00FA 900000      R     MOV     DPTR,#i
+00FD E0                MOVX    A,@DPTR
+00FE FE                MOV     R6,A
+00FF A3                INC     DPTR
+0100 E0                MOVX    A,@DPTR
+0101 FF                MOV     R7,A
+0102 C3                CLR     C
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 19  
+
+0103 9480              SUBB    A,#080H
+0105 EE                MOV     A,R6
+0106 6480              XRL     A,#080H
+0108 9480              SUBB    A,#080H
+010A 501C              JNC     ?C0028
+010C 7400        R     MOV     A,#LOW rbuf
+010E 2F                ADD     A,R7
+010F F582              MOV     DPL,A
+0111 7400        R     MOV     A,#HIGH rbuf
+0113 3E                ADDC    A,R6
+0114 F583              MOV     DPH,A
+0116 E4                CLR     A
+0117 F0                MOVX    @DPTR,A
+0118 900000      R     MOV     DPTR,#i+01H
+011B E0                MOVX    A,@DPTR
+011C 04                INC     A
+011D F0                MOVX    @DPTR,A
+011E 70DA              JNZ     ?C0027
+0120 900000      R     MOV     DPTR,#i
+0123 E0                MOVX    A,@DPTR
+0124 04                INC     A
+0125 F0                MOVX    @DPTR,A
+0126         ?C0073:
+0126 80D2              SJMP    ?C0027
+0128         ?C0028:
+                                           ; SOURCE LINE # 97
+0128 7B01              MOV     R3,#01H
+012A 7A00        R     MOV     R2,#HIGH rbuf
+012C 7900        R     MOV     R1,#LOW rbuf
+012E 900000      R     MOV     DPTR,#j
+0131 E0                MOVX    A,@DPTR
+0132 FE                MOV     R6,A
+0133 A3                INC     DPTR
+0134 E0                MOVX    A,@DPTR
+0135 7807              MOV     R0,#07H
+0137         ?C0074:
+0137 C3                CLR     C
+0138 33                RLC     A
+0139 CE                XCH     A,R6
+013A 33                RLC     A
+013B CE                XCH     A,R6
+013C D8F9              DJNZ    R0,?C0074
+013E FD                MOV     R5,A
+013F AC06              MOV     R4,AR6
+0141 900000      E     MOV     DPTR,#?_FLASHCodeBufferRead?BYTE+05H
+0144 E4                CLR     A
+0145 F0                MOVX    @DPTR,A
+0146 A3                INC     DPTR
+0147 7480              MOV     A,#080H
+0149 F0                MOVX    @DPTR,A
+014A 120000      E     LCALL   _FLASHCodeBufferRead
+                                           ; SOURCE LINE # 98
+014D E4                CLR     A
+014E 900000      R     MOV     DPTR,#i
+0151 F0                MOVX    @DPTR,A
+0152 A3                INC     DPTR
+0153 F0                MOVX    @DPTR,A
+0154         ?C0030:
+0154 900000      R     MOV     DPTR,#i
+0157 E0                MOVX    A,@DPTR
+0158 FE                MOV     R6,A
+0159 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 20  
+
+015A E0                MOVX    A,@DPTR
+015B FF                MOV     R7,A
+015C C3                CLR     C
+015D 9480              SUBB    A,#080H
+015F EE                MOV     A,R6
+0160 6480              XRL     A,#080H
+0162 9480              SUBB    A,#080H
+0164 5028              JNC     ?C0031
+                                           ; SOURCE LINE # 99
+0166 7BFF              MOV     R3,#0FFH
+0168 7A00        R     MOV     R2,#HIGH ?SC_38
+016A 7900        R     MOV     R1,#LOW ?SC_38
+016C 7400        R     MOV     A,#LOW rbuf
+016E 2F                ADD     A,R7
+016F F582              MOV     DPL,A
+0171 7400        R     MOV     A,#HIGH rbuf
+0173 3E                ADDC    A,R6
+0174 F583              MOV     DPH,A
+0176 E0                MOVX    A,@DPTR
+0177 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+017A F0                MOVX    @DPTR,A
+017B 120000      E     LCALL   _printf
+017E 900000      R     MOV     DPTR,#i+01H
+0181 E0                MOVX    A,@DPTR
+0182 04                INC     A
+0183 F0                MOVX    @DPTR,A
+0184 70CE              JNZ     ?C0030
+0186 900000      R     MOV     DPTR,#i
+0189 E0                MOVX    A,@DPTR
+018A 04                INC     A
+018B F0                MOVX    @DPTR,A
+018C         ?C0075:
+018C 80C6              SJMP    ?C0030
+018E         ?C0031:
+                                           ; SOURCE LINE # 100
+018E 7BFF              MOV     R3,#0FFH
+0190 7A00        R     MOV     R2,#HIGH ?SC_35
+0192 7900        R     MOV     R1,#LOW ?SC_35
+0194 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 101
+0197 900000      R     MOV     DPTR,#j+01H
+019A E0                MOVX    A,@DPTR
+019B 04                INC     A
+019C F0                MOVX    @DPTR,A
+019D 6003              JZ      $ + 5H
+019F 020000      R     LJMP    ?C0021
+01A2 900000      R     MOV     DPTR,#j
+01A5 E0                MOVX    A,@DPTR
+01A6 04                INC     A
+01A7 F0                MOVX    @DPTR,A
+01A8         ?C0076:
+01A8 020000      R     LJMP    ?C0021
+01AB         ?C0022:
+                                           ; SOURCE LINE # 103
+01AB 7BFF              MOV     R3,#0FFH
+01AD 7A00        R     MOV     R2,#HIGH ?SC_43
+01AF 7900        R     MOV     R1,#LOW ?SC_43
+01B1 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 105
+01B4 E4                CLR     A
+01B5 900000      R     MOV     DPTR,#j
+01B8 F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 21  
+
+01B9 A3                INC     DPTR
+01BA F0                MOVX    @DPTR,A
+01BB         ?C0033:
+01BB 908305            MOV     DPTR,#08305H
+01BE E0                MOVX    A,@DPTR
+01BF FF                MOV     R7,A
+01C0 C3                CLR     C
+01C1 7440              MOV     A,#040H
+01C3 9F                SUBB    A,R7
+01C4 FD                MOV     R5,A
+01C5 E4                CLR     A
+01C6 9400              SUBB    A,#00H
+01C8 FC                MOV     R4,A
+01C9 900000      R     MOV     DPTR,#j
+01CC E0                MOVX    A,@DPTR
+01CD FE                MOV     R6,A
+01CE A3                INC     DPTR
+01CF E0                MOVX    A,@DPTR
+01D0 FF                MOV     R7,A
+01D1 C3                CLR     C
+01D2 9D                SUBB    A,R5
+01D3 EC                MOV     A,R4
+01D4 6480              XRL     A,#080H
+01D6 F8                MOV     R0,A
+01D7 EE                MOV     A,R6
+01D8 6480              XRL     A,#080H
+01DA 98                SUBB    A,R0
+01DB 4003              JC      $ + 5H
+01DD 020000      R     LJMP    ?C0020
+                                           ; SOURCE LINE # 106
+                                           ; SOURCE LINE # 107
+01E0 7D01              MOV     R5,#01H
+01E2 7C00              MOV     R4,#00H
+01E4 120000      E     LCALL   _FlashDataErase
+                                           ; SOURCE LINE # 108
+01E7 120000      R     LCALL   L?0095
+                                           ; SOURCE LINE # 109
+01EA 7BFF              MOV     R3,#0FFH
+01EC 7A00        R     MOV     R2,#HIGH ?SC_35
+01EE 7900        R     MOV     R1,#LOW ?SC_35
+01F0 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 110
+01F3 E4                CLR     A
+01F4 900000      R     MOV     DPTR,#i
+01F7 F0                MOVX    @DPTR,A
+01F8 A3                INC     DPTR
+01F9 F0                MOVX    @DPTR,A
+01FA         ?C0036:
+01FA 900000      R     MOV     DPTR,#i
+01FD E0                MOVX    A,@DPTR
+01FE FE                MOV     R6,A
+01FF A3                INC     DPTR
+0200 E0                MOVX    A,@DPTR
+0201 FF                MOV     R7,A
+0202 C3                CLR     C
+0203 9480              SUBB    A,#080H
+0205 EE                MOV     A,R6
+0206 6480              XRL     A,#080H
+0208 9480              SUBB    A,#080H
+020A 5020              JNC     ?C0037
+020C A3                INC     DPTR
+020D A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 22  
+
+020E E0                MOVX    A,@DPTR
+020F FD                MOV     R5,A
+0210 7400        R     MOV     A,#LOW buf
+0212 2F                ADD     A,R7
+0213 F582              MOV     DPL,A
+0215 7400        R     MOV     A,#HIGH buf
+0217 3E                ADDC    A,R6
+0218 F583              MOV     DPH,A
+021A ED                MOV     A,R5
+021B F0                MOVX    @DPTR,A
+021C 900000      R     MOV     DPTR,#i+01H
+021F E0                MOVX    A,@DPTR
+0220 04                INC     A
+0221 F0                MOVX    @DPTR,A
+0222 70D6              JNZ     ?C0036
+0224 900000      R     MOV     DPTR,#i
+0227 E0                MOVX    A,@DPTR
+0228 04                INC     A
+0229 F0                MOVX    @DPTR,A
+022A         ?C0077:
+022A 80CE              SJMP    ?C0036
+022C         ?C0037:
+                                           ; SOURCE LINE # 111
+022C 7B01              MOV     R3,#01H
+022E 7A00        R     MOV     R2,#HIGH buf
+0230 7900        R     MOV     R1,#LOW buf
+0232 900000      R     MOV     DPTR,#j
+0235 E0                MOVX    A,@DPTR
+0236 FE                MOV     R6,A
+0237 A3                INC     DPTR
+0238 E0                MOVX    A,@DPTR
+0239 7807              MOV     R0,#07H
+023B         ?C0078:
+023B C3                CLR     C
+023C 33                RLC     A
+023D CE                XCH     A,R6
+023E 33                RLC     A
+023F CE                XCH     A,R6
+0240 D8F9              DJNZ    R0,?C0078
+0242 FD                MOV     R5,A
+0243 AC06              MOV     R4,AR6
+0245 900000      E     MOV     DPTR,#?_FLASHDataBufferWrite?BYTE+05H
+0248 E4                CLR     A
+0249 F0                MOVX    @DPTR,A
+024A A3                INC     DPTR
+024B 7480              MOV     A,#080H
+024D F0                MOVX    @DPTR,A
+024E 120000      E     LCALL   _FLASHDataBufferWrite
+                                           ; SOURCE LINE # 112
+0251 E4                CLR     A
+0252 900000      R     MOV     DPTR,#i
+0255 F0                MOVX    @DPTR,A
+0256 A3                INC     DPTR
+0257 F0                MOVX    @DPTR,A
+0258         ?C0039:
+0258 900000      R     MOV     DPTR,#i
+025B E0                MOVX    A,@DPTR
+025C FE                MOV     R6,A
+025D A3                INC     DPTR
+025E E0                MOVX    A,@DPTR
+025F FF                MOV     R7,A
+0260 C3                CLR     C
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 23  
+
+0261 9480              SUBB    A,#080H
+0263 EE                MOV     A,R6
+0264 6480              XRL     A,#080H
+0266 9480              SUBB    A,#080H
+0268 501C              JNC     ?C0040
+026A 7400        R     MOV     A,#LOW rbuf
+026C 2F                ADD     A,R7
+026D F582              MOV     DPL,A
+026F 7400        R     MOV     A,#HIGH rbuf
+0271 3E                ADDC    A,R6
+0272 F583              MOV     DPH,A
+0274 E4                CLR     A
+0275 F0                MOVX    @DPTR,A
+0276 900000      R     MOV     DPTR,#i+01H
+0279 E0                MOVX    A,@DPTR
+027A 04                INC     A
+027B F0                MOVX    @DPTR,A
+027C 70DA              JNZ     ?C0039
+027E 900000      R     MOV     DPTR,#i
+0281 E0                MOVX    A,@DPTR
+0282 04                INC     A
+0283 F0                MOVX    @DPTR,A
+0284         ?C0079:
+0284 80D2              SJMP    ?C0039
+0286         ?C0040:
+                                           ; SOURCE LINE # 113
+0286 7B01              MOV     R3,#01H
+0288 7A00        R     MOV     R2,#HIGH rbuf
+028A 7900        R     MOV     R1,#LOW rbuf
+028C 900000      R     MOV     DPTR,#j
+028F E0                MOVX    A,@DPTR
+0290 FE                MOV     R6,A
+0291 A3                INC     DPTR
+0292 E0                MOVX    A,@DPTR
+0293 7807              MOV     R0,#07H
+0295         ?C0080:
+0295 C3                CLR     C
+0296 33                RLC     A
+0297 CE                XCH     A,R6
+0298 33                RLC     A
+0299 CE                XCH     A,R6
+029A D8F9              DJNZ    R0,?C0080
+029C FD                MOV     R5,A
+029D AC06              MOV     R4,AR6
+029F 900000      E     MOV     DPTR,#?_FLASHDataBufferRead?BYTE+05H
+02A2 E4                CLR     A
+02A3 F0                MOVX    @DPTR,A
+02A4 A3                INC     DPTR
+02A5 7480              MOV     A,#080H
+02A7 F0                MOVX    @DPTR,A
+02A8 120000      E     LCALL   _FLASHDataBufferRead
+                                           ; SOURCE LINE # 114
+02AB E4                CLR     A
+02AC 900000      R     MOV     DPTR,#i
+02AF F0                MOVX    @DPTR,A
+02B0 A3                INC     DPTR
+02B1 F0                MOVX    @DPTR,A
+02B2         ?C0042:
+02B2 900000      R     MOV     DPTR,#i
+02B5 E0                MOVX    A,@DPTR
+02B6 FE                MOV     R6,A
+02B7 A3                INC     DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 24  
+
+02B8 E0                MOVX    A,@DPTR
+02B9 FF                MOV     R7,A
+02BA C3                CLR     C
+02BB 9480              SUBB    A,#080H
+02BD EE                MOV     A,R6
+02BE 6480              XRL     A,#080H
+02C0 9480              SUBB    A,#080H
+02C2 5028              JNC     ?C0043
+                                           ; SOURCE LINE # 115
+02C4 7BFF              MOV     R3,#0FFH
+02C6 7A00        R     MOV     R2,#HIGH ?SC_38
+02C8 7900        R     MOV     R1,#LOW ?SC_38
+02CA 7400        R     MOV     A,#LOW rbuf
+02CC 2F                ADD     A,R7
+02CD F582              MOV     DPL,A
+02CF 7400        R     MOV     A,#HIGH rbuf
+02D1 3E                ADDC    A,R6
+02D2 F583              MOV     DPH,A
+02D4 E0                MOVX    A,@DPTR
+02D5 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+02D8 F0                MOVX    @DPTR,A
+02D9 120000      E     LCALL   _printf
+02DC 900000      R     MOV     DPTR,#i+01H
+02DF E0                MOVX    A,@DPTR
+02E0 04                INC     A
+02E1 F0                MOVX    @DPTR,A
+02E2 70CE              JNZ     ?C0042
+02E4 900000      R     MOV     DPTR,#i
+02E7 E0                MOVX    A,@DPTR
+02E8 04                INC     A
+02E9 F0                MOVX    @DPTR,A
+02EA         ?C0081:
+02EA 80C6              SJMP    ?C0042
+02EC         ?C0043:
+                                           ; SOURCE LINE # 116
+02EC 7BFF              MOV     R3,#0FFH
+02EE 7A00        R     MOV     R2,#HIGH ?SC_35
+02F0 7900        R     MOV     R1,#LOW ?SC_35
+02F2 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 117
+02F5 900000      R     MOV     DPTR,#j+01H
+02F8 E0                MOVX    A,@DPTR
+02F9 04                INC     A
+02FA F0                MOVX    @DPTR,A
+02FB 7006              JNZ     ?C0082
+02FD 900000      R     MOV     DPTR,#j
+0300 E0                MOVX    A,@DPTR
+0301 04                INC     A
+0302 F0                MOVX    @DPTR,A
+0303         ?C0082:
+0303 020000      R     LJMP    ?C0033
+                                           ; SOURCE LINE # 118
+0306         ?C0020:
+0306 900000      R     MOV     DPTR,#k+01H
+0309 E0                MOVX    A,@DPTR
+030A 04                INC     A
+030B F0                MOVX    @DPTR,A
+030C 6003              JZ      $ + 5H
+030E 020000      R     LJMP    ?C0018
+0311 900000      R     MOV     DPTR,#k
+0314 E0                MOVX    A,@DPTR
+0315 04                INC     A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 25  
+
+0316 F0                MOVX    @DPTR,A
+0317         ?C0083:
+0317 020000      R     LJMP    ?C0018
+                                           ; SOURCE LINE # 119
+031A         ?C0045:
+031A 22                RET     
+             ; FUNCTION FlashCodeEraseTest (END)
+
+             ; FUNCTION FlashCkSumTestCode (BEGIN)
+                                           ; SOURCE LINE # 127
+                                           ; SOURCE LINE # 128
+                                           ; SOURCE LINE # 131
+0000 908305            MOV     DPTR,#08305H
+0003 7480              MOV     A,#080H
+0005 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 132
+0006 7BFF              MOV     R3,#0FFH
+0008 7A00        R     MOV     R2,#HIGH ?SC_0
+000A 7900        R     MOV     R1,#LOW ?SC_0
+000C 908300            MOV     DPTR,#08300H
+000F E0                MOVX    A,@DPTR
+0010 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0013 F0                MOVX    @DPTR,A
+0014 908305            MOV     DPTR,#08305H
+0017 E0                MOVX    A,@DPTR
+0018 900000      E     MOV     DPTR,#?_printf?BYTE+04H
+001B F0                MOVX    @DPTR,A
+001C 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 133
+001F 7BFF              MOV     R3,#0FFH
+0021 7A00        R     MOV     R2,#HIGH ?SC_51
+0023 7900        R     MOV     R1,#LOW ?SC_51
+0025 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 134
+0028 E4                CLR     A
+0029 900000      R     MOV     DPTR,#i
+002C F0                MOVX    @DPTR,A
+002D A3                INC     DPTR
+002E F0                MOVX    @DPTR,A
+002F         ?C0046:
+002F 908305            MOV     DPTR,#08305H
+0032 E0                MOVX    A,@DPTR
+0033 FF                MOV     R7,A
+0034 900000      R     MOV     DPTR,#i
+0037 E0                MOVX    A,@DPTR
+0038 FC                MOV     R4,A
+0039 A3                INC     DPTR
+003A E0                MOVX    A,@DPTR
+003B FD                MOV     R5,A
+003C C3                CLR     C
+003D 9F                SUBB    A,R7
+003E EC                MOV     A,R4
+003F 9400              SUBB    A,#00H
+0041 4003              JC      $ + 5H
+0043 020000      R     LJMP    ?C0055
+                                           ; SOURCE LINE # 135
+                                           ; SOURCE LINE # 136
+0046 ED                MOV     A,R5
+0047 75F080            MOV     B,#080H
+004A A4                MUL     AB
+004B 908306            MOV     DPTR,#08306H
+004E F0                MOVX    @DPTR,A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 26  
+
+                                           ; SOURCE LINE # 137
+004F AE04              MOV     R6,AR4
+0051 ED                MOV     A,R5
+0052 7807              MOV     R0,#07H
+0054         ?C0084:
+0054 C3                CLR     C
+0055 33                RLC     A
+0056 CE                XCH     A,R6
+0057 33                RLC     A
+0058 CE                XCH     A,R6
+0059 D8F9              DJNZ    R0,?C0084
+005B EE                MOV     A,R6
+005C 908307            MOV     DPTR,#08307H
+005F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 138
+0060 908301            MOV     DPTR,#08301H
+0063 740C              MOV     A,#0CH
+0065 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 139
+0066 7BFF              MOV     R3,#0FFH
+0068 7A00        R     MOV     R2,#HIGH ?SC_65
+006A 7900        R     MOV     R1,#LOW ?SC_65
+006C 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+006F EC                MOV     A,R4
+0070 F0                MOVX    @DPTR,A
+0071 A3                INC     DPTR
+0072 ED                MOV     A,R5
+0073 F0                MOVX    @DPTR,A
+0074 908309            MOV     DPTR,#08309H
+0077 E0                MOVX    A,@DPTR
+0078 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+007B F0                MOVX    @DPTR,A
+007C 908308            MOV     DPTR,#08308H
+007F E0                MOVX    A,@DPTR
+0080 900000      E     MOV     DPTR,#?_printf?BYTE+06H
+0083 F0                MOVX    @DPTR,A
+0084 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 148
+0087 E4                CLR     A
+0088 900000      R     MOV     DPTR,#k
+008B F0                MOVX    @DPTR,A
+008C A3                INC     DPTR
+008D F0                MOVX    @DPTR,A
+008E         ?C0049:
+008E 900000      R     MOV     DPTR,#k
+0091 E0                MOVX    A,@DPTR
+0092 FE                MOV     R6,A
+0093 A3                INC     DPTR
+0094 E0                MOVX    A,@DPTR
+0095 FF                MOV     R7,A
+0096 C3                CLR     C
+0097 9480              SUBB    A,#080H
+0099 EE                MOV     A,R6
+009A 9400              SUBB    A,#00H
+009C 501C              JNC     ?C0050
+009E 7400        R     MOV     A,#LOW rbuf
+00A0 2F                ADD     A,R7
+00A1 F582              MOV     DPL,A
+00A3 7400        R     MOV     A,#HIGH rbuf
+00A5 3E                ADDC    A,R6
+00A6 F583              MOV     DPH,A
+00A8 E4                CLR     A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 27  
+
+00A9 F0                MOVX    @DPTR,A
+00AA 900000      R     MOV     DPTR,#k+01H
+00AD E0                MOVX    A,@DPTR
+00AE 04                INC     A
+00AF F0                MOVX    @DPTR,A
+00B0 70DC              JNZ     ?C0049
+00B2 900000      R     MOV     DPTR,#k
+00B5 E0                MOVX    A,@DPTR
+00B6 04                INC     A
+00B7 F0                MOVX    @DPTR,A
+00B8         ?C0085:
+00B8 80D4              SJMP    ?C0049
+00BA         ?C0050:
+                                           ; SOURCE LINE # 149
+00BA 7B01              MOV     R3,#01H
+00BC 7A00        R     MOV     R2,#HIGH rbuf
+00BE 7900        R     MOV     R1,#LOW rbuf
+00C0 900000      R     MOV     DPTR,#i
+00C3 E0                MOVX    A,@DPTR
+00C4 FE                MOV     R6,A
+00C5 A3                INC     DPTR
+00C6 E0                MOVX    A,@DPTR
+00C7 7807              MOV     R0,#07H
+00C9         ?C0086:
+00C9 C3                CLR     C
+00CA 33                RLC     A
+00CB CE                XCH     A,R6
+00CC 33                RLC     A
+00CD CE                XCH     A,R6
+00CE D8F9              DJNZ    R0,?C0086
+00D0 FD                MOV     R5,A
+00D1 AC06              MOV     R4,AR6
+00D3 900000      E     MOV     DPTR,#?_FLASHCodeBufferRead?BYTE+05H
+00D6 E4                CLR     A
+00D7 F0                MOVX    @DPTR,A
+00D8 A3                INC     DPTR
+00D9 7480              MOV     A,#080H
+00DB F0                MOVX    @DPTR,A
+00DC 120000      E     LCALL   _FLASHCodeBufferRead
+                                           ; SOURCE LINE # 150
+00DF E4                CLR     A
+00E0 900000      R     MOV     DPTR,#k
+00E3 F0                MOVX    @DPTR,A
+00E4 A3                INC     DPTR
+00E5 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 151
+00E6 A3                INC     DPTR
+00E7 F0                MOVX    @DPTR,A
+00E8         ?C0052:
+00E8 900000      R     MOV     DPTR,#j
+00EB E0                MOVX    A,@DPTR
+00EC FF                MOV     R7,A
+00ED C3                CLR     C
+00EE 9480              SUBB    A,#080H
+00F0 7480              MOV     A,#080H
+00F2 9480              SUBB    A,#080H
+00F4 5021              JNC     ?C0053
+                                           ; SOURCE LINE # 152
+                                           ; SOURCE LINE # 153
+00F6 7400        R     MOV     A,#LOW rbuf
+00F8 2F                ADD     A,R7
+00F9 F582              MOV     DPL,A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 28  
+
+00FB E4                CLR     A
+00FC 3400        R     ADDC    A,#HIGH rbuf
+00FE F583              MOV     DPH,A
+0100 E0                MOVX    A,@DPTR
+0101 FF                MOV     R7,A
+0102 900000      R     MOV     DPTR,#k+01H
+0105 E0                MOVX    A,@DPTR
+0106 2F                ADD     A,R7
+0107 F0                MOVX    @DPTR,A
+0108 900000      R     MOV     DPTR,#k
+010B E0                MOVX    A,@DPTR
+010C 3400              ADDC    A,#00H
+010E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 154
+010F 900000      R     MOV     DPTR,#j
+0112 E0                MOVX    A,@DPTR
+0113 04                INC     A
+0114 F0                MOVX    @DPTR,A
+0115 80D1              SJMP    ?C0052
+0117         ?C0053:
+                                           ; SOURCE LINE # 156
+0117 900000      R     MOV     DPTR,#k
+011A E0                MOVX    A,@DPTR
+011B 900000      R     MOV     DPTR,#j
+011E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 157
+011F 7BFF              MOV     R3,#0FFH
+0121 7A00        R     MOV     R2,#HIGH ?SC_78
+0123 7900        R     MOV     R1,#LOW ?SC_78
+0125 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0128 F0                MOVX    @DPTR,A
+0129 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 158
+012C 900000      R     MOV     DPTR,#k
+012F A3                INC     DPTR
+0130 E0                MOVX    A,@DPTR
+0131 A3                INC     DPTR
+0132 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 159
+0133 7BFF              MOV     R3,#0FFH
+0135 7A00        R     MOV     R2,#HIGH ?SC_83
+0137 7900        R     MOV     R1,#LOW ?SC_83
+0139 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+013C F0                MOVX    @DPTR,A
+013D 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 160
+                                           ; SOURCE LINE # 161
+0140 120000      R     LCALL   L?0094
+                                           ; SOURCE LINE # 162
+0143 900000      R     MOV     DPTR,#i+01H
+0146 E0                MOVX    A,@DPTR
+0147 04                INC     A
+0148 F0                MOVX    @DPTR,A
+0149 6003              JZ      $ + 5H
+014B 020000      R     LJMP    ?C0046
+014E 900000      R     MOV     DPTR,#i
+0151 E0                MOVX    A,@DPTR
+0152 04                INC     A
+0153 F0                MOVX    @DPTR,A
+0154         ?C0087:
+0154 020000      R     LJMP    ?C0046
+                                           ; SOURCE LINE # 163
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 29  
+
+0157         ?C0055:
+0157 22                RET     
+             ; FUNCTION FlashCkSumTestCode (END)
+
+             ; FUNCTION FlashCkSumTestData (BEGIN)
+                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 173
+                                           ; SOURCE LINE # 176
+0000 7BFF              MOV     R3,#0FFH
+0002 7A00        R     MOV     R2,#HIGH ?SC_0
+0004 7900        R     MOV     R1,#LOW ?SC_0
+0006 908300            MOV     DPTR,#08300H
+0009 E0                MOVX    A,@DPTR
+000A 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+000D F0                MOVX    @DPTR,A
+000E 908305            MOV     DPTR,#08305H
+0011 E0                MOVX    A,@DPTR
+0012 900000      E     MOV     DPTR,#?_printf?BYTE+04H
+0015 F0                MOVX    @DPTR,A
+0016 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 177
+0019 908305            MOV     DPTR,#08305H
+001C 7430              MOV     A,#030H
+001E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 178
+001F 7BFF              MOV     R3,#0FFH
+0021 7A00        R     MOV     R2,#HIGH ?SC_0
+0023 7900        R     MOV     R1,#LOW ?SC_0
+0025 908300            MOV     DPTR,#08300H
+0028 E0                MOVX    A,@DPTR
+0029 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+002C F0                MOVX    @DPTR,A
+002D 908305            MOV     DPTR,#08305H
+0030 E0                MOVX    A,@DPTR
+0031 900000      E     MOV     DPTR,#?_printf?BYTE+04H
+0034 F0                MOVX    @DPTR,A
+0035 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 179
+0038 7BFF              MOV     R3,#0FFH
+003A 7A00        R     MOV     R2,#HIGH ?SC_87
+003C 7900        R     MOV     R1,#LOW ?SC_87
+003E 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 181
+0041 E4                CLR     A
+0042 900000      R     MOV     DPTR,#i
+0045 F0                MOVX    @DPTR,A
+0046 A3                INC     DPTR
+0047 F0                MOVX    @DPTR,A
+0048         ?C0056:
+0048 908305            MOV     DPTR,#08305H
+004B E0                MOVX    A,@DPTR
+004C FF                MOV     R7,A
+004D C3                CLR     C
+004E 7480              MOV     A,#080H
+0050 9F                SUBB    A,R7
+0051 FF                MOV     R7,A
+0052 E4                CLR     A
+0053 9400              SUBB    A,#00H
+0055 FE                MOV     R6,A
+0056 900000      R     MOV     DPTR,#i
+0059 E0                MOVX    A,@DPTR
+005A FC                MOV     R4,A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 30  
+
+005B A3                INC     DPTR
+005C E0                MOVX    A,@DPTR
+005D FD                MOV     R5,A
+005E C3                CLR     C
+005F 9F                SUBB    A,R7
+0060 EC                MOV     A,R4
+0061 9E                SUBB    A,R6
+0062 4003              JC      $ + 5H
+0064 020000      R     LJMP    ?C0065
+                                           ; SOURCE LINE # 182
+                                           ; SOURCE LINE # 183
+0067 ED                MOV     A,R5
+0068 75F080            MOV     B,#080H
+006B A4                MUL     AB
+006C 908306            MOV     DPTR,#08306H
+006F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 184
+0070 AE04              MOV     R6,AR4
+0072 ED                MOV     A,R5
+0073 7807              MOV     R0,#07H
+0075         ?C0088:
+0075 C3                CLR     C
+0076 33                RLC     A
+0077 CE                XCH     A,R6
+0078 33                RLC     A
+0079 CE                XCH     A,R6
+007A D8F9              DJNZ    R0,?C0088
+007C EE                MOV     A,R6
+007D 908307            MOV     DPTR,#08307H
+0080 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 185
+0081 908301            MOV     DPTR,#08301H
+0084 7408              MOV     A,#08H
+0086 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 186
+0087 7BFF              MOV     R3,#0FFH
+0089 7A00        R     MOV     R2,#HIGH ?SC_65
+008B 7900        R     MOV     R1,#LOW ?SC_65
+008D 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0090 EC                MOV     A,R4
+0091 F0                MOVX    @DPTR,A
+0092 A3                INC     DPTR
+0093 ED                MOV     A,R5
+0094 F0                MOVX    @DPTR,A
+0095 908309            MOV     DPTR,#08309H
+0098 E0                MOVX    A,@DPTR
+0099 900000      E     MOV     DPTR,#?_printf?BYTE+05H
+009C F0                MOVX    @DPTR,A
+009D 908308            MOV     DPTR,#08308H
+00A0 E0                MOVX    A,@DPTR
+00A1 900000      E     MOV     DPTR,#?_printf?BYTE+06H
+00A4 F0                MOVX    @DPTR,A
+00A5 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 190
+00A8 E4                CLR     A
+00A9 900000      R     MOV     DPTR,#k
+00AC F0                MOVX    @DPTR,A
+00AD A3                INC     DPTR
+00AE F0                MOVX    @DPTR,A
+00AF         ?C0059:
+00AF 900000      R     MOV     DPTR,#k
+00B2 E0                MOVX    A,@DPTR
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 31  
+
+00B3 FE                MOV     R6,A
+00B4 A3                INC     DPTR
+00B5 E0                MOVX    A,@DPTR
+00B6 FF                MOV     R7,A
+00B7 C3                CLR     C
+00B8 9480              SUBB    A,#080H
+00BA EE                MOV     A,R6
+00BB 9400              SUBB    A,#00H
+00BD 501C              JNC     ?C0060
+00BF 7400        R     MOV     A,#LOW rbuf
+00C1 2F                ADD     A,R7
+00C2 F582              MOV     DPL,A
+00C4 7400        R     MOV     A,#HIGH rbuf
+00C6 3E                ADDC    A,R6
+00C7 F583              MOV     DPH,A
+00C9 E4                CLR     A
+00CA F0                MOVX    @DPTR,A
+00CB 900000      R     MOV     DPTR,#k+01H
+00CE E0                MOVX    A,@DPTR
+00CF 04                INC     A
+00D0 F0                MOVX    @DPTR,A
+00D1 70DC              JNZ     ?C0059
+00D3 900000      R     MOV     DPTR,#k
+00D6 E0                MOVX    A,@DPTR
+00D7 04                INC     A
+00D8 F0                MOVX    @DPTR,A
+00D9         ?C0089:
+00D9 80D4              SJMP    ?C0059
+00DB         ?C0060:
+                                           ; SOURCE LINE # 191
+00DB 7B01              MOV     R3,#01H
+00DD 7A00        R     MOV     R2,#HIGH rbuf
+00DF 7900        R     MOV     R1,#LOW rbuf
+00E1 900000      R     MOV     DPTR,#i
+00E4 E0                MOVX    A,@DPTR
+00E5 FE                MOV     R6,A
+00E6 A3                INC     DPTR
+00E7 E0                MOVX    A,@DPTR
+00E8 7807              MOV     R0,#07H
+00EA         ?C0090:
+00EA C3                CLR     C
+00EB 33                RLC     A
+00EC CE                XCH     A,R6
+00ED 33                RLC     A
+00EE CE                XCH     A,R6
+00EF D8F9              DJNZ    R0,?C0090
+00F1 FD                MOV     R5,A
+00F2 AC06              MOV     R4,AR6
+00F4 900000      E     MOV     DPTR,#?_FLASHDataBufferRead?BYTE+05H
+00F7 E4                CLR     A
+00F8 F0                MOVX    @DPTR,A
+00F9 A3                INC     DPTR
+00FA 7480              MOV     A,#080H
+00FC F0                MOVX    @DPTR,A
+00FD 120000      E     LCALL   _FLASHDataBufferRead
+                                           ; SOURCE LINE # 192
+0100 E4                CLR     A
+0101 900000      R     MOV     DPTR,#k
+0104 F0                MOVX    @DPTR,A
+0105 A3                INC     DPTR
+0106 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 193
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 32  
+
+0107 A3                INC     DPTR
+0108 F0                MOVX    @DPTR,A
+0109         ?C0062:
+0109 900000      R     MOV     DPTR,#j
+010C E0                MOVX    A,@DPTR
+010D FF                MOV     R7,A
+010E C3                CLR     C
+010F 9480              SUBB    A,#080H
+0111 7480              MOV     A,#080H
+0113 9480              SUBB    A,#080H
+0115 5021              JNC     ?C0063
+                                           ; SOURCE LINE # 194
+                                           ; SOURCE LINE # 195
+0117 7400        R     MOV     A,#LOW rbuf
+0119 2F                ADD     A,R7
+011A F582              MOV     DPL,A
+011C E4                CLR     A
+011D 3400        R     ADDC    A,#HIGH rbuf
+011F F583              MOV     DPH,A
+0121 E0                MOVX    A,@DPTR
+0122 FF                MOV     R7,A
+0123 900000      R     MOV     DPTR,#k+01H
+0126 E0                MOVX    A,@DPTR
+0127 2F                ADD     A,R7
+0128 F0                MOVX    @DPTR,A
+0129 900000      R     MOV     DPTR,#k
+012C E0                MOVX    A,@DPTR
+012D 3400              ADDC    A,#00H
+012F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 196
+0130 900000      R     MOV     DPTR,#j
+0133 E0                MOVX    A,@DPTR
+0134 04                INC     A
+0135 F0                MOVX    @DPTR,A
+0136 80D1              SJMP    ?C0062
+0138         ?C0063:
+                                           ; SOURCE LINE # 198
+0138 900000      R     MOV     DPTR,#k
+013B E0                MOVX    A,@DPTR
+013C 900000      R     MOV     DPTR,#j
+013F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 199
+0140 7BFF              MOV     R3,#0FFH
+0142 7A00        R     MOV     R2,#HIGH ?SC_78
+0144 7900        R     MOV     R1,#LOW ?SC_78
+0146 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+0149 F0                MOVX    @DPTR,A
+014A 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 200
+014D 900000      R     MOV     DPTR,#k
+0150 A3                INC     DPTR
+0151 E0                MOVX    A,@DPTR
+0152 A3                INC     DPTR
+0153 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 201
+0154 7BFF              MOV     R3,#0FFH
+0156 7A00        R     MOV     R2,#HIGH ?SC_83
+0158 7900        R     MOV     R1,#LOW ?SC_83
+015A 900000      E     MOV     DPTR,#?_printf?BYTE+03H
+015D F0                MOVX    @DPTR,A
+015E 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 202
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 33  
+
+                                           ; SOURCE LINE # 203
+0161 120000      R     LCALL   L?0094
+                                           ; SOURCE LINE # 204
+0164 900000      R     MOV     DPTR,#i+01H
+0167 E0                MOVX    A,@DPTR
+0168 04                INC     A
+0169 F0                MOVX    @DPTR,A
+016A 6003              JZ      $ + 5H
+016C 020000      R     LJMP    ?C0056
+016F 900000      R     MOV     DPTR,#i
+0172 E0                MOVX    A,@DPTR
+0173 04                INC     A
+0174 F0                MOVX    @DPTR,A
+0175         ?C0091:
+0175 020000      R     LJMP    ?C0056
+                                           ; SOURCE LINE # 205
+0178         ?C0065:
+0178 22                RET     
+             ; FUNCTION FlashCkSumTestData (END)
+
+             ; FUNCTION Uart0Mode1 (BEGIN)
+                                           ; SOURCE LINE # 212
+                                           ; SOURCE LINE # 213
+                                           ; SOURCE LINE # 214
+0000 C29F              CLR     SM00
+                                           ; SOURCE LINE # 215
+0002 D29E              SETB    SM10
+                                           ; SOURCE LINE # 216
+0004 D29C              SETB    REN0
+                                           ; SOURCE LINE # 217
+0006 C298              CLR     RI0
+                                           ; SOURCE LINE # 218
+0008 C299              CLR     TI0
+                                           ; SOURCE LINE # 222
+000A C2CA              CLR     TR2
+                                           ; SOURCE LINE # 223
+000C E4                CLR     A
+000D F5C9              MOV     T2MOD,A
+                                           ; SOURCE LINE # 224
+000F 75CAFE            MOV     T2CL,#0FEH
+                                           ; SOURCE LINE # 225
+0012 75CBFF            MOV     T2CH,#0FFH
+                                           ; SOURCE LINE # 226
+0015 85CACC            MOV     TL2,T2CL
+                                           ; SOURCE LINE # 227
+0018 85CBCD            MOV     TH2,T2CH
+                                           ; SOURCE LINE # 228
+001B D2CA              SETB    TR2
+                                           ; SOURCE LINE # 229
+001D D2CD              SETB    RCLK
+                                           ; SOURCE LINE # 230
+001F D2CC              SETB    TCLK
+                                           ; SOURCE LINE # 231
+0021 22                RET     
+             ; FUNCTION Uart0Mode1 (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 234
+                                           ; SOURCE LINE # 235
+                                           ; SOURCE LINE # 236
+0000 E4                CLR     A
+0001 F586              MOV     SCCON,A
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 34  
+
+                                           ; SOURCE LINE # 237
+0003 439680            ORL     HRCON,#080H
+                                           ; SOURCE LINE # 239
+0006 120000      R     LCALL   delay_1ms
+                                           ; SOURCE LINE # 242
+0009 908008            MOV     DPTR,#08008H
+000C 7402              MOV     A,#02H
+000E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 243
+000F 908007            MOV     DPTR,#08007H
+0012 7407              MOV     A,#07H
+0014 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 244
+0015 908006            MOV     DPTR,#08006H
+0018 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 247
+0019 120000      R     LCALL   Uart0Mode1
+                                           ; SOURCE LINE # 248
+001C 7BFF              MOV     R3,#0FFH
+001E 7A00        R     MOV     R2,#HIGH ?SC_99
+0020 7900        R     MOV     R1,#LOW ?SC_99
+0022 120000      E     LCALL   _printf
+                                           ; SOURCE LINE # 252
+0025 120000      R     LCALL   FlashCodeEraseTest
+                                           ; SOURCE LINE # 255
+0028 120000      R     LCALL   FlashCkSumTestCode
+                                           ; SOURCE LINE # 256
+002B 120000      R     LCALL   FlashCkSumTestData
+002E         ?C0067:
+                                           ; SOURCE LINE # 258
+                                           ; SOURCE LINE # 259
+                                           ; SOURCE LINE # 260
+002E B290              CPL     P10
+                                           ; SOURCE LINE # 261
+0030 7FE8              MOV     R7,#0E8H
+0032 7E03              MOV     R6,#03H
+0034 120000      R     LCALL   _delay
+                                           ; SOURCE LINE # 262
+0037 80F5              SJMP    ?C0067
+             ; FUNCTION main (END)
+
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 35  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+SM00 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+SM10 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+delay_1ms. . . . . . . . . . . . . . .  STATIC   CODE   PROC     0000H  -----
+  j. . . . . . . . . . . . . . . . . .  * REG *  DATA   INT      0006H  2
+FlashCodeEraseTest . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0000H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0002H  2
+  k. . . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0004H  2
+int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+Uart0Mode1 . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+_delay . . . . . . . . . . . . . . . .  STATIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0000H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  LONG     0002H  4
+size_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+T2CH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+REN0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+T2CL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+_printf. . . . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+EPIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+EXIE . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E8H  1
+u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+RCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+TCLK . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+rbuf . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0000H  128
+P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+EXIP . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F8H  1
+buf. . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0080H  128
+_FLASHDataBufferRead . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+_FLASHCodeBufferRead . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+RI0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+TI0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+TH2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TL2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+_writeHex. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0006H  -----
+  num. . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0006H  1
+  i. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+_FLASHDataBufferWrite. . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+_FLASHCodeBufferWrite. . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+_FlashDataErase. . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+S0BUF. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+_FlashCodeErase. . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+S0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+ADCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
+C51 COMPILER V9.59.0.0   MAIN                                                              02/10/2022 13:43:59 PAGE 36  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+T2MOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
+T2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+FlashCkSumTestData . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  k. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0002H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0004H  1
+SCCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
+FlashCkSumTestCode . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  i. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  k. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0002H  2
+  j. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0004H  1
+_putchar . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  ch . . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0006H  1
+HRCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
+_UART0_write . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0007H  -----
+  dat. . . . . . . . . . . . . . . . .  * REG *  DATA   CHAR     0007H  1
+uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1799    ----
+   CONSTANT SIZE    =    109    ----
+   XDATA SIZE       =    256      22
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

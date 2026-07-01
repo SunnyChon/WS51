@@ -1,0 +1,677 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    07/26/2021  16:11:07  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\main.obj, .\Objects\nvr.obj TO .\Objects\TestPro PRINT (.\L
+>> istings\TestPro.m51) IXREF RAMSIZE (256)
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\main.obj (MAIN)
+  .\Objects\nvr.obj (NVR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDOPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CSTOPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?IMUL)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?UIDIV)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?SLCMP)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?ULCMP)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LSTXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?LSTKXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (PRINTF)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CSTPTR)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?PLDIXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?PSTXDATA)
+  C:\KEIL_V5\C51\LIB\C51L.LIB (?C?CCASE)
+
+
+LINK MAP OF MODULE:  .\Objects\TestPro (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         _DATA_GROUP_
+                    000DH     0013H                  *** GAP ***
+            BIT     0020H.0   0001H.1   UNIT         _BIT_GROUP_
+                    0021H.1   0000H.7                *** GAP ***
+            IDATA   0022H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0100H     UNIT         ?XD?MAIN
+            XDATA   0100H     002DH     UNIT         _XDATA_GROUP_
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0B7CH     UNIT         ?PR?NVRCASETEST?MAIN
+            CODE    0B7FH     0365H     UNIT         ?PR?PRINTF?PRINTF
+            CODE    0EE4H     018BH     UNIT         ?C?LIB_CODE
+            CODE    106FH     0138H     UNIT         ?PR?NVRCKSUMTEST?MAIN
+            CODE    11A7H     0109H     UNIT         ?C_INITSEG
+            CODE    12B0H     008CH     UNIT         ?C_C51STARTUP
+            CODE    133CH     0080H     UNIT         ?PR?_WRITEDATANVR?NVR
+            CODE    13BCH     0076H     UNIT         ?PR?_READDATAFROMNVR?NVR
+            CODE    1432H     0072H     UNIT         ?PR?_DELAY_MS?MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 2
+
+
+            CODE    14A4H     005FH     UNIT         ?PR?_DELAY?MAIN
+            CODE    1503H     0038H     UNIT         ?PR?_WRITEHEX?MAIN
+            CODE    153BH     0036H     UNIT         ?PR?MAIN?MAIN
+            CODE    1571H     0034H     UNIT         ?CO?MAIN
+            CODE    15A5H     0022H     UNIT         ?PR?UART0MODE1?MAIN
+            CODE    15C7H     001BH     UNIT         ?PR?_ERASENVR?NVR
+            CODE    15E2H     000FH     UNIT         ?PR?DELAY_1MS?MAIN
+            CODE    15F1H     0008H     UNIT         ?PR?_UART0_WRITE?MAIN
+            CODE    15F9H     0005H     UNIT         ?PR?_PUTCHAR?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\TestPro (?C_STARTUP)
+
+
+SEGMENT                             BIT_GROUP          DATA_GROUP          XDATA_GROUP
+  +--> CALLED SEGMENT            START    LENGTH     START    LENGTH     START    LENGTH
+----------------------------------------------------------------------------------------
+?C_C51STARTUP                    -----    -----      -----    -----      -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                    -----    -----      -----    -----      -----    -----
+  +--> ?PR?DELAY_1MS?MAIN
+  +--> ?PR?UART0MODE1?MAIN
+  +--> ?CO?MAIN
+  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?NVRCASETEST?MAIN
+  +--> ?PR?NVRCKSUMTEST?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+?PR?PRINTF?PRINTF                0020H.0  0001H.1    0008H    0005H      0105H    0028H
+  +--> ?PR?_PUTCHAR?MAIN
+
+?PR?_PUTCHAR?MAIN                -----    -----      -----    -----      -----    -----
+  +--> ?PR?_UART0_WRITE?MAIN
+
+?PR?NVRCASETEST?MAIN             -----    -----      -----    -----      0100H    0002H
+  +--> ?PR?_ERASENVR?NVR
+  +--> ?PR?_DELAY_MS?MAIN
+  +--> ?PR?_WRITEDATANVR?NVR
+  +--> ?PR?_READDATAFROMNVR?NVR
+  +--> ?CO?MAIN
+  +--> ?PR?PRINTF?PRINTF
+
+?PR?_DELAY_MS?MAIN               -----    -----      -----    -----      0102H    0006H
+
+?PR?_WRITEDATANVR?NVR            -----    -----      -----    -----      0102H    0008H
+
+?PR?_READDATAFROMNVR?NVR         -----    -----      -----    -----      0105H    0008H
+
+?PR?NVRCKSUMTEST?MAIN            -----    -----      -----    -----      0100H    0005H
+  +--> ?CO?MAIN
+  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?_READDATAFROMNVR?NVR
+  +--> ?PR?_UART0_WRITE?MAIN
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 3
+
+
+?PR?_DELAY?MAIN                  -----    -----      -----    -----      0100H    0006H
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\TestPro (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:12B0H         SEGMENT       ?C_C51STARTUP
+  I:0022H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:12B3H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:12B0H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:12B0H         LINE#         133
+  C:12B2H         LINE#         134
+  C:12B3H         LINE#         135
+  C:12B4H         LINE#         136
+  C:12B6H         LINE#         185
+  C:12B9H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  B:0098H.7       PUBLIC        SM00
+  D:0090H         PUBLIC        P1
+  B:0098H.6       PUBLIC        SM10
+  D:00A0H         PUBLIC        P2
+  C:15E2H         SYMBOL        delay_1ms
+  C:15A5H         PUBLIC        Uart0Mode1
+  D:00A8H         PUBLIC        IE
+  C:14A4H         SYMBOL        _delay
+  D:00CBH         PUBLIC        T2CH
+  B:0098H.4       PUBLIC        REN0
+  D:00CAH         PUBLIC        T2CL
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 4
+
+
+  C:0003H         PUBLIC        NVRCaseTest
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        EPIE
+  C:153BH         PUBLIC        main
+  D:00E8H         PUBLIC        EXIE
+  B:00C8H.5       PUBLIC        RCLK
+  B:00C8H.4       PUBLIC        TCLK
+  X:0000H         PUBLIC        rbuf
+  B:0090H.0       PUBLIC        P10
+  D:0088H         PUBLIC        TCON
+  D:00F8H         PUBLIC        EXIP
+  X:0080H         PUBLIC        buf
+  B:0098H.0       PUBLIC        RI0
+  B:0098H.1       PUBLIC        TI0
+  D:00CDH         PUBLIC        TH2
+  D:00CCH         PUBLIC        TL2
+  C:1436H         PUBLIC        _delay_ms
+  C:1503H         PUBLIC        _writeHex
+  B:00C8H.2       PUBLIC        TR2
+  C:106FH         PUBLIC        nvrCkSumTest
+  D:0099H         PUBLIC        S0BUF
+  D:0098H         PUBLIC        S0CON
+  D:00C0H         PUBLIC        ADCON
+  D:00C9H         PUBLIC        T2MOD
+  D:00C8H         PUBLIC        T2CON
+  D:0086H         PUBLIC        SCCON
+  C:15F9H         PUBLIC        _putchar
+  D:0096H         PUBLIC        HRCON
+  C:15F1H         PUBLIC        _UART0_write
+  -------         PROC          DELAY_1MS
+  -------         DO            
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:15E2H         LINE#         15
+  C:15E2H         LINE#         16
+  C:15E2H         LINE#         18
+  C:15F0H         LINE#         19
+  -------         ENDPROC       DELAY_1MS
+  C:1432H         SYMBOL        L?0189
+  -------         PROC          L?0188
+  -------         ENDPROC       L?0188
+  C:1432H         SYMBOL        L?0189
+  -------         PROC          _DELAY_MS
+  X:0102H         SYMBOL        i
+  -------         DO            
+  X:0104H         SYMBOL        j
+  -------         ENDDO         
+  C:1436H         LINE#         20
+  C:143EH         LINE#         21
+  C:143EH         LINE#         22
+  C:1446H         LINE#         23
+  C:14A3H         LINE#         24
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          _DELAY
+  X:0100H         SYMBOL        i
+  -------         DO            
+  X:0102H         SYMBOL        j
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 5
+
+
+  -------         ENDDO         
+  C:14A4H         LINE#         26
+  C:14ACH         LINE#         27
+  C:14ACH         LINE#         29
+  C:1502H         LINE#         30
+  -------         ENDPROC       _DELAY
+  -------         PROC          _UART0_WRITE
+  D:0007H         SYMBOL        dat
+  C:15F1H         LINE#         39
+  C:15F1H         LINE#         40
+  C:15F1H         LINE#         41
+  C:15F3H         LINE#         42
+  C:15F6H         LINE#         43
+  C:15F8H         LINE#         44
+  -------         ENDPROC       _UART0_WRITE
+  -------         PROC          _PUTCHAR
+  D:0006H         SYMBOL        ch
+  C:15F9H         LINE#         49
+  C:15FBH         LINE#         50
+  C:15FBH         LINE#         52
+  -------         ENDPROC       _PUTCHAR
+  -------         PROC          _WRITEHEX
+  D:0006H         SYMBOL        num
+  -------         DO            
+  D:0005H         SYMBOL        i
+  -------         ENDDO         
+  C:1503H         LINE#         63
+  C:1505H         LINE#         64
+  C:1505H         LINE#         65
+  C:1505H         LINE#         66
+  C:150AH         LINE#         67
+  C:1518H         LINE#         68
+  C:151EH         LINE#         69
+  C:1522H         LINE#         70
+  C:1530H         LINE#         71
+  C:1536H         LINE#         72
+  -------         ENDPROC       _WRITEHEX
+  -------         PROC          UART0MODE1
+  C:15A5H         LINE#         80
+  C:15A5H         LINE#         81
+  C:15A5H         LINE#         82
+  C:15A7H         LINE#         83
+  C:15A9H         LINE#         84
+  C:15ABH         LINE#         85
+  C:15ADH         LINE#         86
+  C:15AFH         LINE#         96
+  C:15B1H         LINE#         97
+  C:15B4H         LINE#         98
+  C:15B7H         LINE#         99
+  C:15BAH         LINE#         100
+  C:15BDH         LINE#         101
+  C:15C0H         LINE#         102
+  C:15C2H         LINE#         103
+  C:15C4H         LINE#         104
+  C:15C6H         LINE#         105
+  -------         ENDPROC       UART0MODE1
+  -------         PROC          NVRCASETEST
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 6
+
+
+  -------         DO            
+  X:0100H         SYMBOL        i
+  -------         ENDDO         
+  C:0003H         LINE#         116
+  C:0003H         LINE#         117
+  C:0003H         LINE#         121
+  C:0009H         LINE#         122
+  C:000CH         LINE#         123
+  C:0042H         LINE#         124
+  C:0057H         LINE#         125
+  C:008CH         LINE#         126
+  C:00A1H         LINE#         127
+  C:00A4H         LINE#         128
+  C:00BDH         LINE#         129
+  C:00ECH         LINE#         132
+  C:00F3H         LINE#         133
+  C:00F6H         LINE#         134
+  C:012CH         LINE#         135
+  C:0141H         LINE#         136
+  C:0176H         LINE#         137
+  C:018BH         LINE#         138
+  C:018EH         LINE#         139
+  C:0195H         LINE#         140
+  C:01E0H         LINE#         143
+  C:01E7H         LINE#         144
+  C:01EAH         LINE#         145
+  C:0220H         LINE#         146
+  C:0236H         LINE#         147
+  C:026BH         LINE#         148
+  C:0281H         LINE#         149
+  C:0284H         LINE#         150
+  C:028BH         LINE#         151
+  C:02D7H         LINE#         154
+  C:02DEH         LINE#         155
+  C:02E1H         LINE#         156
+  C:0317H         LINE#         157
+  C:032CH         LINE#         158
+  C:0361H         LINE#         159
+  C:0376H         LINE#         160
+  C:0379H         LINE#         161
+  C:0380H         LINE#         162
+  C:03CCH         LINE#         165
+  C:03D3H         LINE#         166
+  C:03D6H         LINE#         167
+  C:040CH         LINE#         168
+  C:0422H         LINE#         169
+  C:0457H         LINE#         170
+  C:046DH         LINE#         171
+  C:0470H         LINE#         172
+  C:0477H         LINE#         173
+  C:04C3H         LINE#         176
+  C:04CAH         LINE#         177
+  C:04CDH         LINE#         178
+  C:0503H         LINE#         179
+  C:0518H         LINE#         180
+  C:054DH         LINE#         181
+  C:0562H         LINE#         182
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 7
+
+
+  C:0565H         LINE#         183
+  C:056CH         LINE#         184
+  C:05B8H         LINE#         187
+  C:05BFH         LINE#         188
+  C:05C2H         LINE#         189
+  C:05F8H         LINE#         190
+  C:060EH         LINE#         191
+  C:0643H         LINE#         192
+  C:0659H         LINE#         193
+  C:065CH         LINE#         194
+  C:0663H         LINE#         195
+  C:06AFH         LINE#         198
+  C:06B6H         LINE#         199
+  C:06B9H         LINE#         200
+  C:06EFH         LINE#         201
+  C:0704H         LINE#         202
+  C:0739H         LINE#         203
+  C:074EH         LINE#         204
+  C:0751H         LINE#         205
+  C:0758H         LINE#         206
+  C:07A4H         LINE#         209
+  C:07ABH         LINE#         210
+  C:07AEH         LINE#         211
+  C:07E4H         LINE#         212
+  C:07FAH         LINE#         213
+  C:082FH         LINE#         214
+  C:0845H         LINE#         215
+  C:0848H         LINE#         216
+  C:084FH         LINE#         217
+  C:089BH         LINE#         220
+  C:08A2H         LINE#         221
+  C:08A5H         LINE#         222
+  C:08DBH         LINE#         223
+  C:08F0H         LINE#         224
+  C:0925H         LINE#         225
+  C:093AH         LINE#         226
+  C:093DH         LINE#         227
+  C:0944H         LINE#         228
+  C:0990H         LINE#         231
+  C:0997H         LINE#         232
+  C:099AH         LINE#         233
+  C:09D0H         LINE#         234
+  C:09E6H         LINE#         235
+  C:0A1BH         LINE#         236
+  C:0A31H         LINE#         237
+  C:0A34H         LINE#         238
+  C:0A3BH         LINE#         239
+  C:0A87H         LINE#         242
+  C:0A8EH         LINE#         243
+  C:0A91H         LINE#         244
+  C:0AC7H         LINE#         245
+  C:0ADDH         LINE#         246
+  C:0B12H         LINE#         247
+  C:0B28H         LINE#         248
+  C:0B2BH         LINE#         249
+  C:0B32H         LINE#         250
+  C:0B7EH         LINE#         251
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 8
+
+
+  -------         ENDPROC       NVRCASETEST
+  -------         PROC          NVRCKSUMTEST
+  -------         DO            
+  X:0100H         SYMBOL        i
+  X:0102H         SYMBOL        k
+  X:0104H         SYMBOL        j
+  -------         ENDDO         
+  C:106FH         LINE#         259
+  C:106FH         LINE#         260
+  C:106FH         LINE#         263
+  C:1076H         LINE#         264
+  C:1076H         LINE#         265
+  C:1086H         LINE#         266
+  C:1095H         LINE#         267
+  C:109BH         LINE#         268
+  C:10C3H         LINE#         271
+  C:10F6H         LINE#         272
+  C:111BH         LINE#         273
+  C:1122H         LINE#         274
+  C:1132H         LINE#         275
+  C:1132H         LINE#         276
+  C:114BH         LINE#         277
+  C:1153H         LINE#         279
+  C:115BH         LINE#         280
+  C:1168H         LINE#         281
+  C:116FH         LINE#         282
+  C:117CH         LINE#         283
+  C:1181H         LINE#         284
+  C:1186H         LINE#         285
+  C:11A6H         LINE#         286
+  -------         ENDPROC       NVRCKSUMTEST
+  -------         PROC          MAIN
+  C:153BH         LINE#         288
+  C:153BH         LINE#         289
+  C:153BH         LINE#         290
+  C:153EH         LINE#         291
+  C:1541H         LINE#         292
+  C:1544H         LINE#         295
+  C:154AH         LINE#         296
+  C:1550H         LINE#         297
+  C:1554H         LINE#         300
+  C:1557H         LINE#         301
+  C:1560H         LINE#         303
+  C:1563H         LINE#         304
+  C:1566H         LINE#         306
+  C:1566H         LINE#         307
+  C:1566H         LINE#         308
+  C:1568H         LINE#         309
+  C:156FH         LINE#         310
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        NVR
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 9
+
+
+  C:133CH         PUBLIC        _WriteDataNVR
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        EPIE
+  D:00E8H         PUBLIC        EXIE
+  D:0088H         PUBLIC        TCON
+  D:00F8H         PUBLIC        EXIP
+  C:13BCH         PUBLIC        _readDatafromNVR
+  D:0098H         PUBLIC        S0CON
+  D:00C0H         PUBLIC        ADCON
+  D:00C8H         PUBLIC        T2CON
+  C:15C7H         PUBLIC        _EraseNVR
+  -------         PROC          _ERASENVR
+  D:0006H         SYMBOL        SectorAddr
+  C:15C7H         LINE#         20
+  C:15C7H         LINE#         21
+  C:15C7H         LINE#         23
+  C:15CDH         LINE#         26
+  C:15D2H         LINE#         27
+  C:15D5H         LINE#         29
+  C:15DBH         LINE#         31
+  C:15E1H         LINE#         32
+  -------         ENDPROC       _ERASENVR
+  -------         PROC          _WRITEDATANVR
+  X:0102H         SYMBOL        buf
+  X:0105H         SYMBOL        SectorAddr
+  X:0107H         SYMBOL        len
+  -------         DO            
+  X:0109H         SYMBOL        i
+  -------         ENDDO         
+  C:133CH         LINE#         41
+  C:134DH         LINE#         42
+  C:134DH         LINE#         43
+  C:1352H         LINE#         45
+  C:1358H         LINE#         47
+  C:135EH         LINE#         48
+  C:1376H         LINE#         49
+  C:1376H         LINE#         51
+  C:1381H         LINE#         52
+  C:1384H         LINE#         53
+  C:1392H         LINE#         55
+  C:13ADH         LINE#         56
+  C:13B5H         LINE#         58
+  C:13BBH         LINE#         59
+  -------         ENDPROC       _WRITEDATANVR
+  -------         PROC          _READDATAFROMNVR
+  X:0105H         SYMBOL        buf
+  X:0108H         SYMBOL        SectorAddr
+  X:010AH         SYMBOL        len
+  -------         DO            
+  X:010CH         SYMBOL        i
+  -------         ENDDO         
+  C:13BCH         LINE#         69
+  C:13CDH         LINE#         70
+  C:13CDH         LINE#         71
+  C:13D2H         LINE#         73
+  C:13D8H         LINE#         74
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 10
+
+
+  C:13F0H         LINE#         75
+  C:13F0H         LINE#         77
+  C:13FBH         LINE#         78
+  C:13FEH         LINE#         79
+  C:140CH         LINE#         81
+  C:1429H         LINE#         82
+  C:1431H         LINE#         83
+  -------         ENDPROC       _READDATAFROMNVR
+  -------         ENDMOD        NVR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:0EE4H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTOPTR
+  C:0F11H         PUBLIC        ?C?CSTOPTR
+  -------         ENDMOD        ?C?CSTOPTR
+
+  -------         MODULE        ?C?IMUL
+  C:0F33H         PUBLIC        ?C?IMUL
+  -------         ENDMOD        ?C?IMUL
+
+  -------         MODULE        ?C?UIDIV
+  C:0F45H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?SLCMP
+  C:0F9AH         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+  -------         MODULE        ?C?ULCMP
+  C:0FB0H         PUBLIC        ?C?ULCMP
+  -------         ENDMOD        ?C?ULCMP
+
+  -------         MODULE        ?C?LSTXDATA
+  C:0FC1H         PUBLIC        ?C?LSTXDATA
+  -------         ENDMOD        ?C?LSTXDATA
+
+  -------         MODULE        ?C?LSTKXDATA
+  C:0FCDH         PUBLIC        ?C?LSTKXDATA
+  -------         ENDMOD        ?C?LSTKXDATA
+
+  -------         MODULE        PRINTF
+  X:0105H         PUBLIC        ?_PRINTF517?BYTE
+  X:0105H         PUBLIC        ?_PRINTF?BYTE
+  X:0105H         PUBLIC        ?_SPRINTF517?BYTE
+  X:0105H         PUBLIC        ?_SPRINTF?BYTE
+  C:0BEAH         PUBLIC        _PRINTF
+  C:0BEAH         PUBLIC        _PRINTF517
+  C:0BE4H         PUBLIC        _SPRINTF
+  C:0BE4H         PUBLIC        _SPRINTF517
+  -------         ENDMOD        PRINTF
+
+  -------         MODULE        ?C?CLDPTR
+  C:0FFEH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 11
+
+
+  -------         MODULE        ?C?CSTPTR
+  C:1017H         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?PLDIXDATA
+  C:1029H         PUBLIC        ?C?PLDIXDATA
+  -------         ENDMOD        ?C?PLDIXDATA
+
+  -------         MODULE        ?C?PSTXDATA
+  C:1040H         PUBLIC        ?C?PSTXDATA
+  -------         ENDMOD        ?C?PSTXDATA
+
+  -------         MODULE        ?C?CCASE
+  C:1049H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+
+NAME . . . . . . . . . . USAGE    MODULE NAMES
+----------------------------------------------
+
+?C?CCASE . . . . . . . . CODE;    ?C?CCASE  PRINTF  
+?C?CLDOPTR . . . . . . . CODE;    ?C?CLDOPTR  NVR  PRINTF  
+?C?CLDPTR. . . . . . . . CODE;    ?C?CLDPTR  PRINTF  
+?C?CSTOPTR . . . . . . . CODE;    ?C?CSTOPTR  NVR  
+?C?CSTPTR. . . . . . . . CODE;    ?C?CSTPTR  PRINTF  
+?C?IMUL. . . . . . . . . CODE;    ?C?IMUL  MAIN  
+?C?LSTKXDATA . . . . . . CODE;    ?C?LSTKXDATA  MAIN  
+?C?LSTXDATA. . . . . . . CODE;    ?C?LSTXDATA  MAIN  
+?C?PLDIXDATA . . . . . . CODE;    ?C?PLDIXDATA  PRINTF  
+?C?PSTXDATA. . . . . . . CODE;    ?C?PSTXDATA  PRINTF  
+?C?SLCMP . . . . . . . . CODE;    ?C?SLCMP  MAIN  
+?C?UIDIV . . . . . . . . CODE;    ?C?UIDIV  MAIN  
+?C?ULCMP . . . . . . . . CODE;    ?C?ULCMP  MAIN  
+?C_INITSEGSTART. . . . . CODE;    ** L51 GENERATED **  
+?C_START . . . . . . . . CODE;    ?C_INIT  ?C_STARTUP  
+?C_STARTUP . . . . . . . CODE;    ?C_STARTUP  MAIN  
+?_PRINTF517?BYTE . . . . XDATA;   PRINTF  
+?_PRINTF?BYTE. . . . . . XDATA;   PRINTF  MAIN  
+?_READDATAFROMNVR?BYTE . XDATA;   NVR  MAIN  
+?_SPRINTF517?BYTE. . . . XDATA;   PRINTF  
+?_SPRINTF?BYTE . . . . . XDATA;   PRINTF  
+?_WRITEDATANVR?BYTE. . . XDATA;   NVR  MAIN  
+BUF. . . . . . . . . . . XDATA;   MAIN  
+MAIN . . . . . . . . . . CODE;    MAIN  ?C_INIT  
+NVRCASETEST. . . . . . . CODE;    MAIN  
+NVRCKSUMTEST . . . . . . CODE;    MAIN  
+RBUF . . . . . . . . . . XDATA;   MAIN  
+UART0MODE1 . . . . . . . CODE;    MAIN  
+_DELAY_MS. . . . . . . . CODE;    MAIN  
+_ERASENVR. . . . . . . . CODE;    NVR  MAIN  
+_PRINTF. . . . . . . . . CODE;    PRINTF  MAIN  
+_PRINTF517 . . . . . . . CODE;    PRINTF  
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/26/2021  16:11:07  PAGE 12
+
+
+_PUTCHAR . . . . . . . . CODE;    MAIN  PRINTF  
+_READDATAFROMNVR . . . . CODE;    NVR  MAIN  
+_SPRINTF . . . . . . . . CODE;    PRINTF  
+_SPRINTF517. . . . . . . CODE;    PRINTF  
+_UART0_WRITE . . . . . . CODE;    MAIN  
+_WRITEDATANVR. . . . . . CODE;    NVR  MAIN  
+_WRITEHEX. . . . . . . . CODE;    MAIN  
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITEHEX?MAIN
+
+Program Size: data=15.1 xdata=301 code=5630
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

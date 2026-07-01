@@ -1,0 +1,1 @@
+"nvr.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\nvr.lst) PREPRINT(.\Listings\nvr.i) OBJECT(.\Objects\nvr.obj)

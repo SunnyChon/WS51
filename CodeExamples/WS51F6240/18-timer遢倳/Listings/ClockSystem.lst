@@ -1,0 +1,153 @@
+C51 COMPILER V9.59.0.0   CLOCKSYSTEM                                                       06/10/2019 14:37:43 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CLOCKSYSTEM
+OBJECT MODULE PLACED IN .\Objects\ClockSystem.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\C51\BIN\C51.EXE hareware\ClockSystem.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\hareware) D
+                    -EBUG OBJECTEXTEND PRINT(.\Listings\ClockSystem.lst) OBJECT(.\Objects\ClockSystem.obj)
+
+line level    source
+
+   1           /**
+   2            ******************************************************************************
+   3            * @file    
+   4            * @author  zfr
+   5            * @version V1.0
+   6            * @date    2019-05-16
+   7            * @brief   
+   8            ******************************************************************************
+   9            * @attention
+  10            *     
+  11            *
+  12            *
+  13            ******************************************************************************
+  14            */
+  15            
+  16          #include "ClockSystem.h"
+  17          
+  18          void InitHRC(unsigned char sval)
+  19          {
+  20   1          /* 内部HRC时钟源,sval(0~15)分频 */
+  21   1              // HRC is the default Clock
+  22   1              if(sval>16) return; /* fractional frequency fault */    
+  23   1          
+  24   1          HCLK_H();           /* select HRC or HOSC */
+  25   1          HRE_HRC();          /* seclect HRC */
+  26   1          HCLK_DIV(sval-1);   /* set fractional frequency */
+  27   1          HRE_EN();           /* enable HRC */
+  28   1      }
+  29          
+  30          void InitMRC(unsigned char sval)
+  31          {
+  32   1          /* 内部 1~4MHz RC 振荡器 MRC ????*/ 
+  33   1              if(sval>16) return; /* fractional frequency fault */
+  34   1      ////    
+  35   1      ////    // select MRC
+  36   1      ////    HCLK_M();
+  37   1      ////    HCLK_DIV(sval-1);   /* set fractional frequency */;
+  38   1      ////    // enable MRE
+  39   1      ////    MRE_EN();
+  40   1              
+  41   1      }
+  42          
+  43          void InitLRC(unsigned char sval)
+  44          {
+  45   1          /* 内部 32KHz RC 振荡器 LRC */
+  46   1              if(sval>16) return; /* fractional frequency fault */
+  47   1          
+  48   1              // select LOSC or LRC
+  49   1              HCLK_L();
+  50   1              // seclect LRC
+  51   1              LRE_LRC();
+  52   1              HCLK_DIV(sval-1);   /* set fractional frequency */
+  53   1              // enable HRC
+  54   1              LRE_EN();
+C51 COMPILER V9.59.0.0   CLOCKSYSTEM                                                       06/10/2019 14:37:43 PAGE 2   
+
+  55   1      }
+  56          
+  57          void InitHOSC(unsigned char sval)
+  58          {
+  59   1              /* 外部 1~16MHz 晶体振荡器（HOSC） */
+  60   1              if(sval>16) return;//fractional frequency fault
+  61   1          
+  62   1              // select HRC or HOSC
+  63   1              HCLK_H();    
+  64   1              //waiting for HOSC to be stable
+  65   1              while(HOSC_STABLE != 1);    
+  66   1              // seclect HOSC
+  67   1              HRE_HOSC();
+  68   1              // set fractional frequency
+  69   1              HCLK_DIV(sval-1);    
+  70   1              // enable HOSC
+  71   1              HOSC_EN();
+  72   1              
+  73   1      }
+  74          void InitLOSC(unsigned char sval)
+  75          {
+  76   1              if(sval>16) return;//fractional frequency fault
+  77   1              // select LOSC or LRC
+  78   1              HCLK_L();
+  79   1              //waiting for LOSC to be stable
+  80   1              while(LOSC_STABLE != 1);
+  81   1              // seclect LOSC
+  82   1              LRE_LOSC();
+  83   1              // set fractional frequency
+  84   1              HCLK_DIV(sval-1);
+  85   1              // enable HOSC
+  86   1              HOSC_EN();
+  87   1              
+  88   1      }
+  89          
+  90          //========================================================================
+  91          // 函数: void Init_sysclk(u8 sysclk,u8 sval)
+  92          // 描述: 
+  93          // 参数: sysclk:系统时钟选择(SYSCLK_HRC,SYSCLK_MRC,SYSCLK_LRC,SYSCLK_HOSC,SYSCLK_LOSC),
+  94          //       sval:分频系数(取值1-16)
+  95          // 返回: 
+  96          // 版本: 
+  97          //========================================================================
+  98          void Init_sysclk(u8 sysclk,u8 sval)
+  99          {
+ 100   1          if(sysclk > SYSCLK_LOSC) sysclk = SYSCLK_HRC;
+ 101   1          
+ 102   1          if(SYSCLK_HRC == sysclk)
+ 103   1          {
+ 104   2              InitHRC(sval);
+ 105   2          }
+ 106   1          else if(SYSCLK_MRC == sysclk)
+ 107   1          {
+ 108   2              InitMRC(sval);
+ 109   2          } 
+ 110   1          else if(SYSCLK_LRC == sysclk)
+ 111   1          {
+ 112   2              InitLRC(sval);
+ 113   2          } 
+ 114   1          else if(SYSCLK_HOSC == sysclk)
+ 115   1          {
+ 116   2              InitHOSC(sval);
+C51 COMPILER V9.59.0.0   CLOCKSYSTEM                                                       06/10/2019 14:37:43 PAGE 3   
+
+ 117   2          } 
+ 118   1          else //SYSCLK_LOSC
+ 119   1          {
+ 120   2              InitLOSC(sval);
+ 121   2          }
+ 122   1          
+ 123   1      }
+ 124            
+ 125          /*********************************************END OF FILE**********************/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    188    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

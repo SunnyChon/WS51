@@ -1,0 +1,1 @@
+"hareware\WDT.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\WDT.lst) OBJECT(.\Objects\WDT.obj)

@@ -1,0 +1,7 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\Init.obj",
+".\Objects\PWM.obj",
+".\Objects\INT.obj" 
+TO ".\Objects\Test" 
+PRINT(".\Listings\Test.m51") RAMSIZE(256) 

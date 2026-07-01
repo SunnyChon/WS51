@@ -1,0 +1,1 @@
+"Include\PWM.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\..\headfile;.\Include) DEBUG OBJECTEXTEND PRINT(.\Listings\PWM.lst) OBJECT(.\Objects\PWM.obj)

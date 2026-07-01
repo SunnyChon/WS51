@@ -1,0 +1,2 @@
+现在时间是2020年11月25日 17:43:30:InitTarget HidReadData NACK error
+现在时间是2020年11月25日 17:43:31:StopTarget closehandle mutex 

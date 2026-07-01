@@ -1,0 +1,414 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(0,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEX
+                    -TEND PRINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /*********************************************************
+   2          *Copyright (C), 2020-2030, 深圳前海维晟智能技术有限公司
+   3          *文件名:        pwm.c
+   4          *作  者:        
+   5          *版  本:        
+   6          *日  期:        
+   7          *描  述:        
+   8          *备  注:     
+   9          **********************************************************/
+  10          #include "WS51F6240.h"  
+  11          #include "intrins.h"
+  12          #include <stdio.h>
+  13          
+  14          static void delay(int i)
+  15          {
+  16   1              long j;
+  17   1              for(j=0;j<10*i;++j);
+  18   1      }
+  19          static void delay_1ms(void)
+  20          {
+  21   1              int j;
+  22   1              for(j=0;j<1700;++j);
+  23   1      }
+  24          
+  25          unsigned char Tx_flag=0;
+  26          void UART1_write(signed char dat)
+  27          {
+  28   1          S1BUF = dat;            //Send data to UART buffer
+  29   1          while(TI1 != (S1CON&TI1));
+  30   1          //清TI1
+  31   1          S1CON &= ~TI1;
+  32   1      }
+  33          
+  34          ///重定向c库函数printf到串口，重定向后可使用printf函数
+  35          char putchar(char ch)
+  36          {
+  37   1          /* 发送一个字节数据到串口 */
+  38   1          UART1_write((signed char) ch);
+  39   1              
+  40   1          return ch;
+  41   1      }
+  42          /*****************************************************
+  43          *函数名称：void Uart1Mode1(void)
+  44          *函数功能：9600 波特率
+  45          *入口参数：
+  46          *出口参数：
+  47          *****************************************************/
+  48          void Uart1Mode1(void)
+  49          {
+  50   1          /*************** UART1 模式1（波特率：9600）****************/
+  51   1              S1CON = 0x80;   ///8位异步模式(1), +0x10/中断使能, +0x20/多机通信使能位, +0x40/串行接收使能位
+  52   1              S1RELL = 972;
+  53   1              S1RELH = 972>>8;        
+  54   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 2   
+
+  55          
+  56          /**********************************************************************************
+  57          **      WS51F0032 系列芯片最多可输出 8 路独立的 PWM 波形，
+  58          **      这 8 路 PWM 又可以两两结合，组成 4 组带 8 位死区控制的互补 PWM 输出。
+  59          **      PWM0~PWM5 这 6 通道 PWM 还具有刹车和掩模功能，可用于电机驱动。
+  60          ***********************************************************************************/
+  61          // 寄存器 PWMFLG0 标志
+  62          #define P0PIF0  0x01            //bit0 PWM0 计数器计数到最大值中断标志，仅中心对齐模式下有效
+  63          #define P0ZIF0  0x02    //bit1 PWM0 计数器计数到 0 中断标志
+  64          #define P1ZIF0  0x08    //bit3 PWM1 计数器计数到 0 中断标志
+  65          #define P2PIF0  0x10    //bit4 PWM2 计数器计数到最大值中断标志，仅中心对齐模式下有效
+  66          #define P2ZIF0  0x20    //bit5 PWM2 计数器计数到 0 中断标志
+  67          #define P3ZIF0  0x80    //bit7 PWM3 计数器计数到 0 中断标志
+  68          
+  69          // 寄存器 PWMFLG1 标志
+  70          #define P4PIF1  0x01            //bit0 PWM4 计数器计数到最大值中断标志，仅中心对齐模式下有效
+  71          #define P4ZIF1  0x02    //bit1 PWM4 计数器计数到 0 中断标志
+  72          #define P5ZIF1  0x08    //bit3 PWM5 计数器计数到 0 中断标志
+  73          #define P6ZIF1  0x20    //bit5 PWM6 计数器计数到 0 中断标志
+  74          #define P7ZIF1  0x80    //bit7 PWM7 计数器计数到 0 中断标志
+  75          
+  76          // 寄存器 FBFLG 标志
+  77          #define FBPF    0x04            //P14 刹车引脚刹车信号引起刹车中断标志
+  78          #define FBAF    0x02            //ADC 比较结果刹车信号引起刹车中断标志
+  79          #define FBCF    0x01            //ADC 比较结果刹车信号引起刹车中断标志
+  80          
+  81          void PWM_PS_isr(void) interrupt 7
+  82          { 
+  83   1      //      if(PMSCON & 0x2)        // 读掩模标志
+  84   1      //      {
+  85   1      //              P10 = 1;
+  86   1      //      }
+  87   1      //      else
+  88   1      //      {
+  89   1      //              P10 = 0;
+  90   1      //      }
+  91   1              if(PMSCON & 0x1)        // 掩膜中断标志位
+  92   1              {
+  93   2      //              printf("\n\rPS\n\r");
+  94   2                      PMSCON &= ~0x1; 
+  95   2                      P11 = ~P11;
+  96   2              }
+  97   1      //      printf("\n\rPMSCON=%bx\n\r",PMSCON);
+  98   1      }
+  99          
+ 100          //=============================== PWM配置寄存器 ================================
+ 101          // 寄存器 PWMnCFG(n=0,2,4)
+ 102          #define PWM_ZIE 0x80    //PWMn 计数器计数到 0 中断使能
+ 103          #define PWM_PIE 0x40    //中心对齐模式下，PWMn 计数器计数到最大值中断使能。
+ 104          #define PWM_MOD 0x20    //（0：边沿对齐； 1：中心对齐）
+ 105          #define PWM_TOG 0x10    //极性选择，为 1 时输出反向
+ 106          #define PWM_OM  0x08    //互补输出：（1：波形互换）
+ 107          #define PWM_CKS 0                       //时钟源选择：0系统时钟
+ 108                                                                                                  //1 HRC
+ 109                                                                                                  //2 LRC
+ 110                                                                                                  //3 LOSC
+ 111          // 寄存器 PWMnCFG(n=1,3,5)                                                      
+ 112          #define PWM_SN  0x01    //(1独立输出，0互补输出)
+ 113          
+ 114          // 寄存器 PWM6CFG
+ 115          #define PWM7_ZIE        0x80    //PWMn 计数器计数到 0 中断使能
+ 116          #define PWM6_ZIE        0x40    //PWMn 计数器计数到 0 中断使能
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 3   
+
+ 117          #define PWM7_TOG        0x20    //极性选择，为 1 时输出反向
+ 118          #define PWM6_TOG        0x10    //极性选择，为 1 时输出反向     
+ 119          #define PWM6_SN         0x08    //(1独立输出，0互补输出)
+ 120          
+ 121          
+ 122          // 寄存器 PWMUPD  即刻新的周期和占空比配置值
+ 123          #define PWMUPD0 0x01    //bit0 
+ 124          #define PWMUPD1 0x02    //bit1
+ 125          #define PWMUPD2 0x04    //bit2
+ 126          #define PWMUPD3 0x08    //bit3
+ 127          #define PWMUPD4 0x10    //bit4
+ 128          #define PWMUPD5 0x20    //bit5  
+ 129          
+ 130          // 寄存器 PWMCLR 写 1 清零 PWMn 计数器
+ 131          #define PWM0CLR 0x01    //bit0 
+ 132          #define PWM1CLR 0x02    //bit1
+ 133          #define PWM2CLR 0x04    //bit2
+ 134          #define PWM3CLR 0x08    //bit3
+ 135          #define PWM4CLR 0x10    //bit4
+ 136          #define PWM5CLR 0x20    //bit5
+ 137          #define PWM6CLR 0x40    //bit6
+ 138          #define PWM7CLR 0x80    //bit7          
+ 139          
+ 140          
+ 141          //=============================== 刹车寄存器 ================================
+ 142          // 寄存器 FBCON
+ 143          #define FBPE    0x80    //P14 输入作为刹车信号使能位，1 有效
+ 144          #define FBAE    0x40    //ADC 比较结果作为刹车信号使能位，1 有效
+ 145          #define FBCE    0x20    //比较器结果作为刹车信号使能位，1 有效
+ 146          #define FBIE    0x10    //刹车中断使能位
+ 147          #define FPOL    0x08    //P14 输入刹车信号极性选择
+ 148          #define FPFTR   7                       //P14 刹车信号滤波配置，对 P14 进行 FPFTR 个系统时钟的滤波
+ 149          
+ 150          // 寄存器 FBDAT
+ 151          #define FDEN            0x80    //bit0-bit5
+ 152          #define FBDAT0  0x01    //bit0
+ 153          #define FBDAT1  0x02    //bit1
+ 154          #define FBDAT2  0x04    //bit2
+ 155          #define FBDAT3  0x08    //bit3
+ 156          #define FBDAT4  0x10    //bit4
+ 157          #define FBDAT5  0x20    //bit5
+ 158          
+ 159          //=============================== 掩膜寄存器 ================================
+ 160          // 寄存器 PMEN  掩模数据输出功能使能位(非刹车状态时，在 PWMnRUN 为 0 或 PWMn 被掩模的情况下：)
+ 161          #define PMEN0   0x01    //bit0 掩模数据输出功能使能(0:为高阻；1：为PMDAT决定)
+ 162          #define PMEN1   0x02    //bit1
+ 163          #define PMEN2   0x04    //bit2
+ 164          #define PMEN3   0x08    //bit3
+ 165          #define PMEN4   0x10    //bit4
+ 166          #define PMEN5   0x20    //bit5
+ 167          // 寄存器 PMDAT         PWM 掩模数据    
+ 168          #define PMDAT0  0x01    //bit0 掩模数据
+ 169          #define PMDAT1  0x02    //bit1
+ 170          #define PMDAT2  0x04    //bit2
+ 171          #define PMDAT3  0x08    //bit3
+ 172          #define PMDAT4  0x10    //bit4
+ 173          #define PMDAT5  0x20    //bit5
+ 174                  
+ 175          // 寄存器 PMSCON        掩膜控制寄存器
+ 176          #define PSE             0x80    //bit7:         掩模功能使能，1 有效
+ 177          #define PSIE    0x40    //bit6:         掩模中断使能，1 有效
+ 178          #define PSMOD   0x20    //bit5:         掩模计数触发边沿
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 4   
+
+ 179                                                                                          //1：在选中的 PWM 上升沿触发计数
+ 180                                                                                          //0：在选中的 PWM 下降沿触发计数
+ 181          #define PSCHS   0x00    //bit4-2:       掩模 PWM 选择(可选0~5)
+ 182          #define PMSK    0x80    //bit1:         掩模标志
+ 183                                                                                          //1：选择的 PWM 输出处在掩模状态
+ 184                                                                                          //0：选择的 PWM 输出处在有效输出状态（非掩模状态）
+ 185          #define PSIF    0x01    //bit0:         掩模中断标志，PSIE 使能后，PSIF 在选中的 PWM 输出在掩模状态和有效输出状态切换时
+             -由硬件置一
+ 186          
+ 187          
+ 188          
+ 189          
+ 190          // 规格书错了
+ 191          #define SYSCL_VAL       0x00    //0x00     //HRC        0
+ 192                                  //0x20     //LRC        1
+ 193                                  //0x40     //LOSC 2
+ 194           
+ 195          void main(void)
+ 196          {
+ 197   1              /*******************  系统时钟测试 HRC************************/
+ 198   1              SCCON = 0x00;
+ 199   1        delay_1ms();
+ 200   1      
+ 201   1              PWM0PS = 0x00;      //P00
+ 202   1              PWM1PS = 0x01;      //P01
+ 203   1              PWM2PS = 0x02;      //P02
+ 204   1              PWM3PS = 0x03;      //P03
+ 205   1              PWM4PS = 0x04;      //P04
+ 206   1              PWM5PS = 0x05;      //P05
+ 207   1      
+ 208   1              
+ 209   1              /*****************************管脚配置************************/
+ 210   1              P00F = 0X03;
+ 211   1              P01F = 0X03;
+ 212   1              P02F = 0X03;  
+ 213   1              P03F = 0X03;  
+ 214   1              P04F = 0X03;
+ 215   1              P05F = 0X03;
+ 216   1              
+ 217   1              P10F = 0x02;
+ 218   1              P11F = 0x02;
+ 219   1              P12F = 0x81;
+ 220   1      
+ 221   1      //      P02F=6;//UART1_RX
+ 222   1              P16F=6;//UART1_TX-----P2        
+ 223   1      
+ 224   1      
+ 225   1      
+ 226   1      //=============================== PWM配置寄存器 ================================LRC: 32768Hz;
+ 227   1              /*      
+ 228   1              寄存器 PWMnCFG(n=0,2,4)         +PWM_ZIE        0x80    bit7：PWMn 计数器计数到 0 中断使能
+ 229   1                                                                      +PWM_PIE        0x40    bit6：中心对齐模式下，PWMn 计数器计数到最大值中断使能。
+ 230   1                                                                      +PWM_MOD        0x20    bit5：（0：边沿对齐； 1：中心对齐）
+ 231   1                                                                      +PWM_TOG        0x10    bit4：极性选择，为 1 时输出反向
+ 232   1                                                                      +PWM_OM         0x08    bit3：互补输出：（1：波形互换）
+ 233   1                                                                      +PWM_CKS                1       bit2-0：时钟源选择：0系统时钟
+ 234   1              寄存器 PWMnCFG(n=1,3,5)         +PWM_ZIE        0x80    bit7：PWMn 计数器计数到 0 中断使能      
+ 235   1                                                                      +PWM_TOG        0x10    bit4：极性选择，为 1 时输出反向
+ 236   1                                                                      +PWM_SN         0x01    bit0：(1独立输出，0互补输出)                    芯片搞反了
+ 237   1              **/
+ 238   1              /****************** PWM0/1组 ********************/
+ 239   1              PWM0CFG=PWM_CKS;                //PWM0配置
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 5   
+
+ 240   1              PWM1CFG=0;                              //独立输出
+ 241   1      //      PWM1CFG=PWM_SN;                 //互补输出              0：独立；1：互补
+ 242   1              
+ 243   1              /****************** PWM2/3组 ********************/
+ 244   1              PWM2CFG=PWM_CKS;                //PWM2配置
+ 245   1              PWM3CFG=0;                              //独立输出
+ 246   1      //      PWM3CFG=PWM_SN;                 //互补输出
+ 247   1              
+ 248   1              /****************** PWM4/5组 ********************/
+ 249   1              PWM4CFG=PWM_CKS;                //PWM4配置
+ 250   1              PWM5CFG=0;              //独立输出
+ 251   1      //      PWM5CFG=PWM_SN;                 //互补输出
+ 252   1      
+ 253   1      //=============================== 掩膜寄存器 ================================
+ 254   1              /*      掩模数据输出功能使能位(非刹车状态)
+ 255   1              
+ 256   1              注：功能修改为使能掩膜通道，不作为掩膜有效电平使能
+ 257   1              寄存器 PMEN             +PMEN0  0x01    //bit0 掩模数据输出功能使能(0:为高阻；1：为PMDAT决定)
+ 258   1                                                      +PMEN1  0x02    //bit1
+ 259   1                                                      +PMEN2  0x04    //bit2
+ 260   1                                                      +PMEN3  0x08    //bit3
+ 261   1                                                      +PMEN4  0x10    //bit4
+ 262   1                                                      +PMEN5  0x20    //bit5
+ 263   1              **/
+ 264   1      //      PMEN = 0x00;
+ 265   1                      PMEN = 0x3f;
+ 266   1              /*      
+ 267   1              寄存器 PMDAT    PWM 掩模数据    
+ 268   1              
+ 269   1              注：掩膜有效电平可选高低，无高阻状态
+ 270   1                                                      +PMDAT0 0x01    //bit0 掩模数据
+ 271   1                                                      +PMDAT1 0x02    //bit1
+ 272   1                                                      +PMDAT2 0x04    //bit2
+ 273   1                                                      +PMDAT3 0x08    //bit3
+ 274   1                                                      +PMDAT4 0x10    //bit4
+ 275   1                                                      +PMDAT5 0x20    //bit5  
+ 276   1              **/
+ 277   1      
+ 278   1              PMDAT = 0x00;
+ 279   1      //      PMDAT = 0;
+ 280   1              
+ 281   1              /* 寄存器 PMSCON        掩膜控制寄存器
+ 282   1                                                      +PSE            0x80    //bit7:         掩模功能使能，1 有效
+ 283   1                                                      +PSIE           0x40    //bit6:         掩模中断使能，1 有效
+ 284   1                                                      +PSMOD  0x20    //bit5:         掩模计数触发边沿
+ 285   1                                                                                                              //1：在选中的 PWM 上升沿触发计数
+ 286   1                                                                                                              //0：在选中的 PWM 下降沿触发计数
+ 287   1                                                      +PSCHS  0x00    //bit4-2:       掩模 PWM 选择(可选0~5)
+ 288   1                                                      +PMSK           0x80    //bit1:         掩模标志
+ 289   1                                                                                                              //1：选择的 PWM 输出处在掩模状态
+ 290   1                                                                                                              //0：选择的 PWM 输出处在有效输出状态（非掩模状态）
+ 291   1                                                      +PSIF           0x01    //bit0:         掩模中断标志，PSIE 使能后，PSIF 在选中的 PWM 输出在掩模状态和有效输出状态切换时
+             -由硬件置一
+ 292   1              **/
+ 293   1              PMSCON = PSE+PSIE+0x04+PSMOD;//
+ 294   1              
+ 295   1              PMSDL = 3;      //掩模有效个数寄存器
+ 296   1              PMSDH = 0;      //掩模有效个数寄存器
+ 297   1              PMSML = 3;      //PMSML = 0;    //掩模掉个数寄存器
+ 298   1              PMSMH = 0;      //PMSMH = 0;    //掩模掉个数寄存器
+ 299   1              
+ 300   1              
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 6   
+
+ 301   1      
+ 302   1      //=============================== PWM 占空比配置 ================================       
+ 303   1              /********* PWM0周期占空比配置10% **********/
+ 304   1              PWM0DUTL=10;
+ 305   1              PWM0DUTH=0;
+ 306   1              PWM0DIVL=99;
+ 307   1              PWM0DIVH=0;
+ 308   1              
+ 309   1              /********* PWM1周期占空比配置20% **********/
+ 310   1              PWM1DUTL=20;
+ 311   1              PWM1DUTH=0;
+ 312   1              PWM1DIVL=99;
+ 313   1              PWM1DIVH=0;
+ 314   1              
+ 315   1              /********* PWM2周期占空比配置10% **********/
+ 316   1              PWM2DUTL=10;
+ 317   1              PWM2DUTH=0;
+ 318   1              PWM2DIVL=99;
+ 319   1              PWM2DIVH=0;
+ 320   1              
+ 321   1              /********* PWM3周期占空比配置20% **********/
+ 322   1              PWM3DUTL=20;
+ 323   1              PWM3DUTH=0;
+ 324   1              PWM3DIVL=99;
+ 325   1              PWM3DIVH=0;
+ 326   1              
+ 327   1              /********* PWM4周期占空比配置10% **********/
+ 328   1              PWM4DUTL=10;
+ 329   1              PWM4DUTH=0;
+ 330   1              PWM4DIVL=99;
+ 331   1              PWM4DIVH=0;
+ 332   1              
+ 333   1              /********* PWM5周期占空比配置20% **********/
+ 334   1              PWM5DUTL=20;
+ 335   1              PWM5DUTH=0;
+ 336   1              PWM5DIVL=99;
+ 337   1              PWM5DIVH=0;
+ 338   1              
+ 339   1      
+ 340   1              PWMRUN=0xff;    //运行使能
+ 341   1      
+ 342   1              /****************** UART1 模式1（波特率：9600）******************/
+ 343   1              Uart1Mode1();   //9600
+ 344   1              printf("RUN------\r\n");        
+ 345   1              
+ 346   1      //      EINT3 = 1;              //刹车中断使能
+ 347   1      //      EINT2 = 1;              //计数中断使能
+ 348   1      //    ES0 = 1;  /* UART0 中断开 */
+ 349   1              
+ 350   1              EINT4 = 1;              //掩膜中断使能/UART1
+ 351   1      //      EXIP |= 0x01;   //INT4 优先级控制位；中断可以嵌套1层
+ 352   1              PS0 = 1;
+ 353   1              EA = 1;
+ 354   1              P10F = 2;
+ 355   1              P11F = 2;
+ 356   1              P12F = 0x81;
+ 357   1          while(1)
+ 358   1              {       
+ 359   2      //              if(PMSCON & 0x1)
+ 360   2      //              {
+ 361   2      //                      P00 = ~P00;
+ 362   2      //                      printf("PSIF\n");
+C51 COMPILER V9.59.0.0   MAIN                                                              07/26/2021 15:55:10 PAGE 7   
+
+ 363   2      //                      PMSCON &= ~0x1; 
+ 364   2      //              }
+ 365   2                      
+ 366   2      //              if(PMSCON & 0x2)        //读掩模标志
+ 367   2      //              {
+ 368   2      //                      P00 = 1;
+ 369   2      //              }
+ 370   2      //              else
+ 371   2      //              {
+ 372   2      //                      P00 = 0;
+ 373   2      //              }               
+ 374   2              }
+ 375   1          
+ 376   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    597    ----
+   CONSTANT SIZE    =     12    ----
+   XDATA SIZE       =     11    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

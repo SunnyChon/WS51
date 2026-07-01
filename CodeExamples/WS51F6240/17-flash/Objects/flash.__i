@@ -1,0 +1,1 @@
+"flash.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\headfile) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\flash.lst) PREPRINT(.\Listings\flash.i) OBJECT(.\Objects\flash.obj)

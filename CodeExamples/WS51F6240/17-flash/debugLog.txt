@@ -1,0 +1,10 @@
+现在时间是2020年11月25日 18:05:19:SetupDiEnumDeviceInterfaces error
+现在时间是2020年11月25日 18:05:19:OpenUsbBridge OpenHidDevice error
+现在时间是2020年11月25日 18:05:19:InitTarget open usb hid fail error
+现在时间是2020年11月25日 18:05:20:StopTarget closehandle mutex 
+现在时间是2020年11月25日 18:05:20:SetupDiEnumDeviceInterfaces error
+现在时间是2020年11月25日 18:05:20:OpenUsbBridge OpenHidDevice error
+现在时间是2020年11月25日 18:05:20:StopTarget open usb hid fail error 
+现在时间是2020年11月25日 18:05:20:SetupDiEnumDeviceInterfaces error
+现在时间是2020年11月25日 18:05:20:OpenUsbBridge OpenHidDevice error
+现在时间是2020年11月25日 18:05:20:StopTarget open usb hid fail error 

@@ -1,0 +1,1 @@
+"..\hareware\ADC.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\HeadFile;..\hareware) DEBUG OBJECTEXTEND PRINT(.\Listings\ADC.lst) OBJECT(.\Objects\ADC.obj)

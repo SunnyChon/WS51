@@ -1,0 +1,468 @@
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE WS51F7030
+OBJECT MODULE PLACED IN .\Objects\WS51F7030.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE WS51F7030.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\hareware) DEBUG OBJE
+                    -CTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\WS51F7030.lst) PREPRINT(.\Listings\WS51F7030.i) OBJECT(.\Objects\WS51
+                    -F7030.obj)
+
+line level    source
+
+   1          
+   2          xdata unsigned char P00F            _at_ 0x8000;         //6232
+   3          xdata unsigned char P01F            _at_ 0x8001;         //6232
+   4          
+   5          xdata unsigned char P10F            _at_ 0x8008;
+   6          xdata unsigned char P11F            _at_ 0x8009;
+   7          xdata unsigned char P12F            _at_ 0x800a;
+   8          xdata unsigned char P13F            _at_ 0x800b;
+   9          xdata unsigned char P14F            _at_ 0x800c;
+  10          xdata unsigned char P15F            _at_ 0x800d;
+  11          xdata unsigned char P16F            _at_ 0x800e;
+  12          xdata unsigned char P17F            _at_ 0x800f;
+  13          
+  14          xdata unsigned char P30F            _at_ 0x8018;
+  15          xdata unsigned char P31F            _at_ 0x8019;
+  16          xdata unsigned char P32F            _at_ 0x801a;
+  17          xdata unsigned char P33F            _at_ 0x801b;
+  18          xdata unsigned char P34F            _at_ 0x801c;
+  19          xdata unsigned char P35F            _at_ 0x801d;
+  20          xdata unsigned char P36F            _at_ 0x801e;        //6232
+  21          xdata unsigned char P37F            _at_ 0x801f;        //6232
+  22          
+  23          
+  24          xdata unsigned char PWMEN     _at_ 0x8040;
+  25          xdata unsigned char PWMIE         _at_ 0x8042;
+  26          xdata unsigned char PWMFLG        _at_ 0x8044;
+  27          
+  28          xdata unsigned char PWM0CFG     _at_ 0x8050;
+  29          xdata unsigned char PWM0PS              _at_ 0x8051;    //6232
+  30          xdata unsigned char PWM0DUTL    _at_ 0x8054;
+  31          xdata unsigned char PWM0DUTH    _at_ 0x8055;
+  32          xdata unsigned char PWM0DIVL    _at_ 0x8056;
+  33          xdata unsigned char PWM0DIVH    _at_ 0x8057;
+  34          xdata unsigned char PWM1PS              _at_ 0x8059;    //6232
+  35          xdata unsigned char PWM1DUTL    _at_ 0x805c;
+  36          xdata unsigned char PWM1DUTH    _at_ 0x805d;
+  37          xdata unsigned char PWM1DIVL    _at_ 0x805e;
+  38          xdata unsigned char PWM1DIVH    _at_ 0x805f;
+  39          
+  40          xdata unsigned char PWM2CFG     _at_ 0x8060;
+  41          xdata unsigned char PWM2PS              _at_ 0x8061;    //6232
+  42          xdata unsigned char PWM2DUTL    _at_ 0x8064;
+  43          xdata unsigned char PWM2DUTH    _at_ 0x8065;
+  44          xdata unsigned char PWM2DIVL    _at_ 0x8066;
+  45          xdata unsigned char PWM2DIVH    _at_ 0x8067;
+  46          xdata unsigned char PWM3PS              _at_ 0x8069;    //6232
+  47          xdata unsigned char PWM3DUTL    _at_ 0x806c;
+  48          xdata unsigned char PWM3DUTH    _at_ 0x806d;
+  49          xdata unsigned char PWM3DIVL    _at_ 0x806e;
+  50          xdata unsigned char PWM3DIVH    _at_ 0x806f;
+  51          
+  52          xdata unsigned char PWM4CFG     _at_ 0x8070;
+  53          xdata unsigned char PWM4PS              _at_ 0x8071;    //6232
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 2   
+
+  54          xdata unsigned char PWM4DUTL    _at_ 0x8074;
+  55          xdata unsigned char PWM4DUTH    _at_ 0x8075;
+  56          xdata unsigned char PWM4DIVL    _at_ 0x8076;
+  57          xdata unsigned char PWM4DIVH    _at_ 0x8077;
+  58          xdata unsigned char PWM5PS              _at_ 0x8079;    //6232
+  59          xdata unsigned char PWM5DUTL    _at_ 0x807c;
+  60          xdata unsigned char PWM5DUTH    _at_ 0x807d;
+  61          xdata unsigned char PWM5DIVL    _at_ 0x807e;
+  62          xdata unsigned char PWM5DIVH    _at_ 0x807f;
+  63          
+  64          xdata unsigned char PWM6CFG     _at_ 0x8080;    //6232  
+  65          xdata unsigned char PWM6PS              _at_ 0x8081;    //6232  
+  66          xdata unsigned char PWM6DUTL    _at_ 0x8084;    //6232
+  67          xdata unsigned char PWM6DUTH    _at_ 0x8085;    //6232
+  68          xdata unsigned char PWM6DIVL    _at_ 0x8086;    //6232
+  69          xdata unsigned char PWM6DIVH    _at_ 0x8087;    //6232
+  70          xdata unsigned char PWM7PS              _at_ 0x8089;    //6232
+  71          xdata unsigned char PWM7DUTL    _at_ 0x808c;    //6232
+  72          xdata unsigned char PWM7DUTH    _at_ 0x808d;    //6232
+  73          xdata unsigned char PWM7DIVL    _at_ 0x808e;    //6232
+  74          xdata unsigned char PWM7DIVH    _at_ 0x808f;    //6232
+  75          
+  76          
+  77          xdata unsigned char PIMOD       _at_ 0x80e8;    //6232
+  78          xdata unsigned char P0IMSK      _at_ 0x80e9;    //6232
+  79          xdata unsigned char P1IMSK      _at_ 0x80ea;    //6232
+  80          xdata unsigned char P3IMSK      _at_ 0x80ec;    //6232
+  81          
+  82          xdata unsigned char BZCON       _at_ 0x80F0;    //6232
+  83          xdata unsigned char BZPSC       _at_ 0x80F1;    //6232
+  84          xdata unsigned char BZDUT       _at_ 0x80F2;    //6232
+  85          xdata unsigned char BZDIV       _at_ 0x80F3;    //6232
+  86          
+  87          
+  88          
+  89          
+  90          xdata unsigned char TKPCS0        _at_ 0x80f8;
+  91          xdata unsigned char TKPCS1        _at_ 0x80f9;
+  92          xdata unsigned char TKPCS2        _at_ 0x80fa;
+  93          xdata unsigned char TKPCS3        _at_ 0x80fB;  //6232
+  94                                                                                                                           
+  95          xdata unsigned char TK0MXL    _at_ 0x8100;
+  96          xdata unsigned char TK0MXH    _at_ 0x8101;
+  97          xdata unsigned char TK1MXL    _at_ 0x8102;
+  98          xdata unsigned char TK1MXH    _at_ 0x8103;
+  99          xdata unsigned char TK2MXL    _at_ 0x8104;
+ 100          xdata unsigned char TK2MXH    _at_ 0x8105;
+ 101          xdata unsigned char TK3MXL    _at_ 0x8106;
+ 102          xdata unsigned char TK3MXH    _at_ 0x8107;
+ 103          xdata unsigned char TK4MXL    _at_ 0x8108;
+ 104          xdata unsigned char TK4MXH    _at_ 0x8109;
+ 105          xdata unsigned char TK5MXL    _at_ 0x810a;
+ 106          xdata unsigned char TK5MXH    _at_ 0x810b;
+ 107          xdata unsigned char TK6MXL    _at_ 0x810c;
+ 108          xdata unsigned char TK6MXH    _at_ 0x810d;
+ 109          xdata unsigned char TK7MXL    _at_ 0x810e;
+ 110          xdata unsigned char TK7MXH    _at_ 0x810f;
+ 111          xdata unsigned char TK8MXL    _at_ 0x8110;
+ 112          xdata unsigned char TK8MXH    _at_ 0x8111;
+ 113          xdata unsigned char TK9MXL    _at_ 0x8112;
+ 114          xdata unsigned char TK9MXH    _at_ 0x8113;
+ 115          xdata unsigned char TK10MXL   _at_ 0x8114;
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 3   
+
+ 116          xdata unsigned char TK10MXH   _at_ 0x8115;
+ 117          xdata unsigned char TK11MXL   _at_ 0x8116;
+ 118          xdata unsigned char TK11MXH   _at_ 0x8117;
+ 119          
+ 120          xdata unsigned char TK0MNL    _at_ 0x8140;
+ 121          xdata unsigned char TK0MNH    _at_ 0x8141;
+ 122          xdata unsigned char TK1MNL    _at_ 0x8142;
+ 123          xdata unsigned char TK1MNH    _at_ 0x8143;
+ 124          xdata unsigned char TK2MNL    _at_ 0x8144;
+ 125          xdata unsigned char TK2MNH    _at_ 0x8145;
+ 126          xdata unsigned char TK3MNL    _at_ 0x8146;
+ 127          xdata unsigned char TK3MNH    _at_ 0x8147;
+ 128          xdata unsigned char TK4MNL    _at_ 0x8148;
+ 129          xdata unsigned char TK4MNH    _at_ 0x8149;
+ 130          xdata unsigned char TK5MNL    _at_ 0x814a;
+ 131          xdata unsigned char TK5MNH    _at_ 0x814b;
+ 132          xdata unsigned char TK6MNL    _at_ 0x814c;
+ 133          xdata unsigned char TK6MNH    _at_ 0x814d;
+ 134          xdata unsigned char TK7MNL    _at_ 0x814e;
+ 135          xdata unsigned char TK7MNH    _at_ 0x814f;
+ 136          xdata unsigned char TK8MNL    _at_ 0x8150;
+ 137          xdata unsigned char TK8MNH    _at_ 0x8151;
+ 138          xdata unsigned char TK9MNL    _at_ 0x8152;
+ 139          xdata unsigned char TK9MNH    _at_ 0x8153;
+ 140          xdata unsigned char TK10MNL   _at_ 0x8154;
+ 141          xdata unsigned char TK10MNH   _at_ 0x8155;
+ 142          xdata unsigned char TK11MNL   _at_ 0x8156;
+ 143          xdata unsigned char TK11MNH   _at_ 0x8157;
+ 144          
+ 145          xdata unsigned char TK0MSL    _at_ 0x8180;
+ 146          xdata unsigned char TK0MSH    _at_ 0x8181;
+ 147          xdata unsigned char TK1MSL    _at_ 0x8182;
+ 148          xdata unsigned char TK1MSH    _at_ 0x8183;
+ 149          xdata unsigned char TK2MSL    _at_ 0x8184;
+ 150          xdata unsigned char TK2MSH    _at_ 0x8185;
+ 151          xdata unsigned char TK3MSL    _at_ 0x8186;
+ 152          xdata unsigned char TK3MSH    _at_ 0x8187;
+ 153          xdata unsigned char TK4MSL    _at_ 0x8188;
+ 154          xdata unsigned char TK4MSH    _at_ 0x8189;
+ 155          xdata unsigned char TK5MSL    _at_ 0x818a;
+ 156          xdata unsigned char TK5MSH    _at_ 0x818b;
+ 157          xdata unsigned char TK6MSL    _at_ 0x818c;
+ 158          xdata unsigned char TK6MSH    _at_ 0x818d;
+ 159          xdata unsigned char TK7MSL    _at_ 0x818e;
+ 160          xdata unsigned char TK7MSH    _at_ 0x818f;
+ 161          xdata unsigned char TK8MSL    _at_ 0x8190;
+ 162          xdata unsigned char TK8MSH    _at_ 0x8191;
+ 163          xdata unsigned char TK9MSL    _at_ 0x8192;
+ 164          xdata unsigned char TK9MSH    _at_ 0x8193;
+ 165          xdata unsigned char TK10MSL   _at_ 0x8194;
+ 166          xdata unsigned char TK10MSH   _at_ 0x8195;
+ 167          xdata unsigned char TK11MSL   _at_ 0x8196;
+ 168          xdata unsigned char TK11MSH   _at_ 0x8197;
+ 169          
+ 170          
+ 171          xdata unsigned char TK0PS       _at_ 0x81C0;    //6232
+ 172          xdata unsigned char TK1PS       _at_ 0x81C1;    //6232
+ 173          xdata unsigned char TK2PS       _at_ 0x81C2;    //6232
+ 174          xdata unsigned char TK3PS       _at_ 0x81C3;    //6232
+ 175          xdata unsigned char TK4PS       _at_ 0x81C4;    //6232
+ 176          xdata unsigned char TK5PS       _at_ 0x81C5;    //6232
+ 177          xdata unsigned char TK6PS       _at_ 0x81C6;    //6232
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 4   
+
+ 178          xdata unsigned char TK7PS       _at_ 0x81C7;    //6232
+ 179          xdata unsigned char TK8PS       _at_ 0x81C8;    //6232
+ 180          xdata unsigned char TK9PS       _at_ 0x81C9;    //6232
+ 181          xdata unsigned char TK10PS      _at_ 0x81Ca;    //6232
+ 182          xdata unsigned char TK11PS      _at_ 0x81Cb;    //6232
+ 183                                                                                                                     
+ 184          xdata unsigned char LSCON       _at_ 0x8290;
+ 185          xdata unsigned char LSCFG       _at_ 0x8291;
+ 186          xdata unsigned char LSDTM0      _at_ 0x8293;
+ 187          xdata unsigned char LSDTM1      _at_ 0x8294;
+ 188          xdata unsigned char LSPTM0      _at_ 0x8295;
+ 189          xdata unsigned char LSPTM1      _at_ 0x8296;
+ 190          xdata unsigned char LSCOM       _at_ 0x8297;
+ 191                                                                                                                     
+ 192          xdata unsigned char LSPE0     _at_ 0x8298;
+ 193          xdata unsigned char LSPE1     _at_ 0x8299;
+ 194          xdata unsigned char LSDAT0    _at_ 0x82a0;
+ 195          xdata unsigned char LSDAT1    _at_ 0x82a1;
+ 196          
+ 197          xdata unsigned char MECON         _at_ 0x8300;
+ 198          xdata unsigned char FSCMD         _at_ 0x8301;
+ 199          xdata unsigned char BTMSK         _at_ 0x8302;
+ 200          xdata unsigned char FSDAT         _at_ 0x8303;
+ 201          xdata unsigned char FSFLG         _at_ 0x8304;
+ 202          xdata unsigned char PADR          _at_ 0x8305;
+ 203          xdata unsigned char FSADRL        _at_ 0x8306;
+ 204          xdata unsigned char FSADRH        _at_ 0x8307;
+ 205                                                                                                                            
+ 206          xdata unsigned char CKSUML        _at_ 0x8308;
+ 207          xdata unsigned char CKSUMH        _at_ 0x8309;
+ 208          xdata unsigned char IDCODE0       _at_ 0x830a;
+ 209          xdata unsigned char IDCODE1       _at_ 0x830b;
+ 210          xdata unsigned char IDCODE2       _at_ 0x830c;
+ 211          
+ 212          xdata unsigned char CHIPIDL       _at_ 0x8400;
+ 213          xdata unsigned char CHIPIDH       _at_ 0x8401;
+ 214          
+ 215          
+ 216          xdata unsigned char SPMAX         _at_ 0x8407;  //6232
+ 217          
+ 218          
+ 219          
+ 220          
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 5   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 6   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P35F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   801DH  1
+P17F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   800FH  1
+CHIPIDL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8400H  1
+LSCOM. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8297H  1
+P36F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   801EH  1
+LSCON. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8290H  1
+BZDIV. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80F3H  1
+P37F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   801FH  1
+BTMSK. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8302H  1
+BZPSC. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80F1H  1
+PWMIE. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8042H  1
+PWMEN. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8040H  1
+SPMAX. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8407H  1
+BZDUT. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80F2H  1
+TK10PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81CAH  1
+TK11PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81CBH  1
+PADR . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8305H  1
+LSDAT0 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   82A0H  1
+LSDAT1 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   82A1H  1
+TK0MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8141H  1
+TK1MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8143H  1
+LSDTM0 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8293H  1
+TK2MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8145H  1
+P0IMSK . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80E9H  1
+LSDTM1 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8294H  1
+TK3MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8147H  1
+TKPCS0 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80F8H  1
+P1IMSK . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80EAH  1
+TK4MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8149H  1
+TK0MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8140H  1
+TKPCS1 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80F9H  1
+TK0MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8181H  1
+TK5MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   814BH  1
+TK1MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8142H  1
+TKPCS2 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80FAH  1
+P3IMSK . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80ECH  1
+FSADRH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8307H  1
+TK1MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8183H  1
+TK6MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   814DH  1
+TK2MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8144H  1
+TKPCS3 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80FBH  1
+TK2MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8185H  1
+TK7MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   814FH  1
+TK3MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8146H  1
+TK3MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8187H  1
+TK8MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8151H  1
+TK4MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8148H  1
+TK4MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8189H  1
+TK0MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8180H  1
+TK9MNH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8153H  1
+TK5MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   814AH  1
+FSADRL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8306H  1
+TK5MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   818BH  1
+TK1MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8182H  1
+TK6MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   814CH  1
+TK0MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8101H  1
+TK6MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   818DH  1
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 7   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+TK2MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8184H  1
+TK7MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   814EH  1
+TK1MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8103H  1
+TK7MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   818FH  1
+TK3MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8186H  1
+TK8MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8150H  1
+TK2MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8105H  1
+TK8MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8191H  1
+TK4MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8188H  1
+TK9MNL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8152H  1
+TK3MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8107H  1
+LSPTM0 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8295H  1
+TK9MSH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8193H  1
+TK5MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   818AH  1
+TK4MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8109H  1
+TK0MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8100H  1
+LSPTM1 . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8296H  1
+TK6MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   818CH  1
+TK5MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   810BH  1
+TK1MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8102H  1
+TK7MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   818EH  1
+TK6MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   810DH  1
+TK2MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8104H  1
+TK8MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8190H  1
+TK7MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   810FH  1
+TK3MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8106H  1
+TK9MSL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8192H  1
+TK8MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8111H  1
+TK4MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8108H  1
+TK9MXH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8113H  1
+TK5MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   810AH  1
+TK6MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   810CH  1
+TK7MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   810EH  1
+PWM0PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8051H  1
+TK8MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8110H  1
+PWM1PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8059H  1
+TK9MXL . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8112H  1
+PWM2PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8061H  1
+PWM3PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8069H  1
+CKSUMH . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8309H  1
+PWM4PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8071H  1
+PWM5PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8079H  1
+PWM6PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8081H  1
+PWMFLG . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8044H  1
+PWM7PS . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8089H  1
+CKSUML . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8308H  1
+PWM0DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8057H  1
+PWM1DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   805FH  1
+PWM2DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8067H  1
+PWM3DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   806FH  1
+PWM4DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8077H  1
+PWM0DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8056H  1
+PWM5DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   807FH  1
+PWM1DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   805EH  1
+PWM6DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8087H  1
+PWM2DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8066H  1
+PWM7DIVH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   808FH  1
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 8   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+PWM3DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   806EH  1
+IDCODE0. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   830AH  1
+PWM4DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8076H  1
+IDCODE1. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   830BH  1
+PWM5DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   807EH  1
+IDCODE2. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   830CH  1
+PWM6DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8086H  1
+PWM0DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8055H  1
+PWM7DIVL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   808EH  1
+PWM1DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   805DH  1
+PWM2DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8065H  1
+PWM3DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   806DH  1
+PWM4DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8075H  1
+PWM0DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8054H  1
+PWM5DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   807DH  1
+PWM1DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   805CH  1
+PWM6DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8085H  1
+PWM2DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8064H  1
+PWM7DUTH . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   808DH  1
+PWM3DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   806CH  1
+PWM4DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8074H  1
+LSPE0. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8298H  1
+TK10MNH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8155H  1
+PWM5DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   807CH  1
+LSPE1. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8299H  1
+TK11MNH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8157H  1
+PWM6DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8084H  1
+PWM7DUTL . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   808CH  1
+TK10MNL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8154H  1
+TK10MSH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8195H  1
+TK11MNL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8156H  1
+TK11MSH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8197H  1
+FSCMD. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8301H  1
+TK10MSL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8194H  1
+TK11MSL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8196H  1
+TK10MXH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8115H  1
+LSCFG. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8291H  1
+TK11MXH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8117H  1
+FSFLG. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8304H  1
+FSDAT. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8303H  1
+MECON. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8300H  1
+TK0PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C0H  1
+TK10MXL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8114H  1
+TK1PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C1H  1
+TK11MXL. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8116H  1
+TK2PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C2H  1
+TK3PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C3H  1
+PWM0CFG. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8050H  1
+P00F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8000H  1
+TK4PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C4H  1
+P10F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8008H  1
+P01F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8001H  1
+TK5PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C5H  1
+PWM2CFG. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8060H  1
+P11F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8009H  1
+TK6PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C6H  1
+P30F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8018H  1
+C51 COMPILER V9.59.0.0   WS51F7030                                                         03/26/2020 16:42:29 PAGE 9   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P12F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   800AH  1
+TK7PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C7H  1
+PIMOD. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80E8H  1
+PWM4CFG. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8070H  1
+P31F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8019H  1
+P13F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   800BH  1
+CHIPIDH. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8401H  1
+TK8PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C8H  1
+P32F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   801AH  1
+P14F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   800CH  1
+TK9PS. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   81C9H  1
+PWM6CFG. . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   8080H  1
+P33F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   801BH  1
+P15F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   800DH  1
+BZCON. . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   80F0H  1
+P34F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   801CH  1
+P16F . . . . . . . . . . . . . . . . .  PUBLIC   XDATA  U_CHAR   800EH  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
