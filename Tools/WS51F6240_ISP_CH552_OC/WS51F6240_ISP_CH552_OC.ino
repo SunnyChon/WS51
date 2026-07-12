@@ -1,5 +1,7 @@
 /*
 
+IMPORTANT: Unplug all 3.3V devices when using this programmer , CH552G runs at 5V 24MHz!
+
 WS51F6240 ISP Programmer code for CH552G
 Overclock version : ~100kHz Bit-bang I2C , 16KB/5s = ~25.6kbps
 
@@ -10,13 +12,15 @@ Overclock version : ~100kHz Bit-bang I2C , 16KB/5s = ~25.6kbps
   Over clock version by SunnyA.I.
   Modified some details:
   
-  (Not suitable)Tested - works under 3V3 (Overclocking to 16MHz with atmega328pb) / -Should work with CH552 -
+  (Not suitable)Tested - works under 3V3 (Overclocking to 16MHz with atmega328pb) / - Should work with CH552 -
   
   Modified and Tested - works for CH552G via USB CDC
 
   Using wiring_digital_fast.h for high speed bit-bang I2C
 
   Most delay removed.
+
+  Page buffer removed , write directly to MCU after receving byte.
 
   Debugged by SunnyA.I.
 
@@ -35,7 +39,6 @@ Overclock version : ~100kHz Bit-bang I2C , 16KB/5s = ~25.6kbps
     - RST : target reset line
     - PWR : target power enable line (if used by your circuit)
 */
-#include <Arduino.h>
 #include <wiring_digital_fast.h>
 
 //#define PIN_SCLK 14  // ISP clock output (Arduino pin)
@@ -65,18 +68,14 @@ static uint8_t cdc_getc_u8() {
   return (uint8_t)cdc_getc_blocking();
 }
 
-static void cdc_putc(char c) {
-  USBSerial_write((uint8_t)c);
-}
-
 static void cdc_puts(const char *s) {
-  while (*s) cdc_putc(*s++);
+  while (*s) USBSerial_write(*s++);
 }
 
 static void cdc_puthex8(uint8_t b) {
   const char hex[] = "0123456789ABCDEF";
-  cdc_putc(hex[b >> 4]);
-  cdc_putc(hex[b & 0x0F]);
+  USBSerial_write(hex[b >> 4]);
+  USBSerial_write(hex[b & 0x0F]);
 }
 
 static void cdc_puthex16(uint16_t w) {
@@ -94,9 +93,6 @@ static inline void SCLK_L() {
   digitalWriteFast(PIN_SCLK_PORT, PIN_SCLK_PIN, LOW);
 }
 
-// DATA high/low
-// Important: DATA is bidirectional, so for reads we set it to INPUT.
-// For writes we set it to OUTPUT and drive.
 static inline void DATA_as_output() {
   pinModeFast(PIN_DATA_PORT, PIN_DATA_PIN, OUTPUT);
 }
@@ -244,7 +240,6 @@ static uint8_t isp_read_phase(uint8_t reg) {
   isp_send_byte(reg);
   isp_read_ack();
   isp_stop();
-
   isp_start();
   isp_send_byte(1);
   isp_read_ack();
@@ -286,13 +281,12 @@ static void isp_wr_flash(uint16_t addr, uint8_t data) {
 static int target_power_on() {
   PWR_L();
   RST_L();
-  //delay(200);
+  delay(10);
   PWR_H();
   RST_H();
   RST_L();
   RST_H();
   delay(1);
-
   return 0;
 }
 
@@ -339,8 +333,6 @@ static void do_reset_run() {
   RST_H();
 }
 
-static uint8_t page_buf[512];
-
 void setup() {
   pinModeFast(PIN_SCLK_PORT, PIN_SCLK_PIN, OUTPUT);
   pinModeFast(PIN_DATA_PORT, PIN_DATA_PIN, OUTPUT);
@@ -359,6 +351,7 @@ void loop() {
   uint8_t cmd = (uint8_t)cdc_getc_u8();
 
   if (cmd == 'S') {
+    //Clear corrupted data
     USBSerial_flush();
     if (target_power_on() == 0 && isp_sync() == 0) {
       uint8_t cfg = isp_rd_reg(0xA1);
@@ -372,19 +365,14 @@ void loop() {
     cdc_puts("OK\n");
   } else if (cmd == 'P') {
     uint16_t addr = ((uint16_t)cdc_getc_u8() << 8) | cdc_getc_u8();
-    for (int i = 0; i < 512; i++) {
-      page_buf[i] = cdc_getc_u8();
-    }
     isp_wr_flash(0x8304, 0x34);
     isp_wr_flash(0x8302, 0xFF);
     isp_wr_flash(0x8307, (uint8_t)((addr >> 8) & 0xFF));
     isp_wr_flash(0x8306, (uint8_t)(addr & 0xFF));
     isp_wr_flash(0x8301, 0x06);
-
     for (int i = 0; i < 512; i++) {
-      isp_wr_flash(0x8303, page_buf[i]);
+      isp_wr_flash(0x8303, cdc_getc_u8());
     }
-
     cdc_puts("OK\n");
   } else if (cmd == 'R') {
     do_reset_run();
