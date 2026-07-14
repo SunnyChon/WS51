@@ -1,1 +1,508 @@
+<html lang="zh_TW">
+<meta name="viewport" content="width=device-width, initial-scale=0.5" charset="UTF-8">
+<title>WS51 Web ISP</title>
+<h1>WS51 網頁版下載器程序</h1>
+<h2>注意：無法在非本地或非HTTPS服務器上運行<h2>
+<a href="https://github.com/SunnyChon/WS51/tree/main/Tools/WEB_ISP">https://github.com/SunnyChon/WS51/tree/main/Tools/WEB_ISP</a>
+<p>僅支援部分基於Chrome / Chromium的手機瀏覽器，僅支援使用USB CDC驅動的設備</p>
+<input style="font-size:50px;"type="file" id="hexFile" accept=".hex">
+<br>
+<button style="font-size:50px;" id="uploadBtn">連接編程器並寫入程序</button>
+<br>
+<b>記錄:</b>
+<div id="log"></div>
 
+<script type="module">
+'use strict';
+export var SerialPolyfillProtocol;
+(function (SerialPolyfillProtocol) {
+    SerialPolyfillProtocol[SerialPolyfillProtocol["UsbCdcAcm"] = 0] = "UsbCdcAcm";
+})(SerialPolyfillProtocol || (SerialPolyfillProtocol = {}));
+const kSetLineCoding = 0x20;
+const kSetControlLineState = 0x22;
+const kSendBreak = 0x23;
+const kDefaultBufferSize = 255;
+const kDefaultDataBits = 8;
+const kDefaultParity = 'none';
+const kDefaultStopBits = 1;
+const kAcceptableDataBits = [16, 8, 7, 6, 5];
+const kAcceptableStopBits = [1, 2];
+const kAcceptableParity = ['none', 'even', 'odd'];
+const kParityIndexMapping = ['none', 'odd', 'even'];
+const kStopBitsIndexMapping = [1, 1.5, 2];
+const kDefaultPolyfillOptions = {
+    protocol: SerialPolyfillProtocol.UsbCdcAcm,
+    usbControlInterfaceClass: 2,
+    usbTransferInterfaceClass: 10,
+};
+function findInterface(device, classCode) {
+    const configuration = device.configurations[0];
+    for (const iface of configuration.interfaces) {
+        const alternate = iface.alternates[0];
+        if (alternate.interfaceClass === classCode) {
+            return iface;
+        }
+    }
+    throw new TypeError(`Unable to find interface with class ${classCode}.`);
+}
+function findEndpoint(iface, direction) {
+    const alternate = iface.alternates[0];
+    for (const endpoint of alternate.endpoints) {
+        if (endpoint.direction == direction) {
+            return endpoint;
+        }
+    }
+    throw new TypeError(`Interface ${iface.interfaceNumber} does not have an ` +
+        `${direction} endpoint.`);
+}
+class UsbEndpointUnderlyingSource {
+    constructor(device, endpoint, onError) {
+        this.type = 'bytes';
+        this.device_ = device;
+        this.endpoint_ = endpoint;
+        this.onError_ = onError;
+    }
+    pull(controller) {
+        (async () => {
+            var _a;
+            let chunkSize;
+            if (controller.desiredSize) {
+                const d = controller.desiredSize / this.endpoint_.packetSize;
+                chunkSize = Math.ceil(d) * this.endpoint_.packetSize;
+            }
+            else {
+                chunkSize = this.endpoint_.packetSize;
+            }
+            try {
+                const result = await this.device_.transferIn(this.endpoint_.endpointNumber, chunkSize);
+                if (result.status != 'ok') {
+                    controller.error(`USB error: ${result.status}`);
+                    this.onError_();
+                }
+                if ((_a = result.data) === null || _a === void 0 ? void 0 : _a.buffer) {
+                    const chunk = new Uint8Array(result.data.buffer, result.data.byteOffset, result.data.byteLength);
+                    controller.enqueue(chunk);
+                }
+            }
+            catch (error) {
+                controller.error(error.toString());
+                this.onError_();
+            }
+        })();
+    }
+}
+class UsbEndpointUnderlyingSink {
+    constructor(device, endpoint, onError) {
+        this.device_ = device;
+        this.endpoint_ = endpoint;
+        this.onError_ = onError;
+    }
+    async write(chunk, controller) {
+        try {
+            const result = await this.device_.transferOut(this.endpoint_.endpointNumber, chunk);
+            if (result.status != 'ok') {
+                controller.error(result.status);
+                this.onError_();
+            }
+        }
+        catch (error) {
+            controller.error(error.toString());
+            this.onError_();
+        }
+    }
+}
+export class SerialPort {
+    constructor(device, polyfillOptions) {
+        this.polyfillOptions_ = Object.assign(Object.assign({}, kDefaultPolyfillOptions), polyfillOptions);
+        this.outputSignals_ = {
+            dataTerminalReady: false,
+            requestToSend: false,
+            break: false,
+        };
+        this.device_ = device;
+        this.controlInterface_ = findInterface(this.device_, this.polyfillOptions_.usbControlInterfaceClass);
+        this.transferInterface_ = findInterface(this.device_, this.polyfillOptions_.usbTransferInterfaceClass);
+        this.inEndpoint_ = findEndpoint(this.transferInterface_, 'in');
+        this.outEndpoint_ = findEndpoint(this.transferInterface_, 'out');
+    }
+    get readable() {
+        var _a;
+        if (!this.readable_ && this.device_.opened) {
+            this.readable_ = new ReadableStream(new UsbEndpointUnderlyingSource(this.device_, this.inEndpoint_, () => {
+                this.readable_ = null;
+            }), {
+                highWaterMark: (_a = this.serialOptions_.bufferSize) !== null && _a !== void 0 ? _a : kDefaultBufferSize,
+            });
+        }
+        return this.readable_;
+    }
+    get writable() {
+        var _a;
+        if (!this.writable_ && this.device_.opened) {
+            this.writable_ = new WritableStream(new UsbEndpointUnderlyingSink(this.device_, this.outEndpoint_, () => {
+                this.writable_ = null;
+            }), new ByteLengthQueuingStrategy({
+                highWaterMark: (_a = this.serialOptions_.bufferSize) !== null && _a !== void 0 ? _a : kDefaultBufferSize,
+            }));
+        }
+        return this.writable_;
+    }
+    async open(options) {
+        this.serialOptions_ = options;
+        this.validateOptions();
+        try {
+            await this.device_.open();
+            if (this.device_.configuration === null) {
+                await this.device_.selectConfiguration(1);
+            }
+            await this.device_.claimInterface(this.controlInterface_.interfaceNumber);
+            if (this.controlInterface_ !== this.transferInterface_) {
+                await this.device_.claimInterface(this.transferInterface_.interfaceNumber);
+            }
+            await this.setLineCoding();
+            await this.setSignals({ dataTerminalReady: true });
+        }
+        catch (error) {
+            if (this.device_.opened) {
+                await this.device_.close();
+            }
+            throw new Error('Error setting up device: ' + error.toString());
+        }
+    }
+    async close() {
+        const promises = [];
+        if (this.readable_) {
+            promises.push(this.readable_.cancel());
+        }
+        if (this.writable_) {
+            promises.push(this.writable_.abort());
+        }
+        await Promise.all(promises);
+        this.readable_ = null;
+        this.writable_ = null;
+        if (this.device_.opened) {
+            await this.setSignals({ dataTerminalReady: false, requestToSend: false });
+            await this.device_.close();
+        }
+    }
+    async forget() {
+        return this.device_.forget();
+    }
+    getInfo() {
+        return {
+            usbVendorId: this.device_.vendorId,
+            usbProductId: this.device_.productId,
+        };
+    }
+    reconfigure(options) {
+        this.serialOptions_ = Object.assign(Object.assign({}, this.serialOptions_), options);
+        this.validateOptions();
+        return this.setLineCoding();
+    }
+    async setSignals(signals) {
+        this.outputSignals_ = Object.assign(Object.assign({}, this.outputSignals_), signals);
+        if (signals.dataTerminalReady !== undefined ||
+            signals.requestToSend !== undefined) {
+            const value = (this.outputSignals_.dataTerminalReady ? 1 << 0 : 0) |
+                (this.outputSignals_.requestToSend ? 1 << 1 : 0);
+            await this.device_.controlTransferOut({
+                'requestType': 'class',
+                'recipient': 'interface',
+                'request': kSetControlLineState,
+                'value': value,
+                'index': this.controlInterface_.interfaceNumber,
+            });
+        }
+        if (signals.break !== undefined) {
+            const value = this.outputSignals_.break ? 0xFFFF : 0x0000;
+            await this.device_.controlTransferOut({
+                'requestType': 'class',
+                'recipient': 'interface',
+                'request': kSendBreak,
+                'value': value,
+                'index': this.controlInterface_.interfaceNumber,
+            });
+        }
+    }
+    validateOptions() {
+        if (!this.isValidBaudRate(this.serialOptions_.baudRate)) {
+            throw new RangeError('無效的波特率 ' + this.serialOptions_.baudRate);
+        }
+        if (!this.isValidDataBits(this.serialOptions_.dataBits)) {
+            throw new RangeError('無效的資料位元 ' + this.serialOptions_.dataBits);
+        }
+        if (!this.isValidStopBits(this.serialOptions_.stopBits)) {
+            throw new RangeError('invalid stopBits ' + this.serialOptions_.stopBits);
+        }
+        if (!this.isValidParity(this.serialOptions_.parity)) {
+            throw new RangeError('invalid parity ' + this.serialOptions_.parity);
+        }
+    }
+    isValidBaudRate(baudRate) {
+        return baudRate % 1 === 0;
+    }
+    isValidDataBits(dataBits) {
+        if (typeof dataBits === 'undefined') {
+            return true;
+        }
+        return kAcceptableDataBits.includes(dataBits);
+    }
+    isValidStopBits(stopBits) {
+        if (typeof stopBits === 'undefined') {
+            return true;
+        }
+        return kAcceptableStopBits.includes(stopBits);
+    }
+    isValidParity(parity) {
+        if (typeof parity === 'undefined') {
+            return true;
+        }
+        return kAcceptableParity.includes(parity);
+    }
+    async setLineCoding() {
+        var _a, _b, _c;
+        const buffer = new ArrayBuffer(7);
+        const view = new DataView(buffer);
+        view.setUint32(0, this.serialOptions_.baudRate, true);
+        view.setUint8(4, kStopBitsIndexMapping.indexOf((_a = this.serialOptions_.stopBits) !== null && _a !== void 0 ? _a : kDefaultStopBits));
+        view.setUint8(5, kParityIndexMapping.indexOf((_b = this.serialOptions_.parity) !== null && _b !== void 0 ? _b : kDefaultParity));
+        view.setUint8(6, (_c = this.serialOptions_.dataBits) !== null && _c !== void 0 ? _c : kDefaultDataBits);
+        const result = await this.device_.controlTransferOut({
+            'requestType': 'class',
+            'recipient': 'interface',
+            'request': kSetLineCoding,
+            'value': 0x00,
+            'index': this.controlInterface_.interfaceNumber,
+        }, buffer);
+        if (result.status != 'ok') {
+            throw new DOMException('網絡錯誤', 'Failed to set line coding.');
+        }
+    }
+}
+class Serial {
+    async requestPort(options, polyfillOptions) {
+        polyfillOptions = Object.assign(Object.assign({}, kDefaultPolyfillOptions), polyfillOptions);
+        const usbFilters = [];
+        if (options && options.filters) {
+            for (const filter of options.filters) {
+                const usbFilter = {
+                    classCode: polyfillOptions.usbControlInterfaceClass,
+                };
+                if (filter.usbVendorId !== undefined) {
+                    usbFilter.vendorId = filter.usbVendorId;
+                }
+                if (filter.usbProductId !== undefined) {
+                    usbFilter.productId = filter.usbProductId;
+                }
+                usbFilters.push(usbFilter);
+            }
+        }
+        if (usbFilters.length === 0) {
+            usbFilters.push({
+                classCode: polyfillOptions.usbControlInterfaceClass,
+            });
+        }
+        const device = await navigator.usb.requestDevice({ 'filters': usbFilters });
+        const port = new SerialPort(device, polyfillOptions);
+        return port;
+    }
+    async getPorts(polyfillOptions) {
+        polyfillOptions = Object.assign(Object.assign({}, kDefaultPolyfillOptions), polyfillOptions);
+        const devices = await navigator.usb.getDevices();
+        const ports = [];
+        devices.forEach((device) => {
+            try {
+                const port = new SerialPort(device, polyfillOptions);
+                ports.push(port);
+            }
+            catch (e) {
+            }
+        });
+        return ports;
+    }
+}
+export const serial = new Serial();
+const hexInput = document.getElementById('hexFile');
+const uploadBtn = document.getElementById('uploadBtn');
+const logDiv = document.getElementById('log');
+
+function log(message) {
+    logDiv.innerHTML += message + "<br>";
+    logDiv.scrollTop = logDiv.scrollHeight;
+}
+
+const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+function parseHex(hexText) {
+    const lines = hexText.split(/\r?\n/);
+    let minAddr = 0xFFFF;
+    let maxAddr = 0;
+    const dataBlocks = [];
+
+    for (let line of lines) {
+        line = line.trim();
+        if (!line.startsWith(':')) continue;
+        
+        const byteCount = parseInt(line.substr(1, 2), 16);
+        const address = parseInt(line.substr(3, 4), 16);
+        const recordType = parseInt(line.substr(7, 2), 16);
+
+        if (recordType === 0) { // Data Record
+            if (address < minAddr) minAddr = address;
+            if (address + byteCount - 1 > maxAddr) maxAddr = address + byteCount - 1;
+            
+            const data = [];
+            for (let i = 0; i < byteCount; i++) {
+                data.push(parseInt(line.substr(9 + (i * 2), 2), 16));
+            }
+            dataBlocks.push({ address, data });
+        }
+    }
+
+    if (dataBlocks.length === 0) throw new Error("找不到可以寫入的内容。");
+
+    const flashSize = maxAddr + 1;
+    const flash = new Uint8Array(flashSize).fill(0xFF);
+
+    for (const block of dataBlocks) {
+        for (let i = 0; i < block.data.length; i++) {
+            flash[block.address + i] = block.data[i];
+        }
+    }
+
+    return { flash, minAddr, maxAddr };
+}
+
+async function readLine(reader) {
+    let line = "";
+    const timeout = 5000;
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        try {
+            const { value, done } = await reader.read();
+            if (done) break; 
+            if (value) {
+                line += value;
+                if (line.includes('\n') || line.includes('\r')) {
+                    return line.trim();
+                }
+            }
+        } catch (e) {
+            break; 
+        }
+        await sleep(10);
+    }
+    return line.trim();
+}
+async function uploadProcess() {
+    if (!hexInput.files || hexInput.files.length === 0) {
+        alert("請先選擇一個HEX檔案。");
+        return;
+    }
+    let port = null;
+    let writer = null;
+    let decoderStream = null;
+    let reader = null;
+    try {
+        logDiv.innerHTML = "";
+		log("正在等待 Web USB...");
+        const port = await serial.requestPort();
+        uploadBtn.disabled = true;
+        const hexText = await hexInput.files[0].text();
+        const { flash, minAddr, maxAddr } = parseHex(hexText);
+        log(`Loading HEX file: ${hexInput.files[0].name}`);
+        log(`Flash range: 0x${minAddr.toString(16).toUpperCase().padStart(4, '0')} - 0x${maxAddr.toString(16).toUpperCase().padStart(4, '0')}`);
+        await port.open({ baudRate: 115200 });
+		log("正在等待編程器啓動...");
+        await sleep(4000); 
+        const textEncoder = new TextEncoder();
+        writer = port.writable.getWriter();
+        decoderStream = new TextDecoderStream();
+        const pipePromise = port.readable.pipeTo(decoderStream.writable).catch(() => {});
+        reader = decoderStream.readable.getReader();
+        log("同步中...");
+        let success = false;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            await writer.write(textEncoder.encode('S'));
+            await sleep(500);
+            let line = await readLine(reader);
+            log(`Attempt ${attempt} response: ${line}`);
+            if (line.includes("OK")) {
+                success = true;
+                break;
+            }
+            await sleep(500);
+        }
+        if (!success) {
+            log("同步失敗！ 請嘗試重新加載頁面。");
+            return;
+        }
+        log("同步成功。<br>正在擦除...");
+        //await sleep(100);
+        await writer.write(textEncoder.encode('E'));
+        let eraseResp = await readLine(reader);
+        log(`編程器回應： ${eraseResp}`);
+        if (eraseResp !== "OK") {
+            log(`Erase failed: ${eraseResp}`);
+            return;
+        }
+        log("擦除成功。");
+        const startPage = Math.floor(minAddr / 512);
+        const endPage = Math.floor(maxAddr / 512);
+        for (let page = startPage; page <= endPage; page++) {
+            const addr = page * 512;
+            log(`正在寫入 0x${addr.toString(16).toUpperCase().padStart(4, '0')}...`);
+            await writer.write(textEncoder.encode('P'));
+            const addrBytes = new Uint8Array([(addr >> 8) & 0xFF, addr & 0xFF]);
+            await writer.write(addrBytes);
+            const pageData = flash.subarray(addr, addr + 512);
+            let payload = pageData;
+            if (pageData.length < 512) {
+                payload = new Uint8Array(512).fill(0xFF);
+                payload.set(pageData);
+            }
+            await writer.write(payload);
+            //await sleep(50);
+            let pageResp = await readLine(reader);
+            log(`  編程器回應： ${pageResp}`);
+            if (pageResp !== "OK") {
+                log(`在寫入地址 0x${addr.toString(16).toUpperCase().padStart(4, '0')}: ${pageResp} 時發生錯誤。`);
+                return;
+            }
+        }
+        log("下載完成。<br>正在復位單片機...");
+        await writer.write(textEncoder.encode('R'));
+        await readLine(reader);
+        log("寫入成功！");
+    } catch (err) {
+        log(`致命錯誤: ${err.message}`);
+    } finally {
+        log("正在斷開與編程器的連接...");
+        if (reader) {
+            try {
+                await reader.cancel(); 
+                reader.releaseLock();
+            } catch (e) {}
+        }
+        if (writer) {
+            try {
+                await writer.close();
+                writer.releaseLock();
+            } catch (e) {}
+        }
+        if (port) {
+            try {
+                await port.close();
+                log("連接已斷開。");
+            } catch (e) {
+                log(`Failed to close port normally: ${e.message}`);
+            }
+        }
+        uploadBtn.disabled = false;
+    }
+}
+uploadBtn.addEventListener('click', uploadProcess);
+</script>
+</body>
+</html>
