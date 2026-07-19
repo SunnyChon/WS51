@@ -1,0 +1,199 @@
+<html lang="zh_TW">
+<meta name="viewport" content="width=device-width, initial-scale=0.5" charset="UTF-8">
+<title>WS51 Web ISP</title>
+<h1>WS51 網頁版下載器程序</h1>
+<h2>注意：無法在非本地或非HTTPS服務器上運行<h2>
+<a href="https://github.com/SunnyChon/WS51/tree/main/Tools/WEB_ISP">https://github.com/SunnyChon/WS51/tree/main/Tools/WEB_ISP</a>
+<input style="font-size:50px;"type="file" id="hexFile" accept=".hex">
+<br>
+<button style="font-size:50px;" id="uploadBtn">連接編程器並寫入程序</button>
+<br>
+<b>記錄:</b>
+<div id="log"></div>
+
+
+<script>
+const hexInput = document.getElementById('hexFile');
+const uploadBtn = document.getElementById('uploadBtn');
+const logDiv = document.getElementById('log');
+
+function log(message) {
+    logDiv.innerHTML += message + "<br>";
+    logDiv.scrollTop = logDiv.scrollHeight;
+}
+
+const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+function parseHex(hexText) {
+    const lines = hexText.split(/\r?\n/);
+    let minAddr = 0xFFFF;
+    let maxAddr = 0;
+    const dataBlocks = [];
+
+    for (let line of lines) {
+        line = line.trim();
+        if (!line.startsWith(':')) continue;
+        
+        const byteCount = parseInt(line.substr(1, 2), 16);
+        const address = parseInt(line.substr(3, 4), 16);
+        const recordType = parseInt(line.substr(7, 2), 16);
+
+        if (recordType === 0) { // Data Record
+            if (address < minAddr) minAddr = address;
+            if (address + byteCount - 1 > maxAddr) maxAddr = address + byteCount - 1;
+            
+            const data = [];
+            for (let i = 0; i < byteCount; i++) {
+                data.push(parseInt(line.substr(9 + (i * 2), 2), 16));
+            }
+            dataBlocks.push({ address, data });
+        }
+    }
+
+    if (dataBlocks.length === 0) throw new Error("找不到可以寫入的内容。");
+
+    const flashSize = maxAddr + 1;
+    const flash = new Uint8Array(flashSize).fill(0xFF);
+
+    for (const block of dataBlocks) {
+        for (let i = 0; i < block.data.length; i++) {
+            flash[block.address + i] = block.data[i];
+        }
+    }
+
+    return { flash, minAddr, maxAddr };
+}
+
+async function readLine(reader) {
+    let line = "";
+    const timeout = 5000;
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        try {
+            const { value, done } = await reader.read();
+            if (done) break; 
+            if (value) {
+                line += value;
+                if (line.includes('\n') || line.includes('\r')) {
+                    return line.trim();
+                }
+            }
+        } catch (e) {
+            break; 
+        }
+        await sleep(10);
+    }
+    return line.trim();
+}
+async function uploadProcess() {
+    if (!hexInput.files || hexInput.files.length === 0) {
+        alert("請先選擇一個HEX檔案。");
+        return;
+    }
+    let port = null;
+    let writer = null;
+    let decoderStream = null;
+    let reader = null;
+    try {
+        logDiv.innerHTML = "";
+		log("正在等待 Web USB...");
+        port = await navigator.serial.requestPort();
+        uploadBtn.disabled = true;
+        const hexText = await hexInput.files[0].text();
+        const { flash, minAddr, maxAddr } = parseHex(hexText);
+        log(`Loading HEX file: ${hexInput.files[0].name}`);
+        log(`Flash range: 0x${minAddr.toString(16).toUpperCase().padStart(4, '0')} - 0x${maxAddr.toString(16).toUpperCase().padStart(4, '0')}`);
+        await port.open({ baudRate: 115200 });
+		log("正在等待編程器啓動...");
+        await sleep(4000); 
+        const textEncoder = new TextEncoder();
+        writer = port.writable.getWriter();
+        decoderStream = new TextDecoderStream();
+        const pipePromise = port.readable.pipeTo(decoderStream.writable).catch(() => {});
+        reader = decoderStream.readable.getReader();
+        log("同步中...");
+        let success = false;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            await writer.write(textEncoder.encode('S'));
+            await sleep(500);
+            let line = await readLine(reader);
+            log(`Attempt ${attempt} response: ${line}`);
+            if (line.includes("OK")) {
+                success = true;
+                break;
+            }
+            await sleep(500);
+        }
+        if (!success) {
+            log("同步失敗！ 請嘗試重新加載頁面。");
+            return;
+        }
+        log("同步成功。<br>正在擦除...");
+        //await sleep(100);
+        await writer.write(textEncoder.encode('E'));
+        let eraseResp = await readLine(reader);
+        log(`編程器回應： ${eraseResp}`);
+        if (eraseResp !== "OK") {
+            log(`Erase failed: ${eraseResp}`);
+            return;
+        }
+        log("擦除成功。");
+        const startPage = Math.floor(minAddr / 512);
+        const endPage = Math.floor(maxAddr / 512);
+        for (let page = startPage; page <= endPage; page++) {
+            const addr = page * 512;
+            log(`正在寫入 0x${addr.toString(16).toUpperCase().padStart(4, '0')}...`);
+            await writer.write(textEncoder.encode('P'));
+            const addrBytes = new Uint8Array([(addr >> 8) & 0xFF, addr & 0xFF]);
+            await writer.write(addrBytes);
+            const pageData = flash.subarray(addr, addr + 512);
+            let payload = pageData;
+            if (pageData.length < 512) {
+                payload = new Uint8Array(512).fill(0xFF);
+                payload.set(pageData);
+            }
+            await writer.write(payload);
+            //await sleep(50);
+            let pageResp = await readLine(reader);
+            log(`  編程器回應： ${pageResp}`);
+            if (pageResp !== "OK") {
+                log(`在寫入地址 0x${addr.toString(16).toUpperCase().padStart(4, '0')}: ${pageResp} 時發生錯誤。`);
+                return;
+            }
+        }
+        log("下載完成。<br>正在復位單片機...");
+        await writer.write(textEncoder.encode('R'));
+        await readLine(reader);
+        log("寫入成功！");
+    } catch (err) {
+        log(`致命錯誤: ${err.message}`);
+    } finally {
+        log("正在斷開與編程器的連接...");
+        if (reader) {
+            try {
+                await reader.cancel(); 
+                reader.releaseLock();
+            } catch (e) {}
+        }
+        if (writer) {
+            try {
+                await writer.close();
+                writer.releaseLock();
+            } catch (e) {}
+        }
+        if (port) {
+            try {
+                await port.close();
+                log("連接已斷開。");
+            } catch (e) {
+                log(`Failed to close port normally: ${e.message}`);
+            }
+        }
+        uploadBtn.disabled = false;
+    }
+}
+uploadBtn.addEventListener('click', uploadProcess);
+</script>
+</body>
+</html>
