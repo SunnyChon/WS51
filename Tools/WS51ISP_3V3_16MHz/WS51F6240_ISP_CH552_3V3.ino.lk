@@ -1,0 +1,22 @@
+-muwx
+-i C:\Users\Sunny\AppData\Local\Temp\arduino\sketches\5AC1B339461E02CF132EEB3FB1ACF6C8/WS51F6240_ISP_CH552_3V3.ino.elf
+-M
+-X 0x036c
+-C 0x3800
+-b HOME = 0x0000
+-b XSEG = 0x0094
+-b PSEG = 0x0094
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Users\Sunny\AppData\Local\Temp\arduino\sketches\5AC1B339461E02CF132EEB3FB1ACF6C8
+-k C:\Users\Sunny\AppData\Local\Arduino15\packages\CH55xDuino\tools\sdcc\build.13407_4/lib/large_int_calc_stack_auto
+-l C:\Users\Sunny\AppData\Local\Temp\arduino\sketches\5AC1B339461E02CF132EEB3FB1ACF6C8/core\core.lib
+-l mcs51
+-l libsdcc
+-l liblong
+-l liblonglong
+-l libint
+-l libfloat
+C:\Users\Sunny\AppData\Local\Temp\arduino\sketches\5AC1B339461E02CF132EEB3FB1ACF6C8\sketch\WS51F6240_ISP_CH552_3V3.ino.cpp.rel
+
+-e
